@@ -1,0 +1,1323 @@
+{
+ "generatedAt": "2026-11-15T03:25:48.022Z",
+ "cadence": "10 minute samples (the live watcher reads every minute)",
+ "firstBreak": "2026-03-22T02:27:23Z",
+ "note": "Real historical onchain data replayed through the live Lifeboat clocks, sweep, evidence pack, model call and clamp. Model and provider recorded per call. Position size $1,000 is illustrative; market withdrawable amounts are onchain.",
+ "sweeps": [
+  {
+   "ts": "2026-03-22T02:40:00Z",
+   "breaks": [
+    "wstUSR",
+    "USR"
+   ],
+   "flags": [
+    {
+     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+     "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+     "related_to": [
+      "USR",
+      "wstUSR"
+     ]
+    },
+    {
+     "marketId": "0xff0f2bd52ca786a4f8149f96622885e880222d8bed12bbbf5950296be8d03f89",
+     "reason": "This Resolv USD collateral is related to the breaking USR and to wstUSR, its wrapped staked form.",
+     "related_to": [
+      "USR",
+      "wstUSR"
+     ]
+    },
+    {
+     "marketId": "0x4b86442549b52826e0fc11770ec5154450cb3c5c14dc751a761d81dcfbe7a7b2",
+     "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+     "related_to": [
+      "USR",
+      "wstUSR"
+     ]
+    }
+   ],
+   "model": {
+    "model": "gpt-6-luna",
+    "provider": "dolphin",
+    "inputTokens": 943,
+    "outputTokens": 1033,
+    "costUsd": 0.00008174000000000001,
+    "ms": 11094
+   },
+   "error": null
+  },
+  {
+   "ts": "2026-03-22T02:50:00Z",
+   "breaks": [
+    "wstUSR",
+    "USR",
+    "USR"
+   ],
+   "flags": [],
+   "model": null,
+   "error": null
+  },
+  {
+   "ts": "2026-03-22T03:50:00Z",
+   "breaks": [
+    "wstUSR",
+    "RLP",
+    "USR",
+    "RLP",
+    "USR"
+   ],
+   "flags": [],
+   "model": null,
+   "error": null
+  }
+ ],
+ "positions": [
+  {
+   "vault": {
+    "name": "Gauntlet USDC Core",
+    "address": "0x8eb67a509616cd6a7c1b3c8c21d48ff57df3d458",
+    "chain": "ethereum",
+    "curator": "Gauntlet"
+   },
+   "market": {
+    "id": "0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc",
+    "collateral": "wstUSR",
+    "collateralName": "Wrapped stUSR"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T02:27:23Z",
+    "block": 24710060,
+    "oraclePrice": 1.1329,
+    "marketPrice": 1.0655,
+    "gap": 0.0595,
+    "source": "per-minute Curve sample (curvefine.mjs)"
+   },
+   "sweepFlag": null,
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "gap",
+    "exitFilledAt": "2026-03-22T02:50:11Z",
+    "exitFillBlock": 24710171,
+    "marketWithdrawableAtFill": 111279.64
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 23,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T02:52:11Z",
+     "block": 24710181,
+     "tx": "0x85f251aa9fc2d80ee78b846da18e2743a6651c1fa7d309d1d810c15d21bf7955",
+     "type": "ReallocateWithdraw",
+     "action": "curator ReallocateWithdraw",
+     "detail": {
+      "caller": "0xcc148f980062ba934e1b2f29eb3cba7d8e9f6acb",
+      "viaPublicAllocator": false,
+      "withdrawnAssets": 335067.58
+     }
+    },
+    "minutesFromBreak": 25,
+    "inflowStop": {
+     "ts": "2026-03-22T03:16:35Z",
+     "block": 24710303,
+     "tx": "0xa6e8ce599c50f8b1a468cd5e5601d2950aafb94e745a0525d3fd89f0fe0aeed6",
+     "type": "PublicAllocator.SetFlowCaps",
+     "action": "Public Allocator flow cap maxIn set to 0",
+     "detail": {
+      "sender": "0xcc148f980062ba934e1b2f29eb3cba7d8e9f6acb",
+      "maxIn": 0,
+      "maxOut": 0
+     }
+    },
+    "minutesToInflowStop": 49
+   },
+   "vaultSupplyAtBreak": 5070.15,
+   "vaultSupplyEndOfWindow": 4958838.45,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "gap",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the available USDC and move it to candidate vault 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The market price fell sharply while the oracle price stayed unchanged, widening the gap first to 5.1% and then to 2510.6%.",
+       "evidence_ids": [
+        "E7",
+        "E8"
+       ]
+      },
+      {
+       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E9"
+       ]
+      },
+      {
+       "claim": "The entire $1,000 position is withdrawable now.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "Candidate 0xSAFE is approved and has no open clocks, though its APY and TVL are unknown.",
+       "evidence_ids": [
+        "E10"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2305,
+      "outputTokens": 619,
+      "costUsd": 0.00006638000000000001,
+      "ms": 7294
+     },
+     "modelError": null,
+     "hash": "0xa15555807b97e289dd43fda11a12ffe0c015bd8c19b464324cf7e98031716bb2",
+     "gap": 25.105990783410135,
+     "utilization": 0.7912,
+     "marketWithdrawable": 1069.78
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Gauntlet USDC Frontier",
+    "address": "0xc582f04d8a82795aa2ff9c8bb4c1c889fe7b754e",
+    "chain": "ethereum",
+    "curator": "Gauntlet"
+   },
+   "market": {
+    "id": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:59:59Z",
+    "exitFillBlock": 24710220,
+    "marketWithdrawableAtFill": 239146.25
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 33,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T03:18:35Z",
+     "block": 24710313,
+     "tx": "0x7e1972c6d3987ce6d76929a27408a2eb8bd3d5f35a96f7d7e8321e0357f7af44",
+     "type": "PublicAllocator.SetFlowCaps",
+     "action": "Public Allocator flow cap maxIn set to 0",
+     "detail": {
+      "sender": "0x0a25ce895e3c96626d67b5589c44e0af87a3e13a",
+      "maxIn": 0,
+      "maxOut": 0
+     }
+    },
+    "minutesFromBreak": 51,
+    "inflowStop": {
+     "ts": "2026-03-22T03:18:35Z",
+     "block": 24710313,
+     "tx": "0x7e1972c6d3987ce6d76929a27408a2eb8bd3d5f35a96f7d7e8321e0357f7af44",
+     "type": "PublicAllocator.SetFlowCaps",
+     "action": "Public Allocator flow cap maxIn set to 0",
+     "detail": {
+      "sender": "0x0a25ce895e3c96626d67b5589c44e0af87a3e13a",
+      "maxIn": 0,
+      "maxOut": 0
+     }
+    },
+    "minutesToInflowStop": 51
+   },
+   "vaultSupplyAtBreak": 702246.57,
+   "vaultSupplyEndOfWindow": 374108.06,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the full withdrawable position and move it to 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The related USR and wstUSR incidents may indicate risk to RLP and make a calm local feed unreliable.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "The local oracle is 12.6% below the market, while utilization increased from 83.2% to 86.7%.",
+       "evidence_ids": [
+        "E10",
+        "E11"
+       ]
+      },
+      {
+       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E12"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable, and 0xSAFE is described as approved with no open clocks.",
+       "evidence_ids": [
+        "E1",
+        "E13"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2551,
+      "outputTokens": 659,
+      "costUsd": 0.00007164000000000001,
+      "ms": 7410
+     },
+     "modelError": null,
+     "hash": "0x19ca2344a631d04628f744a0096b3a95bf8acbfc31b1401ca9e4267a63b0044e",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8666,
+     "marketWithdrawable": 225086.45
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Clearstar Yield USDC",
+    "address": "0x9b5e92fd227876b4c07a8c02367e2cb23c639dfa",
+    "chain": "ethereum",
+    "curator": "Clearstar"
+   },
+   "market": {
+    "id": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:59:59Z",
+    "exitFillBlock": 24710220,
+    "marketWithdrawableAtFill": 239146.25
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 33,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T06:50:35Z",
+     "block": 24711369,
+     "tx": "0x50855e320663da99f42157ace6e7fc3df1b7296e07de4e9eb896abbc100db07d",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x30988479c2e6a03e7fb65138b94762d41a733458",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesFromBreak": 263,
+    "inflowStop": {
+     "ts": "2026-03-22T06:50:35Z",
+     "block": 24711369,
+     "tx": "0x50855e320663da99f42157ace6e7fc3df1b7296e07de4e9eb896abbc100db07d",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x30988479c2e6a03e7fb65138b94762d41a733458",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 263
+   },
+   "vaultSupplyAtBreak": 365523.76,
+   "vaultSupplyEndOfWindow": 1000645.36,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the currently withdrawable position and move it to 0xSAFE, given the linked-token incident, rising utilization, and curator inaction.",
+     "reasons": [
+      {
+       "claim": "RLP is linked to USR and wstUSR, whose oracle prices are reported 2,511% above market; this related-token incident may make the calm local feed an unreliable reassurance.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "Utilization increased from 83.2% to 86.7%, and no curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E10",
+        "E11",
+        "E12"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now, and 0xSAFE is an approved candidate with no open clocks; its APY and TVL are unknown.",
+       "evidence_ids": [
+        "E1",
+        "E13"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2583,
+      "outputTokens": 741,
+      "costUsd": 0.0000777,
+      "ms": 8132
+     },
+     "modelError": null,
+     "hash": "0xad88a824308add0853ba695879c727570052f7b0d6c3d35cc5b9111b3382b8dd",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8666,
+     "marketWithdrawable": 225086.45
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Resolv USDC",
+    "address": "0x132e6c9c33a62d7727cd359b1f51e5b566e485eb",
+    "chain": "ethereum",
+    "curator": "Gauntlet"
+   },
+   "market": {
+    "id": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:59:59Z",
+    "exitFillBlock": 24710220,
+    "marketWithdrawableAtFill": 239146.25
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 33,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T02:33:35Z",
+     "block": 24710090,
+     "tx": "0x6c32065c6715b8af3241158d8cb7df4355b6609addb06e8c30595dc5dcac4e53",
+     "type": "ReallocateWithdraw",
+     "action": "curator ReallocateWithdraw",
+     "detail": {
+      "caller": "0x6b1e064bc656be87909d55551547f21483ba731f",
+      "viaPublicAllocator": false,
+      "withdrawnAssets": 1968.61
+     }
+    },
+    "minutesFromBreak": 6,
+    "inflowStop": {
+     "ts": "2026-03-22T04:01:11Z",
+     "block": 24710525,
+     "tx": "0x09e6692aa990fa913989c99fe979f67060dba62d22d3ec1ce22da04bb7438714",
+     "type": "PublicAllocator.SetFlowCaps",
+     "action": "Public Allocator flow cap maxIn set to 0",
+     "detail": {
+      "sender": "0x6b1e064bc656be87909d55551547f21483ba731f",
+      "maxIn": 0,
+      "maxOut": 0
+     }
+    },
+    "minutesToInflowStop": 94
+   },
+   "vaultSupplyAtBreak": 676033.63,
+   "vaultSupplyEndOfWindow": 676509.19,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the currently available position and use candidate vault 0xSAFE; related-token risk and rising utilization warrant leaving despite unknown candidate APY and TVL.",
+     "reasons": [
+      {
+       "claim": "A related-token incident reports oracle prices 2,511% above market for USR and wstUSR; RLP is linked to both, so the calm local feed may not reflect the related risk.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "Utilization increased from 83.2% to 86.7% over ten minutes.",
+       "evidence_ids": [
+        "E10",
+        "E11"
+       ]
+      },
+      {
+       "claim": "The curator withdrew 1,969 USDC and supplied 56 USDC in the same transaction, reducing funds in the market.",
+       "evidence_ids": [
+        "E13",
+        "E14"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "Candidate vault 0xSAFE is approved and has no open clocks; its APY and TVL are unknown.",
+       "evidence_ids": [
+        "E15"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 3237,
+      "outputTokens": 866,
+      "costUsd": 0.00009299000000000002,
+      "ms": 10476
+     },
+     "modelError": null,
+     "hash": "0xe176313a765a734bed4ce2ccd2128b39a66dd6841ffb9b42f574314c9cf7e4d3",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8666,
+     "marketWithdrawable": 225086.45
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Re7 USDC",
+    "address": "0x12afdefb2237a5963e7bab3e2d46ad0eee70406e",
+    "chain": "base",
+    "curator": "RE7 Labs"
+   },
+   "market": {
+    "id": "0xff0f2bd52ca786a4f8149f96622885e880222d8bed12bbbf5950296be8d03f89",
+    "collateral": "USR",
+    "collateralName": "Resolv USD"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T02:27:23Z",
+    "block": 43678627,
+    "oraclePrice": 1,
+    "marketPrice": 0.9405,
+    "gap": 0.0595,
+    "source": "per-minute Curve sample (curvefine.mjs); Ethereum block, applied to Base market",
+    "ethereumBlock": 24710060,
+    "blockNote": "block is the first Base 10-minute sample at/after the Ethereum Curve divergence"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xff0f2bd52ca786a4f8149f96622885e880222d8bed12bbbf5950296be8d03f89",
+    "reason": "This Resolv USD collateral is related to the breaking USR and to wstUSR, its wrapped staked form.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 43678627,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "gap",
+    "exitFilledAt": "2026-03-22T02:40:01Z",
+    "exitFillBlock": 43678927,
+    "marketWithdrawableAtFill": 6123.15
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 13,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T03:00:43Z",
+     "block": 43679548,
+     "tx": "0x3314242cb95118af1522dd805b12a0b19ea211aa41c0650d820ecdbd9b346665",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0xd8b0f4e54a8dac04e0a57392f5a630cedb99c940",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesFromBreak": 33,
+    "inflowStop": {
+     "ts": "2026-03-22T03:00:43Z",
+     "block": 43679548,
+     "tx": "0x3314242cb95118af1522dd805b12a0b19ea211aa41c0650d820ecdbd9b346665",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0xd8b0f4e54a8dac04e0a57392f5a630cedb99c940",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 33
+   },
+   "vaultSupplyAtBreak": 11694.21,
+   "vaultSupplyEndOfWindow": 428438.24,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:30:01Z",
+     "block": 43678627,
+     "clockKind": "gap",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the full withdrawable position and move it to 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The market price is 0.9515 while the oracle is 1.0001, a 5.1% gap.",
+       "evidence_ids": [
+        "E8"
+       ]
+      },
+      {
+       "claim": "The curator has taken no action on this market since the clock opened.",
+       "evidence_ids": [
+        "E9"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "Candidate vault 0xSAFE is approved and has no open clocks; its APY and TVL are unknown.",
+       "evidence_ids": [
+        "E10"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2300,
+      "outputTokens": 569,
+      "costUsd": 0.00006283,
+      "ms": 6936
+     },
+     "modelError": null,
+     "hash": "0x2d12cf5b00a02d48c60cb80354bb57acd142b4a34c5bff1f8ffcce42e0e58c2d",
+     "gap": 0.05107724645296897,
+     "utilization": 0.4765,
+     "marketWithdrawable": 6123.15
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "August AUSD",
+    "address": "0x9b7cca326004967f9d2b7cf5f2328d82cf65b302",
+    "chain": "ethereum",
+    "curator": null
+   },
+   "market": {
+    "id": "0x4b86442549b52826e0fc11770ec5154450cb3c5c14dc751a761d81dcfbe7a7b2",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0x4b86442549b52826e0fc11770ec5154450cb3c5c14dc751a761d81dcfbe7a7b2",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:50:11Z",
+    "exitFillBlock": 24710171,
+    "marketWithdrawableAtFill": 35618.98
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 23,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T16:32:23Z",
+     "block": 24714264,
+     "tx": "0x683238119f8b3f5c781f16562b519610ffea101bb4dd9626eee292675ad73a9d",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0xb392a71ce96eca72ca3b135071038b56553b18f6",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesFromBreak": 845,
+    "inflowStop": {
+     "ts": "2026-03-22T16:32:23Z",
+     "block": 24714264,
+     "tx": "0x683238119f8b3f5c781f16562b519610ffea101bb4dd9626eee292675ad73a9d",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0xb392a71ce96eca72ca3b135071038b56553b18f6",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 845
+   },
+   "vaultSupplyAtBreak": 315881.61,
+   "vaultSupplyEndOfWindow": 315929.4,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the available USDC and move it to 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The related USR and wstUSR reports show oracle prices 2,511% above market, and RLP is linked to those tokens, making the calm local feed potentially misleading.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E12"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "0xSAFE is an approved candidate vault with no open clocks; its APY and TVL are unknown.",
+       "evidence_ids": [
+        "E13"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2534,
+      "outputTokens": 633,
+      "costUsd": 0.00006965,
+      "ms": 7123
+     },
+     "modelError": null,
+     "hash": "0x394e248fb96cdda5a7c99e42b3753d58b591f45f80d6a8d0e0ffb15f475bb1d9",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8872,
+     "marketWithdrawable": 35618.98
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Duplicated Key",
+    "address": "0x0b6c8ef0de1be5ed1b59e6e7a67fb9442fb9e49c",
+    "chain": "ethereum",
+    "curator": null
+   },
+   "market": {
+    "id": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:59:59Z",
+    "exitFillBlock": 24710220,
+    "marketWithdrawableAtFill": 239146.25
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 33,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-23T08:24:11Z",
+     "block": 24719004,
+     "tx": "0xb4aafa3d4a33d570b9d5676f7cfaa042ac3741aa14a9e7522adc50fb4e135c35",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x27de5155c2407bc0161e571b2086d0b700446d73",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesFromBreak": 1797,
+    "inflowStop": {
+     "ts": "2026-03-23T08:24:11Z",
+     "block": 24719004,
+     "tx": "0xb4aafa3d4a33d570b9d5676f7cfaa042ac3741aa14a9e7522adc50fb4e135c35",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x27de5155c2407bc0161e571b2086d0b700446d73",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 1797
+   },
+   "vaultSupplyAtBreak": 2483.85,
+   "vaultSupplyEndOfWindow": 49635.19,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the currently withdrawable USDC and move it to 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The related USR and wstUSR markets have oracle prices reported 2,511% above market, and RLP is linked to both, so a calm local feed may not reflect related-token risk.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "Local utilization increased from 83.2% to 86.7%, and no curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E5",
+        "E11",
+        "E12"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now, and candidate vault 0xSAFE is approved with no open clocks.",
+       "evidence_ids": [
+        "E1",
+        "E13"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2543,
+      "outputTokens": 628,
+      "costUsd": 0.00006939000000000001,
+      "ms": 7702
+     },
+     "modelError": null,
+     "hash": "0xa02e241bade917b2a426000df0dce9bbaeddd7d5647822e0bc4ad631364a51a4",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8666,
+     "marketWithdrawable": 225086.45
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Usual Boosted USDC",
+    "address": "0xd63070114470f685b75b74d60eec7c1113d33a3d",
+    "chain": "ethereum",
+    "curator": "MEV Capital"
+   },
+   "market": {
+    "id": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:59:59Z",
+    "exitFillBlock": 24710220,
+    "marketWithdrawableAtFill": 239146.25
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 33,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T08:43:11Z",
+     "block": 24711929,
+     "tx": "0x7a73c2cd84a6af36f75b40c42f94e12315164078571a094933bbfb091eafb500",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x38afc3aa2c76b4ca1f8e1daba68e998e1f4782db",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesFromBreak": 376,
+    "inflowStop": {
+     "ts": "2026-03-22T08:43:11Z",
+     "block": 24711929,
+     "tx": "0x7a73c2cd84a6af36f75b40c42f94e12315164078571a094933bbfb091eafb500",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x38afc3aa2c76b4ca1f8e1daba68e998e1f4782db",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 376
+   },
+   "vaultSupplyAtBreak": 52721.77,
+   "vaultSupplyEndOfWindow": 47033.87,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the full withdrawable position and move it to 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The related USR and wstUSR oracle incidents are linked to this market’s RLP collateral, so a calm local feed may not reflect the full risk.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "The market price is 12.6% above the oracle, and utilization increased from 83.2% to 86.7%.",
+       "evidence_ids": [
+        "E10",
+        "E11"
+       ]
+      },
+      {
+       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E12"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable, and 0xSAFE is an approved candidate vault with no open clocks.",
+       "evidence_ids": [
+        "E1",
+        "E13"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2554,
+      "outputTokens": 613,
+      "costUsd": 0.00006845000000000001,
+      "ms": 7022
+     },
+     "modelError": null,
+     "hash": "0x0fdfe28a4acd91ce28e2d3cea8cb2431d5ae16bc4134b286e00c33b5137a8150",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8666,
+     "marketWithdrawable": 225086.45
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "Smokehouse USDC",
+    "address": "0xbeefff209270748ddd194831b3fa287a5386f5bc",
+    "chain": "ethereum",
+    "curator": "Steakhouse Financial"
+   },
+   "market": {
+    "id": "0x8e7cc042d739a365c43d0a52d5f24160fa7ae9b7e7c9a479bd02a56041d4cf77",
+    "collateral": "USR",
+    "collateralName": "Resolv USD"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T02:27:23Z",
+    "block": 24710060,
+    "oraclePrice": 1,
+    "marketPrice": 0.9405,
+    "gap": 0.0595,
+    "source": "per-minute Curve sample (curvefine.mjs)"
+   },
+   "sweepFlag": null,
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "gap",
+    "exitFilledAt": "2026-03-22T02:50:11Z",
+    "exitFillBlock": 24710171,
+    "marketWithdrawableAtFill": 4440.81
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 23,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T02:50:47Z",
+     "block": 24710174,
+     "tx": "0x712f1da7788525725ce788197322fdee2e5f00c0468410ab7caaba50ca50c359",
+     "type": "ReallocateWithdraw",
+     "action": "curator ReallocateWithdraw",
+     "detail": {
+      "caller": "0x9e9110cfd24cd851ea5bc73a27975b33e308f9e1",
+      "viaPublicAllocator": false,
+      "withdrawnAssets": 1560.67
+     }
+    },
+    "minutesFromBreak": 23,
+    "inflowStop": {
+     "ts": "2026-03-22T04:40:47Z",
+     "block": 24710723,
+     "tx": "0xfcd67e28e35188389288336286a414b4c037fa6b6f8f6cbd9a4090a508fc19ed",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x827e86072b06674a077f592a531dce4590adecdb",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 133
+   },
+   "vaultSupplyAtBreak": 10121.19,
+   "vaultSupplyEndOfWindow": 0,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "gap",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the full withdrawable balance and move it to 0xSAFE.",
+     "reasons": [
+      {
+       "claim": "The market price diverged sharply from the oracle, with the gap reaching 5.1% and then 2511.0%.",
+       "evidence_ids": [
+        "E7",
+        "E8"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "Candidate vault 0xSAFE is approved and has no open clocks.",
+       "evidence_ids": [
+        "E10"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2509,
+      "outputTokens": 483,
+      "costUsd": 0.00005890000000000001,
+      "ms": 6337
+     },
+     "modelError": null,
+     "hash": "0xe8136a3376142ec3bc312e6e5205c7b5fbe71022ba5480f9ea5d2a470479a3cd",
+     "gap": 25.109660574412533,
+     "utilization": 0.8917,
+     "marketWithdrawable": 1101.67
+    }
+   ]
+  },
+  {
+   "vault": {
+    "name": "kpk USDC Yield",
+    "address": "0x9178ebe0691593184c1d785a864b62a326cc3509",
+    "chain": "ethereum",
+    "curator": null
+   },
+   "market": {
+    "id": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "collateral": "RLP",
+    "collateralName": "Resolv Liquidity Provider Token"
+   },
+   "priceBreak": {
+    "ts": "2026-03-22T03:39:59Z",
+    "block": 24710419,
+    "oraclePrice": 1.2872,
+    "marketPrice": 0.9758,
+    "gap": 0.2419,
+    "source": "10-minute timeline sample"
+   },
+   "sweepFlag": {
+    "ts": "2026-03-22T02:40:00Z",
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "related_to": [
+     "USR",
+     "wstUSR"
+    ]
+   },
+   "lifeboatLeft": {
+    "ts": "2026-03-22T02:40:00Z",
+    "block": 24710122,
+    "decidedBy": "model",
+    "rule": null,
+    "clockKind": "related",
+    "exitFilledAt": "2026-03-22T02:59:59Z",
+    "exitFillBlock": 24710220,
+    "marketWithdrawableAtFill": 239146.25
+   },
+   "minutesFromFirstBreakToDecision": 13,
+   "minutesFromFirstBreakToExitFilled": 33,
+   "curator": {
+    "firstProtectiveAction": {
+     "ts": "2026-03-22T03:00:47Z",
+     "block": 24710224,
+     "tx": "0xb8be76f4396dfd7aff865562ad5c1192db129646d55273c07cda26de66bdc407",
+     "type": "ReallocateWithdraw",
+     "action": "curator ReallocateWithdraw",
+     "detail": {
+      "caller": "0x7e43df1c1c5a2245858b60d4655fda83704e4171",
+      "viaPublicAllocator": false,
+      "withdrawnAssets": 68795.78
+     }
+    },
+    "minutesFromBreak": 33,
+    "inflowStop": {
+     "ts": "2026-03-22T10:06:47Z",
+     "block": 24712347,
+     "tx": "0x6422ac5ea6bc3aefdfaa59f6fbe3379024d6fc8f411190576a48e27c2323e9d0",
+     "type": "SetCap",
+     "action": "SetCap to 0",
+     "detail": {
+      "caller": "0x7e43df1c1c5a2245858b60d4655fda83704e4171",
+      "viaPublicAllocator": false,
+      "cap": 0
+     }
+    },
+    "minutesToInflowStop": 459
+   },
+   "vaultSupplyAtBreak": 3620.87,
+   "vaultSupplyEndOfWindow": 0,
+   "decisions": [
+    {
+     "ts": "2026-03-22T02:40:00Z",
+     "sampleTs": "2026-03-22T02:39:59Z",
+     "block": 24710122,
+     "clockKind": "related",
+     "action": "LEAVE",
+     "decidedBy": "model",
+     "rule": null,
+     "waitMinutes": null,
+     "summary": "Withdraw the full withdrawable position to 0xSAFE, the supported candidate vault.",
+     "reasons": [
+      {
+       "claim": "RLP is linked to USR and wstUSR, both reported with oracle prices 2,511% above market, making the calm local feed potentially misleading.",
+       "evidence_ids": [
+        "E2",
+        "E3",
+        "E4"
+       ]
+      },
+      {
+       "claim": "The local market shows a 12.6% oracle-market gap and utilization rising from 83.2% to 86.7%.",
+       "evidence_ids": [
+        "E10",
+        "E11"
+       ]
+      },
+      {
+       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "evidence_ids": [
+        "E12"
+       ]
+      },
+      {
+       "claim": "The full $1,000 position is withdrawable now; candidate 0xSAFE is approved and has no open clocks.",
+       "evidence_ids": [
+        "E1",
+        "E13"
+       ]
+      }
+     ],
+     "model": {
+      "model": "gpt-6-luna",
+      "provider": "dolphin",
+      "inputTokens": 2565,
+      "outputTokens": 640,
+      "costUsd": 0.00007045,
+      "ms": 8399
+     },
+     "modelError": null,
+     "hash": "0xb7473c92fb4ff97692596a375aa31e2f1a129382e9ac33b316c32e86d476c74b",
+     "gap": -0.12566227414753434,
+     "utilization": 0.8666,
+     "marketWithdrawable": 225086.45
+    }
+   ]
+  }
+ ],
+ "totals": {
+  "modelCalls": 13
+ }
+}

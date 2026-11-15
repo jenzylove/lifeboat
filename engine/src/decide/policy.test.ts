@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { clamp, stepClock, gap, POLICY, type ClockState, type MarketRead, type ModelDecision } from './policy.js';
+import { clamp, stepClock, openRelated, gap, POLICY, type ClockState, type MarketRead, type ModelDecision } from './policy.js';
 
 const M = 'm1';
 const read = (ts: number, o: number, p: number, u = 0.9, exp = 100): MarketRead => ({ ts, marketId: M, collateralSymbol: 'wstUSR', oraclePrice: o, marketPrice: p, utilization: u, exposureUsd: exp });
@@ -13,15 +13,19 @@ describe('gap', () => {
 });
 
 describe('stepClock', () => {
-  it('opens after N divergent reads and keeps the first open time', () => {
+  it('opens once the divergence has held for the persistence window and keeps the first open time', () => {
     let c: ClockState = { marketId: M, divergentReads: 0, openedAt: null };
-    c = stepClock(c, read(1, 1.13, 1.0));
-    c = stepClock(c, read(2, 1.13, 1.0));
+    c = stepClock(c, read(0, 1.13, 1.0));
+    c = stepClock(c, read(60, 1.13, 1.0));
     expect(c.openedAt).toBeNull();
-    c = stepClock(c, read(3, 1.13, 1.0));
-    expect(c.openedAt).toBe(3);
-    c = stepClock(c, read(4, 1.13, 0.6));
-    expect(c.openedAt).toBe(3);
+    c = stepClock(c, read(120, 1.13, 1.0));
+    expect(c.openedAt).toBe(120);
+    c = stepClock(c, read(180, 1.13, 0.6));
+    expect(c.openedAt).toBe(120);
+  });
+  it('a single read never opens, even after a long gap in sampling', () => {
+    const c = stepClock({ marketId: M, divergentReads: 0, openedAt: null }, read(600, 1.13, 1.0));
+    expect(c.openedAt).toBeNull();
   });
   it('closes when prices converge', () => {
     expect(stepClock(open(), read(5, 1.0, 1.0)).openedAt).toBeNull();
@@ -29,6 +33,20 @@ describe('stepClock', () => {
   it('unknown price does not change the clock', () => {
     const c = open();
     expect(stepClock(c, { ...read(5, 1, 1), marketPrice: null })).toEqual(c);
+  });
+  it('pinned utilization opens a liquidity clock without a gap', () => {
+    let c: ClockState = { marketId: M, divergentReads: 0, openedAt: null };
+    for (const t of [0, 60, 120]) c = stepClock(c, read(t, 1.0, 1.0, 0.99));
+    expect(c).toMatchObject({ openedAt: 120, kind: 'liquidity' });
+    c = stepClock(c, read(180, 1.13, 0.9, 0.99));
+    expect(c.kind).toBe('gap');
+  });
+  it('a related clock opens on a sweep flag and survives calm reads of its own feed', () => {
+    let c = openRelated({ marketId: M, divergentReads: 0, openedAt: null }, 500, ['USR']);
+    expect(c).toMatchObject({ openedAt: 500, kind: 'related', relatedTo: ['USR'] });
+    c = stepClock(c, read(560, 1.28, 1.47, 0.83));
+    expect(c.openedAt).toBe(500);
+    expect(openRelated(open(10), 900, ['X']).openedAt).toBe(10);
   });
   it('no exposure, no clock', () => {
     let c: ClockState = { marketId: M, divergentReads: 2, openedAt: null };
@@ -75,6 +93,17 @@ describe('clamp', () => {
     const d = clamp({ ...base, model: model({ action: 'LEAVE', reasons: [{ claim: 'made up', evidence_ids: ['E99'] }] }) });
     expect(d).toMatchObject({ action: 'WAIT', rule: 'model_unavailable_wait_for_hard_rule' });
     expect(d.modelError).toContain('E99');
+  });
+  it('liquidity clock: model decides, no instant utilization exit; forced after the hard window', () => {
+    const liq = { ...open(), kind: 'liquidity' as const };
+    const early = clamp({ ...base, clock: liq, latest: read(0, 1, 1, 0.99), model: model({ action: 'WAIT', wait_minutes: 10 }) });
+    expect(early).toMatchObject({ action: 'WAIT', decidedBy: 'model' });
+    const late = clamp({ ...base, clock: liq, now: 1000 + POLICY.LIQ_HARD_SEC, latest: read(0, 1, 1, 0.99), model: model({ action: 'STAY' }) });
+    expect(late.rule).toBe('pinned_utilization_hard_limit');
+  });
+  it('public allocator money flowing in does not count as the curator speaking', () => {
+    const d = clamp({ ...base, now: 1000 + POLICY.HARD_SILENCE_SEC + 1, latest: read(0, 1.13, 0.63, 0.5), curatorActions: [{ ts: 1500, type: 'reallocate_into', marketId: M, tx: '0x3' }], model: model({ action: 'WAIT', wait_minutes: 5 }) });
+    expect(d.rule).toBe('gap_and_silence_hard_limit');
   });
   it('model down: wait for hard rule', () => {
     const d = clamp({ ...base, model: null, modelError: 'timeout' });

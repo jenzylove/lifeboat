@@ -154,7 +154,7 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 /* market row */
 .mrow { display: grid; grid-template-columns: 110px minmax(180px, 1.6fr) minmax(0, 2fr); gap: 20px; padding: 16px 0; border-top: 1px dashed var(--rule); align-items: center; }
 .mrow:first-child { border-top: 0; }
-.mcoll { font-family: var(--f-d); font-weight: 800; font-size: 26px; text-transform: uppercase; line-height: 1; display: flex; flex-direction: column; gap: 6px; }
+.mcoll { font-family: var(--f-d); font-weight: 800; font-size: 26px; line-height: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; word-break: break-word; }
 .mstats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 18px; font-size: 13px; }
 .mstats .l { display: block; color: var(--fg3); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-family: var(--f-m); }
 .mstats .v { font-family: var(--f-m); font-size: 14px; }
@@ -350,3 +350,6 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 .how .fall { stroke-dasharray: 340; stroke-dashoffset: 340; animation: fall 12s ease-in-out infinite; }
 @keyframes fall { 0% { stroke-dashoffset: 340; } 12%, 93% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .how .s1, .how .s2, .how .s3, .how .s4, .how .s5, .how .s6 { opacity: 1; } .how .fall { stroke-dashoffset: 0; } }
+
+@media (max-width: 900px) { .mlabel-s { display: inline; } }
+@media (max-width: 640px) { .chart .ax { font-size: 24px; } .chart .mk-lbl { font-size: 22px; } }

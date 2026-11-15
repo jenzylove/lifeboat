@@ -30,7 +30,7 @@ export function HowItWorks() {
   return (
     <div className="how">
       {/* wide layout */}
-      <svg className="desk" viewBox="0 0 1240 470" role="img" aria-label="How Lifeboat works: the feed goes quiet while the market falls, the clock opens, then either the curator acts and you stay, or the curator stays silent and the Dolphin model decides, code clamps, and the contract moves your money only between vaults you approved.">
+      <svg className="desk" viewBox="0 0 1240 500" role="img" aria-label="How Lifeboat works: the feed goes quiet while the market falls, the clock opens, then either the curator acts and you stay, or the curator stays silent and the Dolphin model decides, code clamps, and the contract moves your money only between vaults you approved.">
         {/* 1: feed goes quiet */}
         <g className="s0">
           <text x="0" y="36" className="t-big">1  The feed goes quiet</text>
@@ -41,7 +41,7 @@ export function HowItWorks() {
         </g>
         <path className="mkt fall" d="M0 200 C 90 200, 120 214, 160 240 S 240 300, 280 312" />
         <text x="214" y="334" className="t-who s1" style={{ fill: 'var(--fg2)' }}>market</text>
-        <rect className="s1" x="0" y="200" width="280" height="112" fill="var(--hot-soft)" opacity=".6" />
+        <path className="s1" d="M0 200 C 90 200, 120 214, 160 240 S 240 300, 280 312 L280 200 Z" fill="var(--hot-soft)" />
         {/* 2: clock */}
         <g className="s2">
           <line className="line" x1="292" y1="256" x2="372" y2="256" />
@@ -90,7 +90,7 @@ export function HowItWorks() {
           <line className="orc" x1="0" x2="340" y1="140" y2="140" />
         </g>
         <path className="mkt fall" d="M0 140 C 110 140, 150 160, 200 190 S 300 225, 340 228" />
-        <rect className="s1" x="0" y="140" width="340" height="88" fill="var(--hot-soft)" opacity=".6" />
+        <path className="s1" d="M0 140 C 110 140, 150 160, 200 190 S 300 225, 340 228 L340 140 Z" fill="var(--hot-soft)" />
         <g className="s2">
           <Clock cx={34} cy={300} r={26} />
           <text x="78" y="294" className="t-big">2  The clock opens</text>

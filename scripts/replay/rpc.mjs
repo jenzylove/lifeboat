@@ -3,7 +3,7 @@ export const RPCS = {
   8453: ["https://base.gateway.tenderly.co","https://base.drpc.org","https://mainnet.base.org","https://base-rpc.publicnode.com"],
   42161: ["https://arbitrum.gateway.tenderly.co","https://arbitrum.drpc.org","https://arb1.arbitrum.io/rpc"],
 };
-export const LOG_RPCS = { 1: ["https://mainnet.gateway.tenderly.co"], 8453: ["https://base.gateway.tenderly.co"] };
+export const LOG_RPCS = { 1: ["https://mainnet.gateway.tenderly.co"], 8453: ["https://base.gateway.tenderly.co"], 42161: ["https://arbitrum.gateway.tenderly.co"] };
 export const MORPHO = "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb";
 let id=0;
 export async function rpc(chain, method, params, tries=0) {

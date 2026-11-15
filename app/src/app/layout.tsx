@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import { Big_Shoulders_Display, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import { Big_Shoulders, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 
-const display = Big_Shoulders_Display({ subsets: ['latin'], weight: ['800', '900'], variable: '--f-display', display: 'swap' });
+const display = Big_Shoulders({ subsets: ['latin'], weight: ['800', '900'], variable: '--f-display', display: 'swap' });
 const body = Instrument_Sans({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--f-body', display: 'swap' });
 const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--f-mono', display: 'swap' });
 

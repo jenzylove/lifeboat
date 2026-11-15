@@ -11,3 +11,6 @@ keys/
 out/
 cache/
 lib/
+data/cache/
+app/next-env.d.ts
+app/tsconfig.tsbuildinfo

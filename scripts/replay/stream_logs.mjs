@@ -1,0 +1,11 @@
+import {getLogs,blockAt} from "./rpc.mjs";
+import fs from "fs";
+const ID="0x9e90aec7d768403dacc9dd0d8320307fda3f980eed4df43e3e52168a1c667709", MB="0x6c247b1F6182318877311737BaC0844bAa518F5e";
+const T0=Number(process.argv[2]||1760000000), T1=Number(process.argv[3]||1762560000);
+const a=await blockAt(42161,T0), b=await blockAt(42161,T1);
+const MM_T=["0xe86b6d3313d3098f4c5f689c935de8fde876a597c185def2cedab85efedac686","0xe851bb5856808a50efd748be463b8f35bcfb5ec74c5bfde776fe0a4d2a26db27","0x1026ceca5ed3747eb5edec555732d4a6f901ce1a875ecf981064628cadde1120","0x89bf199df65bf65155e3e0a8abc4ad4a1be606220c8295840dba2ab5656c1f6d","0xdd8bf5226dff861316e0fa7863fdb7dc7b87c614eb29a135f524eb79d5a1189a","0x3240fc70754c5a2b4dab10bf7081a00024bfc8491581ee3d355360ec0dd91f16"];
+const blue=await getLogs(42161,{address:MB,topics:[null,ID]},a,b,65536);
+const mm=await getLogs(42161,{topics:[MM_T,null,ID]},a,b,65536);
+const pa=await getLogs(42161,{address:"0x769583Af5e9D03589F159EbEC31Cc2c23E8C355E",topics:[null,null,null,ID]},a,b,65536);
+console.log(a,b,"blue",blue.length,"mm",mm.length,"pa",pa.length);
+fs.writeFileSync("../../data/replay/_stream_logs.json",JSON.stringify({from:a,to:b,blue,mm,pa}));

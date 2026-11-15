@@ -41,7 +41,7 @@ export function MarketRow({ m }: { m: BoardMarket }) {
           <V label="Borrowed" v={ratioPct(m.utilization)} />
           <V label="Vault has here" v={usd(m.allocationUsd)} />
           <V label="Can leave now" v={usd(m.withdrawableUsd)} />
-          <V label="Oracle price" v={m.oracleUnchangedFor ? (m.fixedByDesign ? 'fixed by design' : bucketWords[m.oracleUnchangedFor] ?? m.oracleUnchangedFor) : 'unavailable'} />
+          <V label="Oracle feed" v={m.oracleUnchangedFor ? (m.fixedByDesign ? 'fixed by design' : bucketWords[m.oracleUnchangedFor] ?? m.oracleUnchangedFor) : 'unavailable'} />
           <V label="Liquidation at" v={m.lltv === null ? 'unavailable' : ratioPct(m.lltv, 0)} />
           <V label="Free cash" v={usd(m.liquidityUsd)} />
         </div>

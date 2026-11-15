@@ -49,6 +49,8 @@ export interface PackInput {
   posts: Post[];
   candidates: CandidateVault[];
   readSource: string;
+  /** live breaks in other markets and what the sweep linked to this one */
+  related?: { ts: number; text: string; source: string }[];
 }
 
 const iso = (ts: number) => new Date(ts * 1000).toISOString().replace('.000Z', 'Z');
@@ -60,6 +62,7 @@ export function buildPack(p: PackInput): { items: EvidenceItem[]; ids: Set<strin
   const add = (kind: EvidenceItem['kind'], ts: number | null, text: string, source: string) => items.push({ id: `E${++n}`, kind, ts, text, source });
 
   add('context', p.now, `Clock opened ${Math.round((p.now - p.clockOpenedAt) / 60)} min ago on market ${p.marketId} (${p.collateral} collateral). User position in vault ${p.user.vaultName}: $${p.user.positionUsd.toFixed(2)}, withdrawable now $${p.user.withdrawableUsd.toFixed(2)}.`, 'lifeboat');
+  for (const r of p.related ?? []) add('context', r.ts, r.text, r.source);
   for (const r of p.reads) {
     add('market_read', r.ts, `${iso(r.ts)} oracle ${r.oraclePrice?.toFixed(4) ?? 'unknown'} vs market ${r.marketPrice?.toFixed(4) ?? 'unknown'} (gap ${pct(gap(r.oraclePrice, r.marketPrice))}), utilization ${pct(r.utilization)}, vault exposure $${r.exposureUsd.toFixed(0)}`, p.readSource);
   }
@@ -80,6 +83,7 @@ Decide for this person, right now:
 - WAIT: keep watching for wait_minutes (1 to 15), because the evidence does not yet justify leaving.
 - STAY: the divergence is benign (for example a fixed by design rate feed with a shallow, stable market discount and no curator concern) or the curator has already handled it.
 
+If the clock opened because this collateral is related to a token that is breaking elsewhere (same issuer, wrapped or tranche version), treat this market's own calm price feed as possibly blind: weigh how much is still withdrawable now against the chance it is gone in minutes.
 Weigh: size and direction of the gap and whether it is widening; utilization and how fast it is rising (time left before lenders are locked); curator actions or silence; collateral supply jumps (unbacked minting); public posts from the curator, the protocol, or the collateral issuer. Leaving costs little (some yield, gas); staying through a real depeg can cost the deposit.
 Every reason must cite evidence ids like "E3". Do not invent facts.
 Return only JSON: {"action":"STAY|WAIT|LEAVE","wait_minutes":number|null,"target_vault":"0x..."|null,"confidence":0..1,"reasons":[{"claim":"...","evidence_ids":["E1"]}],"summary":"one plain sentence for the user"}`;

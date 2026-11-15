@@ -50,7 +50,9 @@ function VaultRow({ v }: { v: BoardVault }) {
         <div className="bmarkets">
           {v.error && <div className="errbox">This vault could not be read right now: {v.error}</div>}
           <p className="small dim" style={{ margin: '4px 0 8px' }}>
-            Curator last changed settings {ago(v.lastConfigActionAt)}. Allocator last moved money {ago(v.lastAllocatorActionAt)}.{' '}
+            {v.errors.curatorEvents ? 'Curator history unavailable right now.' : <>
+              Curator {v.lastConfigActionAt ? `last changed settings ${ago(v.lastConfigActionAt)}` : 'made no settings change in the last 7 days'}.
+              {' '}Allocator {v.lastAllocatorActionAt ? `last moved money ${ago(v.lastAllocatorActionAt)}` : 'moved no money in the last 7 days'}.</>}{' '}
             <a href={`/vault/${v.address}`}>Open the full vault page</a>
           </p>
           {v.markets.map((m) => <MarketRow key={m.marketId} m={m} />)}

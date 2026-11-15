@@ -117,6 +117,7 @@ for (const c of ["1", "8453"]) for (const id of IDS[c]) {
     const orc = timeline[0]?.oraclePrice;
     for (const f of CF) { const mp = f.usrPerUsdc * rate; if (orc && (orc - mp) / orc > 0.05) { divergence = { ts: iso(f.ts), unix: f.ts, block: f.block, oraclePrice: orc, marketPrice: r4(mp), gap: r4((orc - mp) / orc), source: "per-minute Curve sample (curvefine.mjs)" + (c === "8453" ? "; Ethereum block, applied to Base market" : "") }; break; } }
   }
+  if (divergence && c === "8453") { const r = timeline.find(r => r.unix >= divergence.unix); divergence.ethereumBlock = divergence.block; divergence.block = r ? r.block : null; divergence.blockNote = "block is the first Base 10-minute sample at/after the Ethereum Curve divergence"; }
   if (!divergence) for (const r of timeline) { const g = gap(r); if (g != null && g > 0.05) { divergence = { ts: r.ts, unix: r.unix, block: r.block, oraclePrice: r.oraclePrice, marketPrice: r.marketPrice, gap: r4(g), source: "10-minute timeline sample" }; break; } }
   const preRow = timeline.find(r => r.unix >= 1774137600) || timeline[0];
   const at = u => { let b = null; for (const r of timeline) if (r.unix <= u) b = r; return b; };
@@ -171,6 +172,9 @@ for (const c of ["1", "8453"]) for (const id of IDS[c]) {
   out.markets.push(mk);
 }
 
+// incident-wide divergence = first USR divergence on Ethereum Curve
+const INCIDENT_DIV = (() => { const m = out.markets.find(m => m.collateral.symbol === "USR" && m.chainId === 1); return m && m.divergence ? { ...m.divergence, unix: Date.parse(m.divergence.ts) / 1000 } : null; })();
+out.incident.incidentDivergence = INCIDENT_DIV ? { ts: INCIDENT_DIV.ts, block: INCIDENT_DIV.block, usrMarketPrice: INCIDENT_DIV.marketPrice, source: INCIDENT_DIV.source } : null;
 // ---------- vaults ----------
 const vaultEvents = {};
 const push = (c, v, e) => ((vaultEvents[c + ":" + v] ||= []).push(e));
@@ -203,6 +207,8 @@ for (const c of ["1", "8453"]) {
   }
 }
 
+const KNOWN = { "0x9e33faae38ff641094fa68c65c2ce600b3410585": "Gauntlet", "0x827e86072b06674a077f592a531dce4590adecdb": "Steakhouse Financial" };
+function inferCurator(evs) { for (const e of evs) { const c = e.detail?.caller || e.detail?.sender; if (KNOWN[c]) return KNOWN[c] + " (inferred: " + e.type + " sent by " + KNOWN[c] + " curator address " + c + ")"; } return null; }
 function isProtective(e, prevQueueHas) {
   if (e.type === "SetCap" && e.detail.cap === 0) return "SetCap to 0";
   if (e.type === "SubmitMarketRemoval") return "SubmitMarketRemoval";
@@ -232,13 +238,14 @@ for (const key of Object.keys(vaultEvents)) {
   for (const id of touched) {
     const mm = marketMeta[c + ":" + id]; if (!mm) continue;
     const div = mm.mk.divergence;
-    let first = null;
+    let first = null, stop = null;
+    const startU = INCIDENT_DIV ? INCIDENT_DIV.unix : (div ? div.unix : 0);
     let qHas = null;
     for (const e of evs) {
-      if (e.type === "SetSupplyQueue") { const has = e.detail.affectedMarketsInQueue.includes(id); if (qHas === true && !has && (!div || e.unix >= div.unix)) { if (!first) first = { ...e, action: "SetSupplyQueue removed market" }; } qHas = has; continue; }
+      if (e.type === "SetSupplyQueue") { const has = e.detail.affectedMarketsInQueue.includes(id); if (qHas === true && !has && e.unix >= startU) { if (!first) first = { ...e, action: "SetSupplyQueue removed market" }; } qHas = has; continue; }
       if (e.marketId !== id) continue;
-      if (div && e.unix < div.unix) continue;
-      const p = isProtective(e); if (p && !first) first = { ...e, action: p };
+      if (e.unix < startU) continue;
+      const p = isProtective(e); if (p && !first) first = { ...e, action: p }; if (p && p !== "curator ReallocateWithdraw" && !stop) stop = { ...e, action: p };
     }
     // exposure: vault supply in market before incident, at divergence, at first action, end of window
     const ld = mm.ld;
@@ -254,8 +261,13 @@ for (const key of Object.keys(vaultEvents)) {
     // withdrawable during silence: max liquidity seen between divergence and first protective action
     let maxLiq = null;
     if (div) for (const r of mm.mk.timeline) if (r.unix >= div.unix && r.unix <= silentEnd && (maxLiq == null || r.withdrawable > maxLiq.withdrawable)) maxLiq = r;
+    const sup = mm.mk.drainEvents.filter(e => e.type === "Supply" && e.onBehalf === v && e.unix >= startU);
+    const own = sup.filter(e => e.caller === v), third = sup.filter(e => e.caller !== v);
     exposed.push({
-      marketId: id, collateral: mm.mk.collateral.symbol, loan: mm.mk.loan.symbol,
+      marketId: id,
+      vaultOwnSupplyAfterDivergence: r2(own.reduce((s, e) => s + e.assets, 0)),
+      thirdPartySupplyOnBehalfOfVaultAfterDivergence: r2(third.reduce((s, e) => s + e.assets, 0)),
+      thirdPartySupplyTxCount: third.length, thirdPartySupplyFirstTs: third[0]?.ts || null, collateral: mm.mk.collateral.symbol, loan: mm.mk.loan.symbol,
       vaultSupplyPreIncident: supPre == null ? null : r2(supPre / 10 ** ld),
       vaultSupplyAtDivergence: supDiv == null ? null : r2(supDiv / 10 ** ld),
       vaultSupplyEndOfWindow: supEnd == null ? null : r2(supEnd / 10 ** ld),
@@ -263,6 +275,11 @@ for (const key of Object.keys(vaultEvents)) {
       marketWithdrawableAtDivergenceSampleTs: rowDiv ? rowDiv.ts : null,
       firstProtectiveAction: first ? { ts: first.ts, block: first.block, tx: first.tx, type: first.type, action: first.action, detail: first.detail } : null,
       minutesFromDivergence: first && div ? Math.round((first.unix - div.unix) / 60) : null,
+      minutesFromIncidentDivergence: first && INCIDENT_DIV ? Math.round((first.unix - INCIDENT_DIV.unix) / 60) : null,
+      inflowStopAction: stop ? { ts: stop.ts, block: stop.block, tx: stop.tx, type: stop.type, action: stop.action, detail: stop.detail } : null,
+      minutesFromIncidentDivergenceToInflowStop: stop && INCIDENT_DIV ? Math.round((stop.unix - INCIDENT_DIV.unix) / 60) : null,
+      publicAllocatorInflowBeforeInflowStop: r2(paIntoVault.filter(e => !stop || e.unix < stop.unix).reduce((s, e) => s + e.detail.suppliedAssets, 0)),
+      publicAllocatorInflowAfterInflowStop: r2(paIntoVault.filter(e => stop && e.unix >= stop.unix).reduce((s, e) => s + e.detail.suppliedAssets, 0)),
       maxMarketWithdrawableDuringSilence: maxLiq ? { ts: maxLiq.ts, withdrawable: maxLiq.withdrawable, utilization: maxLiq.utilization } : null,
       publicAllocatorInflowToMarketForThisVaultAfterDivergence: r2(paIntoVault.reduce((s, e) => s + e.detail.suppliedAssets, 0)),
       publicAllocatorInflowBeforeFirstAction: r2(paDuringSilence.reduce((s, e) => s + e.detail.suppliedAssets, 0)),
@@ -272,7 +289,7 @@ for (const key of Object.keys(vaultEvents)) {
   const firsts = exposed.filter(x => x.firstProtectiveAction).sort((a, b) => a.firstProtectiveAction.ts.localeCompare(b.firstProtectiveAction.ts));
   out.vaults.push({
     chain: c === "1" ? "ethereum" : "base", chainId: +c, address: v,
-    name: info?.name || null, curator: info?.curatorNames?.join(", ") || null, curatorAddress: info?.curatorAddr || null,
+    name: info?.name || null, curator: info?.curatorNames?.join(", ") || inferCurator(evs) || null, curatorAddress: info?.curatorAddr || null,
     exposedMarkets: exposed,
     curatorEvents: evs.map(({ unix, logIndex, ...e }) => e),
     firstProtectiveActionTs: firsts[0]?.firstProtectiveAction.ts || null,
@@ -286,4 +303,4 @@ for (const m of out.markets) { for (const r of m.timeline) delete r.unix; for (c
 fs.writeFileSync(D + "resolv-2026-03-22.json", JSON.stringify(out, null, 1));
 console.log("markets", out.markets.length, "vaults", out.vaults.length);
 for (const m of out.markets) console.log(m.chain, m.marketId.slice(0, 10), m.collateral.symbol + "/" + m.loan.symbol, "div", m.divergence?.ts, m.divergence?.marketPrice, "full", m.fullUtilizationAfterDivergence?.ts, JSON.stringify(m.stats));
-for (const v of out.vaults) for (const x of v.exposedMarkets) console.log(v.chain, v.name, "|", v.curator, "|", x.collateral + "/" + x.loan, x.marketId.slice(0, 10), "pre", x.vaultSupplyPreIncident, "div", x.vaultSupplyAtDivergence, "end", x.vaultSupplyEndOfWindow, "act", x.firstProtectiveAction?.ts, x.firstProtectiveAction?.action, "min", x.minutesFromDivergence, "PAin", x.publicAllocatorInflowToMarketForThisVaultAfterDivergence, "PAbefore", x.publicAllocatorInflowBeforeFirstAction, "maxLiq", JSON.stringify(x.maxMarketWithdrawableDuringSilence));
+for (const v of out.vaults) for (const x of v.exposedMarkets) console.log(v.chain, v.name, "|", v.curator, "|", x.collateral + "/" + x.loan, x.marketId.slice(0, 10), "pre", x.vaultSupplyPreIncident, "div", x.vaultSupplyAtDivergence, "end", x.vaultSupplyEndOfWindow, "act", x.firstProtectiveAction?.ts, x.firstProtectiveAction?.action, "min", x.minutesFromIncidentDivergence, "stop", x.inflowStopAction?.ts, x.inflowStopAction?.action, x.minutesFromIncidentDivergenceToInflowStop, "PAafterStop", x.publicAllocatorInflowAfterInflowStop, "PAin", x.publicAllocatorInflowToMarketForThisVaultAfterDivergence, "PAbefore", x.publicAllocatorInflowBeforeFirstAction, "maxLiq", JSON.stringify(x.maxMarketWithdrawableDuringSilence));
