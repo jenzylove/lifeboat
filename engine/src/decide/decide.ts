@@ -1,5 +1,6 @@
 /** One decision cycle: evidence pack -> Dolphin -> clamp -> record. */
 import { createHash } from 'node:crypto';
+import { screenOutsideText, allowed, type GuardReport } from './guard.js';
 import { buildPack, packToUserMessage, SYSTEM_PROMPT, type PackInput } from './evidence.js';
 import { clamp, validateModel, type ClockState, type FinalDecision, type ModelDecision } from './policy.js';
 import { dolphin, extractJson, serv, type LlmResult } from './llm.js';
@@ -13,6 +14,8 @@ export interface DecisionRecord {
   clock: ClockState;
   evidence: ReturnType<typeof buildPack>['items'];
   model: { provider: string; model: string; inputTokens: number; outputTokens: number; ms: number; costUsd: number | null; raw: string } | null;
+  /** SERV PromptGuard screening of every outside text before the model read it */
+  guard?: GuardReport | null;
   decision: FinalDecision;
   notice: { text: string; provider: string; model: string } | null;
   hash: string;
@@ -26,8 +29,31 @@ export async function decide(
   pack: PackInput,
   clock: ClockState,
   mode: DecisionRecord['mode'],
-  opts: { withNotice?: boolean; skipModel?: boolean; curatorUnknown?: boolean } = {},
+  opts: { withNotice?: boolean; skipModel?: boolean; curatorUnknown?: boolean; skipGuard?: boolean } = {},
 ): Promise<DecisionRecord> {
+  // Every string that came from outside (forum titles, vault, curator and token names) is screened by SERV PromptGuard first.
+  let guard: GuardReport | null = null;
+  if (!opts.skipGuard && !opts.skipModel) {
+    guard = await screenOutsideText([
+      ...pack.posts.map(p => ({ text: p.text, kind: 'forum post' })),
+      { text: pack.user.vaultName, kind: 'vault name' },
+      { text: pack.user.curator, kind: 'curator name' },
+      { text: pack.collateral, kind: 'token symbol' },
+      ...pack.candidates.map(c => ({ text: c.name, kind: 'vault name' })),
+    ]);
+    const g = guard;
+    const safe = (t: string) => (allowed(g, t) ? t : '[text withheld: blocked or not screened by SERV PromptGuard]');
+    pack = {
+      ...pack,
+      posts: pack.posts.filter(p => allowed(g, p.text)),
+      user: { ...pack.user, vaultName: safe(pack.user.vaultName), curator: safe(pack.user.curator) },
+      candidates: pack.candidates.map(c => ({ ...c, name: safe(c.name) })),
+      related: [
+        ...(pack.related ?? []),
+        { ts: pack.now, text: `SERV PromptGuard screened ${g.checked} outside texts before you read them: ${g.passed} passed, ${g.blocked} blocked, ${g.unscreened} could not be screened and were withheld.`, source: 'SERV Reasoning (PromptGuard)' },
+      ],
+    };
+  }
   const { items, ids } = buildPack(pack);
   let llm: LlmResult | null = null;
   let parsed: ModelDecision | null = null;
@@ -80,6 +106,7 @@ export async function decide(
     marketId: pack.marketId,
     clock,
     evidence: items,
+    guard,
     model: llm ? { provider: llm.provider, model: llm.model, inputTokens: llm.inputTokens, outputTokens: llm.outputTokens, ms: llm.ms, costUsd: llm.costUsd, raw: llm.text } : null,
     decision,
   };

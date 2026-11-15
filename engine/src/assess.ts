@@ -3,7 +3,7 @@
  * Same evidence pack, same Dolphin call, same clamp, same SERV explanation. Advisory only: no transaction is sent.
  */
 import { snapshotVault, type VaultSnapshot, type MarketSnapshot } from './snapshot.js';
-import { curatorActionsFor, redact } from './watcher.js';
+import { curatorActionsFor, redact, latestForumTopics } from './watcher.js';
 import { decide, type DecisionRecord } from './decide/decide.js';
 import { serv } from './decide/llm.js';
 import type { ClockState, MarketRead } from './decide/policy.js';
@@ -48,7 +48,7 @@ export async function assessVault(chainId: ChainId, vaultAddress: string, candid
       curatorActions: curatorUnknown ? [] : await curatorActionsFor(s, m.marketId),
       curatorUnknown,
       supplyChanges: [],
-      posts: [],
+      posts: await latestForumTopics(5),
       candidates,
       related: [
         { ts: now, text: 'ON DEMAND CHECK: a person asked Lifeboat to assess this vault right now. No alarm has fired; the market shown is simply the riskiest one this vault lends into. Decide what you would do for a $1,000 depositor today: STAY if nothing justifies leaving.', source: 'lifeboat' },

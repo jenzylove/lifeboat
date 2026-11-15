@@ -118,7 +118,7 @@ async function supplyChanges(state: State, snap: VaultSnapshot, collateral: stri
 }
 
 /** Public posts: Morpho governance forum latest topics mentioning the collateral or the curator. */
-async function posts(collateralSymbol: string, curator: string | null): Promise<Post[]> {
+export async function posts(collateralSymbol: string, curator: string | null): Promise<Post[]> {
   try {
     const r = await fetch('https://forum.morpho.org/latest.json', { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10_000) });
     if (!r.ok) return [];
@@ -134,6 +134,18 @@ async function posts(collateralSymbol: string, curator: string | null): Promise<
 }
 
 /** Accounts to guard: the house boat plus every account the factory created. Scans only new blocks; a failed scan keeps the known list. */
+/** The newest Morpho forum topics: outside text Lifeboat reads on every on demand check (screened by SERV first). */
+export async function latestForumTopics(n = 5): Promise<Post[]> {
+  try {
+    const r = await fetch('https://forum.morpho.org/latest.json', { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10_000) });
+    if (!r.ok) return [];
+    const j = (await r.json()) as { topic_list?: { topics?: { id: number; slug: string; title: string; last_posted_at: string; created_at: string }[] } };
+    return (j.topic_list?.topics ?? []).slice(0, n).map(t => ({ ts: Math.floor(Date.parse(t.last_posted_at ?? t.created_at) / 1000), author: 'Morpho forum', where: 'forum.morpho.org', text: clean(t.title), url: `https://forum.morpho.org/t/${t.slug}/${t.id}` }));
+  } catch {
+    return [];
+  }
+}
+
 export async function armedAccounts(state?: State, errors?: string[]): Promise<Address[]> {
   const set = new Set<string>(state?.scanned?.accounts ?? []);
   if (process.env.HOUSE_ACCOUNT) set.add(process.env.HOUSE_ACCOUNT.toLowerCase());
