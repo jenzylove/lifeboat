@@ -178,7 +178,14 @@ export const keeperDeposit = (account: Address, vault: Address, amount: bigint) 
 export async function runDrill(account: Address, recordHash: string): Promise<{ before: AccountStatus; tx: TxResult; after: AccountStatus; from: Address; to: Address }> {
   const before = await accountStatus(account);
   const holding = [...before.positions].sort((a, b) => b.assets - a.assets)[0];
-  if (!holding || holding.assets <= 0) throw new Error('account holds nothing in a vault');
+  if (!holding || holding.assets < 0.01) {
+    // After a fallback exit the money waits in the account: the drill parks it in an approved vault.
+    const park = before.positions.find(p => p.allowed);
+    if (!park || before.idle < 0.01) throw new Error('account holds nothing to move');
+    const tx = await keeperDeposit(account, park.vault, 2n ** 256n - 1n);
+    const after = await accountStatus(account);
+    return { before, tx, after, from: account, to: park.vault };
+  }
   const to = before.positions.find(p => p.vault !== holding.vault && p.allowed);
   if (!to) throw new Error('no second approved vault to park in');
   const tx = await keeperMove(account, holding.vault, to.vault, recordHash, `Fire drill: exit ${holding.name}, park in ${to.name}`);
