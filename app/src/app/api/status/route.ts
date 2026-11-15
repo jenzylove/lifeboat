@@ -26,13 +26,21 @@ export async function GET(req: Request) {
     withTime.sort((a, b) => b.t - a.t);
     sweeps = (await Promise.all(withTime.slice(0, nSweeps).map((x) => readJson(path.join(dir, x.n))))).filter(Boolean);
   } catch {}
+  // Count every real model call: the watcher's own (state totals) plus every on demand Ask check.
+  const asks = (await listDecisions(100000)).decisions.filter((d) => d.ask);
+  const askCost = asks.reduce((s, d) => s + (d.model?.costUsd ?? 0), 0);
+  const askTokens = asks.reduce((s, d) => s + (d.model ? d.model.inputTokens + d.model.outputTokens : 0), 0);
+  const base = (state?.totals ?? {}) as { dolphinCalls?: number; costUsd?: number; inputTokens?: number; outputTokens?: number; cycles?: number };
+  const totals = state?.totals || asks.length
+    ? { ...base, watcherCalls: base.dolphinCalls ?? 0, askCalls: asks.length, dolphinCalls: (base.dolphinCalls ?? 0) + asks.filter((d) => d.model).length, costUsd: (base.costUsd ?? 0) + askCost, inputTokens: (base.inputTokens ?? 0) + askTokens }
+    : null;
   return NextResponse.json({
     configured: state !== null,
     heartbeat: state?.heartbeat ? { ...state.heartbeat, errors: Array.isArray(state.heartbeat.errors) ? state.heartbeat.errors.map(redact) : state.heartbeat.errors ? [redact(state.heartbeat.errors)] : [] } : null,
-    totals: state?.totals ?? null,
+    totals,
     latestSweep: clean(sweeps[0]) ?? null,
     sweeps: sweeps.map(clean),
-    askChecks: (await listDecisions(100000)).decisions.filter((d) => d.ask).length,
+    askChecks: asks.length,
     now: Math.floor(Date.now() / 1000),
   });
 }

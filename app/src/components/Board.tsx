@@ -83,7 +83,7 @@ export function PasteBox() {
         <label>Chain <select value={chain} onChange={(e) => setChain(e.target.value)}><option value="8453">Base</option><option value="1">Ethereum</option></select></label>
         {err && <span className="hot-t">{err}</span>}
       </div>
-      <p className="small dim" style={{ margin: '10px 0 0' }}>Paste any vault, then press Ask Lifeboat now: Dolphin decides on live data in about 20 seconds.</p>
+      <p className="small dim" style={{ margin: '10px 0 0' }}>Paste any vault, then press Ask Lifeboat now: Dolphin decides on live data, usually within a minute.</p>
     </form>
   );
 }

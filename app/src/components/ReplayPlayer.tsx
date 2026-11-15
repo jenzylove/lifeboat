@@ -295,7 +295,8 @@ function MarketSummary({ I, m, dec, decisionsMissing, compact }: { I: Incident; 
   const left = pos.map((p) => p.left).filter((x): x is NonNullable<PositionView['left']> => !!x).sort((a, b) => a.ts - b.ts)[0] ?? null;
   const curFirst = m.vaults.map((v) => v.firstAction).filter((x): x is NonNullable<typeof x> => !!x).sort((a, b) => a.ts - b.ts)[0] ?? null;
   const vaults = compact ? m.vaults.slice(0, 5) : m.vaults;
-  const fullMin = m.clockOpenAt && m.fullUtilAt ? Math.round((m.fullUtilAt - m.clockOpenAt) / 60) : null;
+  // Whole minutes elapsed (02:27:23 to 03:09:59 is 42 min), matching the README and video.
+  const fullMin = m.clockOpenAt && m.fullUtilAt ? Math.floor((m.fullUtilAt - m.clockOpenAt) / 60) : null;
   return (
     <div className="split" style={{ marginTop: 36 }}>
       <div>
