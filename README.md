@@ -32,6 +32,21 @@ An open model on Dolphin watches the people running your Morpho vault, and moves
 | Pay per check, for agents (x402) | `curl -i "https://lifeboat.jdollar.site/api/x402/ask?vault=0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61&chain=8453"`, then [`scripts/x402-ask.mjs`](scripts/x402-ask.mjs) |
 | Evidence | [`data/replay`](data/replay) (incident data read onchain), [`data/launch.json`](data/launch.json) (mainnet launch) |
 
+## Judge path (5 minutes, free, no wallet)
+
+Everything below is free for people. Only agents calling the API pay.
+
+| # | Do this | You will see |
+|---|---|---|
+| 1 | Open [lifeboat.jdollar.site](https://lifeboat.jdollar.site) | The live board: the biggest USDC vaults on Base, every market's trusted price against its real price, and the watcher's heartbeat |
+| 2 | Click any vault on the board (or paste any Morpho vault address), then press **Ask Lifeboat now** | A live decision by DeepSeek V4.1 Flash on Dolphin, on that vault, right now: STAY, WAIT or LEAVE, every reason tied to evidence, the outside text SERV PromptGuard screened first, and a plain words explanation by SERV. A first read of a new vault can take up to two minutes; no transaction is sent |
+| 3 | Open [Replay March 22](https://lifeboat.jdollar.site/replay), then the **RLP** tab | The real Resolv incident block by block: Dolphin decides to leave at 02:40, the sweep links RLP to the crashing Resolv dollar an hour before RLP's own feed moved, and every exposed vault with when Lifeboat got out against when its curator first moved |
+| 4 | Scroll to [the house boat](https://lifeboat.jdollar.site/#house) and press **Run a fire drill** | A real Lifeboat account on Base moves its USDC between its two approved vaults in one mainnet transaction, with the Basescan link and the SERV notice (one drill every 10 minutes for everyone) |
+| 5 | Open [`/api/x402/ask`](https://lifeboat.jdollar.site/api/x402/ask?vault=0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61&chain=8453) | The `402` an agent gets: pay $0.01 USDC on Base for a live check. A real paid check is [here on Basescan](https://basescan.org/tx/0xe4e9a3b861e66b44d07945e0295bee9a6e55cb682479765d339d04502538e7a1). You do not need to pay |
+| 6 | Open [Proof](https://lifeboat.jdollar.site/proof) | Every decision published with its model, tokens, cost and hash, the SERV PromptGuard check, paid checks, and the contracts |
+
+The demo video walks the same path in 3:28: [youtu.be/yB8HLn_9xTU](https://youtu.be/yB8HLn_9xTU).
+
 ## Why this matters
 
 Your USDC earns yield in a Morpho vault. Every vault lends into markets that trust a price feed for their collateral. When that feed keeps an old price while the real market crashes, borrowers post the broken token at the stale price and drain the lenders. The people running your vault, its curators, can stop it by cutting the market.
