@@ -7,7 +7,7 @@
 <p align="center"><b>Your USDC gets off before the vault sinks.</b></p>
 
 <p align="center">
-  <a href="https://lifeboat-production-e89df796.up.railway.app"><img alt="Live" src="https://img.shields.io/badge/live-Base%20mainnet-FF4F00?style=flat-square"></a>
+  <a href="https://lifeboat.jdollar.site"><img alt="Live" src="https://img.shields.io/badge/live-Base%20mainnet-FF4F00?style=flat-square"></a>
   <img alt="Track" src="https://img.shields.io/badge/SERV%20Hackathon%2002-Dolphin%20track-07121B?style=flat-square">
   <img alt="Model" src="https://img.shields.io/badge/model-DeepSeek%20V4.1%20Flash%20on%20Dolphin-0B1A26?style=flat-square">
   <img alt="Tests" src="https://img.shields.io/badge/tests-9%20fork%20%2B%2048%20engine-2E7D6B?style=flat-square">
@@ -15,9 +15,9 @@
 </p>
 
 <p align="center">
-  <a href="https://lifeboat-production-e89df796.up.railway.app"><b>Open the live app</b></a> ·
-  <a href="https://lifeboat-production-e89df796.up.railway.app/replay">Replay March 22</a> ·
-  <a href="https://lifeboat-production-e89df796.up.railway.app/proof">Proof</a>
+  <a href="https://lifeboat.jdollar.site"><b>Open the live app</b></a> ·
+  <a href="https://lifeboat.jdollar.site/replay">Replay March 22</a> ·
+  <a href="https://lifeboat.jdollar.site/proof">Proof</a>
 </p>
 
 ![Lifeboat](docs/img/hero.png)
@@ -36,11 +36,11 @@ Every number above is read onchain at the historical block. See [`data/replay`](
 
 | Do this | You will see |
 |---|---|
-| Open the [board](https://lifeboat-production-e89df796.up.railway.app/#board) | The biggest USDC vaults on Base, each market with its oracle price, real market price, gap, share borrowed and the curator's last onchain move. Live. |
+| Open the [board](https://lifeboat.jdollar.site/#board) | The biggest USDC vaults on Base, each market with its oracle price, real market price, gap, share borrowed and the curator's last onchain move. Live. |
 | Paste any Morpho vault address into the box | The same reading for that vault, with where every number comes from one tap away. |
-| Open [Replay March 22](https://lifeboat-production-e89df796.up.railway.app/replay) | The real oracle, market price, utilization and every curator transaction from that day, with the moment Lifeboat decides and the moment its exit could actually fill. Switch to Stream, November 2025. |
+| Open [Replay March 22](https://lifeboat.jdollar.site/replay) | The real oracle, market price, utilization and every curator transaction from that day, with the moment Lifeboat decides and the moment its exit could actually fill. Switch to Stream, November 2025. |
 | Press **Run a fire drill** on the house boat | A real Lifeboat account on Base with real USDC. The agent moves it between its two approved vaults in one mainnet transaction, and SERV Reasoning writes the notice a user would get. Basescan link on screen. |
-| Connect a Base wallet in [Arm yours](https://lifeboat-production-e89df796.up.railway.app/app) | Create your own account with $1 or more, pause the agent, pull out to your wallet whenever you like. |
+| Connect a Base wallet in [Arm yours](https://lifeboat.jdollar.site/app) | Create your own account with $1 or more, pause the agent, pull out to your wallet whenever you like. |
 
 ## How it works
 
