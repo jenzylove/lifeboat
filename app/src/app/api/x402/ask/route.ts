@@ -22,7 +22,9 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const vault = (url.searchParams.get('vault') ?? '').trim();
   const chain = Number(url.searchParams.get('chain') ?? 8453);
-  const resource = `${url.origin}/api/x402/ask?vault=${vault}&chain=${chain}`;
+  const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? url.host;
+  const proto = req.headers.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https');
+  const resource = `${proto}://${host}/api/x402/ask?vault=${vault}&chain=${chain}`;
   if (!isAddress(vault)) return NextResponse.json({ error: 'vault must be an address' }, { status: 400 });
   if (chain !== 8453 && chain !== 1) return NextResponse.json({ error: 'chain must be 8453 (Base) or 1 (Ethereum)' }, { status: 400 });
 
