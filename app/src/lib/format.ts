@@ -37,9 +37,9 @@ export function ago(ts: number | null | undefined, now = Date.now() / 1000): str
   const s = Math.max(0, Math.floor(now - ts));
   if (s < 90) return `${s} seconds ago`;
   const m = Math.floor(s / 60);
-  if (m < 90) return `${m} minutes ago`;
+  if (m < 90) return `${m} minute${m === 1 ? '' : 's'} ago`;
   const h = Math.floor(m / 60);
-  if (h < 36) return `${h} hours ago`;
+  if (h < 36) return `${h} hour${h === 1 ? '' : 's'} ago`;
   const d = Math.floor(h / 24);
   return `${d} day${d === 1 ? '' : 's'} ago`;
 }

@@ -238,6 +238,7 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 .kv dt { color: var(--fg3); font-family: var(--f-m); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; padding-top: 3px; }
 .kv dd { margin: 0; font-family: var(--f-m); word-break: break-all; }
 .bignum { font-family: var(--f-d); font-weight: 900; font-size: clamp(56px, 8vw, 104px); line-height: .9; }
+.eyebrow + .bignum { margin-top: 10px; }
 .pos { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; border-top: 1px solid var(--rule); font-size: 15px; }
 .pos .n { font-weight: 600; }
 .pos .a { font-family: var(--f-m); text-align: right; }

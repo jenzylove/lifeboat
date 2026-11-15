@@ -171,6 +171,13 @@ export function ArmApp() {
               </button>
             </>
           )}
+          {!acct && (
+            <>
+              <p>One transaction from your wallet. The account will only be able to use these vaults:</p>
+              {cfg.approvedVaults.map((v) => <p key={v.address} className="small" style={{ margin: '0 0 4px' }}>{v.name} <a className="mono tiny faint" href={`https://basescan.org/address/${v.address}`} target="_blank" rel="noreferrer">{short(v.address)}</a></p>)}
+              <p className="small dim" style={{ marginTop: 10 }}>Keeper: <a className="mono" href={`https://basescan.org/address/${cfg.keeper}`} target="_blank" rel="noreferrer">{cfg.keeper ? short(cfg.keeper) : 'not set'}</a>. It can only call exit and move between those vaults, never send money anywhere else.</p>
+            </>
+          )}
           {acct?.exists && <p className="sea-t small">Created.</p>}
         </div>
       </div>
