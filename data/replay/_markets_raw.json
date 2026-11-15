@@ -1,0 +1,1161 @@
+{
+ "markets": {
+  "items": [
+   {
+    "marketId": "0xff0f2bd52ca786a4f8149f96622885e880222d8bed12bbbf5950296be8d03f89",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xa40E4a5C4ff8ec8ae05648A4F34E02CeD8Ae9EFB"
+    },
+    "badDebt": {
+     "usd": 83630422.49314505
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 85069696.73516954,
+     "borrowAssetsUsd": 85069696.73467869,
+     "utilization": 0.9999999999942298
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xfaa104a391485a79cd2eb3a0ac33b20e4230a269c22fb8462c6301cb80fee407",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xf830098e97380B352bAca31A10962CDEb7Ca761F"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USD0",
+     "address": "0x73A15FeD60Bf67631dC6cd7Bc5B6e8da8190aCF5",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.002237329783784008,
+     "borrowAssetsUsd": 9.987091343463045e-19,
+     "utilization": 4.46e-16
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xe9e3bec9b212a2d0e180140de186635f948aacb9c90249e744934bad484b888f",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x17E3a630902C29Db3BE0EF300Fd6fDd48B2d41b7"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0xB67675158B412D53fe6B68946483ba920b135bA1",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 56.298777480186494,
+     "borrowAssetsUsd": 56.298775480717005,
+     "utilization": 0.9999999644846731
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x19018450A02bC5c1994eaD517498311f64B2626a"
+    },
+    "badDebt": {
+     "usd": 218576189.47519833
+    },
+    "realizedBadDebt": {
+     "usd": 1180999.576531116
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x4956b52aE2fF65D74CA2d61207523288e4528f96",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 220679854.60504562,
+     "borrowAssetsUsd": 220679854.60504562,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xd9e34b1eed46d123ac1b69b224de1881dbc88798bc7b70f504920f62f58f28cc",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xDa850a72080024e17c1590fbf6ea7a826dB90760"
+    },
+    "badDebt": {
+     "usd": 657380599.476082
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 664809135.3275354,
+     "borrowAssetsUsd": 664809135.3275354,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xd424af31cded12a44174d7d2a36ec4a157e69520e7cbef2ac4f68458dc00a331",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x31bC0C56297D77ad51aa8da9A9a8cf8cC03A4Efc"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0xB67675158B412D53fe6B68946483ba920b135bA1",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 1.8667686980474107,
+     "borrowAssetsUsd": 0,
+     "utilization": 0
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xd09b2997b40a9b3297648b71ee30a5d2d912edbb98568c45625f4367d4296ca9",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x8A58891979C4aF300d77574d45511cC2AfB84118"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0,
+     "borrowAssetsUsd": 0,
+     "utilization": 0
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xcff9c0071483c876f4ddcd9286af85a82649e8e4bc0b353e83c38b9b779302fa",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x31fB76310E7AA59f4994af8cb6a420c39669604A"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0xC33dCb063E3D9Da00C3fa0a7Cbf9f6670cd7C132",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0,
+     "borrowAssetsUsd": 0,
+     "utilization": 0
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xcfe8238ad5567886652ced15ee29a431c161a5904e5a6f380baaa1b4fdc8e302",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x1982FAC5d1116639e4a6647De8BF1cD8c6555AF1"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.7101402873106961,
+     "borrowAssetsUsd": 8.508920998716937e-12,
+     "utilization": 1.1982028e-11
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xc902feba9feac6cbcf7a48b82ccef178a6bdc4a49a474f6ac0c785461ef18e66",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x63bffC991E990a6151782f67EFa994d92CBd78fb"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0xC31389794Ffac23331E0D9F611b7953f90AA5fDC",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0,
+     "borrowAssetsUsd": 0,
+     "utilization": 0
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xc7670063349ac19dfa324ead7bd7da2985ae931e1b09fb0e31b62c6486b730bd",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x2d8380D2E2DBE516049fA2c4CB2EC48C418d249C"
+    },
+    "badDebt": {
+     "usd": 3914304.5135665126
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0x6c247b1F6182318877311737BaC0844bAa518F5e",
+     "chain": {
+      "id": 42161
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 4006618.1099317134,
+     "borrowAssetsUsd": 4006616.260601536,
+     "utilization": 0.9999995384311341
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xc1f8ab27abbe4defca7ba1cbc02f695df1f637760b490ff1466887dc3af6f398",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xCA63193640352d06eeA34dc08B8e87aD5013C1cc"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USD0",
+     "address": "0x73A15FeD60Bf67631dC6cd7Bc5B6e8da8190aCF5",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.00614064099943792,
+     "borrowAssetsUsd": 0.006026253393239358,
+     "utilization": 0.9813720414189606
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xadc6897d644a005149d1aa42de72bcb1ff1c9f7c4a8b00db3e2356752995f80e",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xd21531b0061F70291e698Cf976fb8604afc689C0"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0x6c247b1F6182318877311737BaC0844bAa518F5e",
+     "chain": {
+      "id": 42161
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDT0",
+     "address": "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x66CFbD79257dC5217903A36293120282548E2254",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 8.112325357155829,
+     "borrowAssetsUsd": 7.145266820414006,
+     "utilization": 0.8807914507658662
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xac5e7868966e4ba9173c691a8f7e94a9f5966815121a0493042fb341db8d2d3f",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xDdFF4aCd31d0e1D3943dD2C3F07cC3a2Aa899e74"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDT",
+     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 33.53606813867146,
+     "borrowAssetsUsd": 33.534671844097794,
+     "utilization": 0.9999583643923938
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xaaf6549df354a014f5b17f69317cbd22f988e5f61f32da27f41442d1e092f63a",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xa62A262D86a90af6663b09C64D7c7E45feA1e46d"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDT",
+     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 1.2639114553611002,
+     "borrowAssetsUsd": 1.1729574065391002,
+     "utilization": 0.928037641848879
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0xa3ed1f608c22e44eff9fa886d097920b2546e5f93baffa018b8580606c2ae25b",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0xD140512AfF28054b0369679f6Fe134C11d34443d"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0xC31389794Ffac23331E0D9F611b7953f90AA5fDC",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.0020004692238445496,
+     "borrowAssetsUsd": 0,
+     "utilization": 0
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x9a9a96b822945c73eb7395edca049ba942adc597878854e4502148fa6c2480c8",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x874514c2CA3512258C5C8194A7234A06860B080B"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.0020006193953928005,
+     "borrowAssetsUsd": 0,
+     "utilization": 0
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x8e7cc042d739a365c43d0a52d5f24160fa7ae9b7e7c9a479bd02a56041d4cf77",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x8875ceb24E656FCA062759BDCF870F59A2B0187b"
+    },
+    "badDebt": {
+     "usd": 30206630.00657819
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 31591923.77304485,
+     "borrowAssetsUsd": 31591923.77304485,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x89a38cbbd91e8454b30f63523668c6b54af9f0fe3dd44857b0aedf5bbae92eba",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x2F6299aef6e8CC7b41327D67BE0b655F353A8B08"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.0020004692238445496,
+     "borrowAssetsUsd": 0.0019994694890999995,
+     "utilization": 0.9995002498750625
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x71c0ed6dc446470316162d86e7d915794fa8c61dbc4e50f87caadfe87f4fd805",
+    "lltv": "945000000000000000",
+    "oracle": {
+     "address": "0x37b05Fc9ED464499E1cAb9979740c80302d07b0D"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.044806061555628725,
+     "borrowAssetsUsd": 0.041692672882380356,
+     "utilization": 0.9305141187340699
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x678b525f162b499b17d8fd71f3129bd3a5a10d4c728e6af02ee7c644ae262d01",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x2d8380D2E2DBE516049fA2c4CB2EC48C418d249C"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0x6c247b1F6182318877311737BaC0844bAa518F5e",
+     "chain": {
+      "id": 42161
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 3.9953939027368914,
+     "borrowAssetsUsd": 3.6117738839080813,
+     "utilization": 0.9039844310304358
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x5a24250884b607439e8eb2a5bf7e4f6647af665936f47d0a8509ff783b3916ec",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x31fB76310E7AA59f4994af8cb6a420c39669604A"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0xB67675158B412D53fe6B68946483ba920b135bA1",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 2.1977598775382803,
+     "borrowAssetsUsd": 0.00010497214817774997,
+     "utilization": 0.000047763247136593
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x582c92d5ea0ab48eba3a1ee88c8884e34f7fc61c57fb821f3f6d9e474574c6e3",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x8d12430AD8C6875B351DC0b626c944C38b8f2D4c"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0x6c247b1F6182318877311737BaC0844bAa518F5e",
+     "chain": {
+      "id": 42161
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x66CFbD79257dC5217903A36293120282548E2254",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 8.113008553784825,
+     "borrowAssetsUsd": 7.1468913511923935,
+     "utilization": 0.8809175170730312
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x4b86442549b52826e0fc11770ec5154450cb3c5c14dc751a761d81dcfbe7a7b2",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x19018450A02bC5c1994eaD517498311f64B2626a"
+    },
+    "badDebt": {
+     "usd": 14893203.093430795
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "AUSD",
+     "address": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x4956b52aE2fF65D74CA2d61207523288e4528f96",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 15286885.387831235,
+     "borrowAssetsUsd": 15286885.387831235,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x308cb8d01d8fe656ceaf4841abc62cee6587f9e46533622e30a0053337953432",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x848b5d34c3CBEE40E550a705C419C299F7033ecA"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0.22574699678940005
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x4956b52aE2fF65D74CA2d61207523288e4528f96",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.20217662937455771,
+     "borrowAssetsUsd": 0.04651599246013632,
+     "utilization": 0.23007601127803734
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x2a366fd267a5fd882c791781e3956e38b68108b4c17a9bb8090b90b37d47e0fb",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xD28F3a92E238E622981d99a87C8E8Bfdf3A286d1"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 37.10861012725041,
+     "borrowAssetsUsd": 37.10834319807361,
+     "utilization": 0.9999928068128696
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x1a516baea7dd26c9526a293057212a53a693d621023add54bfd04a627f9c28d6",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0xac04f5AC202A510190e283b763007Bd220A9a3B9"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x4956b52aE2fF65D74CA2d61207523288e4528f96",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.04536605186517645,
+     "borrowAssetsUsd": 0.042252180585203726,
+     "utilization": 0.9313612017808637
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x1478d70d1fde3fd5b8eb5766e82b03aa56a1df72a54fc8cd33aad666b0bd5008",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x3B55c5FCd8f9A5C108aE1c50A29732D101F26730"
+    },
+    "badDebt": {
+     "usd": 1262406.7107359914
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0xC31389794Ffac23331E0D9F611b7953f90AA5fDC",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 1282478.4129487528,
+     "borrowAssetsUsd": 1282478.4129487528,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x13dd22c3111106f703052d5f9166812f0bf1f4679f3db7dfd82037971ce5468f",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0xcA3d6Fa03266d9CA262f2bbcCD231A8885F4b8f9"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "sUSDS",
+     "address": "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0x4956b52aE2fF65D74CA2d61207523288e4528f96",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 12.145083961040367,
+     "borrowAssetsUsd": 12.145077237758429,
+     "utilization": 0.9999994464194764
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x0ec590b250f171c22d39958a55a0589091431fe90599d55409c39aeb01363cb0",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x8875ceb24E656FCA062759BDCF870F59A2B0187b"
+    },
+    "badDebt": {
+     "usd": 254.85852983836938
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDT",
+     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "USR",
+     "address": "0x66a1E37c9b0eAddca17d3662D6c05F4DECf3e110",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 273.18589190555923,
+     "borrowAssetsUsd": 273.18589190555923,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x091e8908d5dc2916bc03c85ac72d6f9434c176b497532a94097101b0bec41cb7",
+    "lltv": "860000000000000000",
+    "oracle": {
+     "address": "0x690EfAE4B37e81d684F45117Bd8798ef5aaf0fba"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0.0003199222556524038
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 8453
+     }
+    },
+    "loanAsset": {
+     "symbol": "USR",
+     "address": "0x35E5dB674D8e93a03d814FA0ADa70731efe8a4b9",
+     "decimals": 18
+    },
+    "collateralAsset": {
+     "symbol": "RLP",
+     "address": "0xC31389794Ffac23331E0D9F611b7953f90AA5fDC",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 0.004820271401509387,
+     "borrowAssetsUsd": 0.0026367575921259915,
+     "utilization": 0.547014342657207
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x06a5954e8222a1f4719934d370ac558b657c6a5321d6cae615127b6596d10d32",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0x5ad6Bbde9c8F78520cfBf13891eDeD12Dc63cF53"
+    },
+    "badDebt": {
+     "usd": 15165.130317307983
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0x6c247b1F6182318877311737BaC0844bAa518F5e",
+     "chain": {
+      "id": 42161
+     }
+    },
+    "loanAsset": {
+     "symbol": "USDC",
+     "address": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x66CFbD79257dC5217903A36293120282548E2254",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 15333.148301954185,
+     "borrowAssetsUsd": 15333.148301954185,
+     "utilization": 1
+    },
+    "supplyingVaults": []
+   },
+   {
+    "marketId": "0x010e577cd5d40210ae600cd877710c252a26afd7b50b1280642c76c4612bd6df",
+    "lltv": "915000000000000000",
+    "oracle": {
+     "address": "0xDdFF4aCd31d0e1D3943dD2C3F07cC3a2Aa899e74"
+    },
+    "badDebt": {
+     "usd": 0
+    },
+    "realizedBadDebt": {
+     "usd": 0
+    },
+    "morphoBlue": {
+     "address": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+     "chain": {
+      "id": 1
+     }
+    },
+    "loanAsset": {
+     "symbol": "AUSD",
+     "address": "0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a",
+     "decimals": 6
+    },
+    "collateralAsset": {
+     "symbol": "wstUSR",
+     "address": "0x1202F5C7b4B9E47a1A484E8B270be34dbbC75055",
+     "decimals": 18
+    },
+    "state": {
+     "supplyAssetsUsd": 33.536542067579866,
+     "borrowAssetsUsd": 33.53514530097333,
+     "utilization": 0.9999583509055967
+    },
+    "supplyingVaults": []
+   }
+  ]
+ }
+}
