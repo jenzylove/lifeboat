@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "cd engine && npx vitest run && cd ../contracts && forge test",
-    "build": "cd engine && npm ci && cd ../app && npm ci && npm run build"
+    "build": "cd engine && npm ci --include=dev && cd ../app && npm ci --include=dev && npm run build"
   },
   "license": "MIT",
   "dependencies": {
