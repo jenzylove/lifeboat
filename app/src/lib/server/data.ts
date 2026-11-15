@@ -12,6 +12,20 @@ async function readJson(file: string): Promise<unknown> {
 
 type Rec = Record<string, any>;
 
+/** Client safe summary of a record's SERV PromptGuard screen. */
+export function guardOf(gd: Rec | null | undefined): DecisionSummary['guard'] {
+  if (!gd || typeof gd !== 'object') return null;
+  const results = (Array.isArray(gd.results) ? gd.results : []).map((x: Rec) => ({ text: String(x.text ?? '').slice(0, 400), kind: String(x.kind ?? 'text'), verdict: String(x.verdict ?? 'unscreened'), by: x.by ?? null, model: x.model ?? null }));
+  const n = (v: unknown, f: number) => (typeof v === 'number' && Number.isFinite(v) ? v : f);
+  return {
+    checked: n(gd.checked, results.length),
+    passed: n(gd.passed, results.filter((x: Rec) => x.verdict === 'pass').length),
+    blocked: n(gd.blocked, results.filter((x: Rec) => x.verdict === 'blocked').length),
+    unscreened: n(gd.unscreened, results.filter((x: Rec) => x.verdict === 'unscreened').length),
+    results,
+  };
+}
+
 export function summarize(r: Rec, file: string): DecisionSummary | null {
   if (!r || typeof r !== 'object' || !r.decision) return null;
   const d = r.decision as Rec;
@@ -34,6 +48,7 @@ export function summarize(r: Rec, file: string): DecisionSummary | null {
     notice: r.notice?.text ?? null,
     noticeModel: r.notice?.model ?? null,
     ask: r.ask === true || r.mode === 'ask',
+    guard: guardOf(r.guard),
     vaultName: r.askVault?.name ?? null,
     collateral: r.askMarket?.collateral ?? null,
     tx: r.tx ? { hash: r.tx.hash ?? null, explorer: r.tx.explorer ?? null, ok: typeof r.tx.ok === 'boolean' ? r.tx.ok : r.tx.status ? r.tx.status === 'success' : null, error: r.tx.error ? redact(r.tx.error) : null } : null,
@@ -116,4 +131,28 @@ export async function readReplay(): Promise<ReplayPayload> {
     for (const w of decisions.sweeps) if (w.error) w.error = redact(w.error);
   }
   return { incidents, decisions, decisionsFile: path.basename(dFile), errors };
+}
+
+/** Paid x402 checks written by /api/x402/ask into DATA_DIR/payments/*.json. */
+export async function readPayments(latestN = 5): Promise<{ count: number; revenueUsd: number; latest: { at: number; payer: string | null; amountUsd: number | null; explorer: string | null; vault: string | null; action: string | null }[] }> {
+  const dir = path.join(DATA_DIR, 'payments');
+  let names: string[] = [];
+  try { names = (await fs.readdir(dir)).filter((n) => n.endsWith('.json')); } catch { return { count: 0, revenueUsd: 0, latest: [] }; }
+  const rows: { at: number; payer: string | null; amountUsd: number | null; explorer: string | null; vault: string | null; action: string | null }[] = [];
+  for (const n of names) {
+    try {
+      const r = (await readJson(path.join(dir, n))) as Rec;
+      const units = Number(r.payment?.amount ?? r.price);
+      rows.push({
+        at: Number(r.at ?? 0),
+        payer: r.payment?.payer ?? null,
+        amountUsd: Number.isFinite(units) ? units / 1e6 : null,
+        explorer: typeof r.payment?.explorer === 'string' ? r.payment.explorer : r.payment?.transaction ? `https://basescan.org/tx/${r.payment.transaction}` : null,
+        vault: r.vault ?? null,
+        action: r.decision?.action ?? null,
+      });
+    } catch {}
+  }
+  rows.sort((a, b) => b.at - a.at);
+  return { count: rows.length, revenueUsd: rows.reduce((s, x) => s + (x.amountUsd ?? 0), 0), latest: rows.slice(0, latestN) };
 }

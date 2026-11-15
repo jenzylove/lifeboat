@@ -53,7 +53,7 @@ export function WatcherProof() {
   const { s, err } = useStatus(5);
   if (err) return <div className="errbox">Watcher status unavailable: {err}</div>;
   if (!s) return null;
-  if (!s.configured) return <p className="dim">The minute watcher has not written its state yet. Totals and sweeps appear here once it runs.</p>;
+  if (!s.configured && !s.totals) return <p className="dim">The minute watcher has not written its state yet. Totals and sweeps appear here once it runs.</p>;
   const t = s.totals ?? {};
   const h = s.heartbeat ?? {};
   const at = tsOf(h.at);
@@ -61,12 +61,12 @@ export function WatcherProof() {
   return (
     <div>
       <div className="stat-row">
-        <div><div className="bignum">{n(t.cycles) ?? 'unavailable'}</div><div className="small dim">watch cycles run</div></div>
-        <div><div className="bignum">{n(t.dolphinCalls) ?? 'unavailable'}</div><div className="small dim">model calls</div></div>
-        <div><div className="bignum">{n(t.inputTokens) !== null && n(t.outputTokens) !== null ? (t.inputTokens + t.outputTokens).toLocaleString('en-US') : 'unavailable'}</div><div className="small dim">tokens read and written</div></div>
+        <div><div className="bignum">{n(t.cycles) ?? 0}</div><div className="small dim">watch cycles run</div></div>
+        <div><div className="bignum">{n(t.dolphinCalls) ?? 0}</div><div className="small dim">model calls</div></div>
+        <div><div className="bignum">{((n(t.inputTokens) ?? 0) + (n(t.outputTokens) ?? 0)).toLocaleString('en-US')}</div><div className="small dim">tokens read and written</div></div>
         <div><div className="bignum">{money(n(t.costUsd))}</div><div className="small dim">total model cost</div></div>
       </div>
-      <p className="small dim">Last heartbeat {at ? `${utcDate(at)} (${ago(at)})` : 'unknown'}: {count(h.accounts) ?? 'unknown'} accounts, {count(h.markets) ?? 'unknown'} markets, {count(h.openClocks) ?? 0} clocks open, {count(h.decisions) ?? 0} decisions this cycle{errs.length ? `, ${errs.length} errors: ${errs.slice(0, 2).map(String).join('; ')}` : ''}.</p>
+      {!s.heartbeat ? <p className="small dim">The minute watcher has not reported a heartbeat yet; the totals above include on demand checks.</p> : <p className="small dim">Last heartbeat {at ? `${utcDate(at)} (${ago(at)})` : 'unknown'}: {count(h.accounts) ?? 'unknown'} accounts, {count(h.markets) ?? 'unknown'} markets, {count(h.openClocks) ?? 0} clocks open, {count(h.decisions) ?? 0} decisions this cycle{errs.length ? `, ${errs.length} errors: ${errs.slice(0, 2).map(String).join('; ')}` : ''}.</p>}
       <h3 className="display" style={{ margin: '40px 0 8px' }}>Latest sweeps</h3>
       <p className="small dim" style={{ maxWidth: '70ch' }}>Each sweep is one model call that reads every guarded market next to every live break on the board, looking for links a price feed cannot show: same issuer, wrapped or tranche tokens.</p>
       {s.sweeps.length === 0 && <p className="dim">No sweeps yet. A sweep runs when something on the board breaks.</p>}

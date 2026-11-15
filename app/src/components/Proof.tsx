@@ -4,6 +4,7 @@ import type { DecisionSummary, PublicConfig } from '@/lib/types';
 import { ago, short, utcDate } from '@/lib/format';
 import { Loading } from './Board';
 import { Who } from './Who';
+import { GuardLine } from './Guard';
 
 export function useConfig() {
   const [c, setC] = useState<PublicConfig | null>(null);
@@ -66,6 +67,7 @@ export function Decisions({ limit = 50 }: { limit?: number }) {
               {r.model ? <span>{r.model.model} · {r.model.inputTokens + r.model.outputTokens} tokens · {r.model.costUsd === null ? 'cost not recorded' : `$${r.model.costUsd.toFixed(6)}`}</span> : <span>model {r.modelError ? `unavailable: ${r.modelError.slice(0, 80)}` : 'not called'}</span>}
               <span>{r.evidenceCount} evidence items</span>
             </div>
+            <GuardLine guard={r.guard} compact />
             <div className="meta"><a href={`/api/decisions?hash=${r.hash}`} target="_blank" rel="noreferrer">hash {r.hash}</a></div>
           </div>
         </div>

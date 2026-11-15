@@ -385,3 +385,12 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 .evid { font-family: var(--f-m); font-size: 11px; background: none; color: var(--hot-text); border: 1px solid var(--rule2); border-radius: 999px; padding: 1px 8px; margin: 0 4px 0 0; cursor: pointer; }
 .evid.on { border-color: var(--hot); background: var(--hot-soft); }
 .evtext { margin-top: 8px; padding: 8px 12px; border-left: 2px solid var(--hot); font-size: 14px; color: var(--fg2); word-break: break-word; }
+
+/* guard + agents */
+.guard summary { font-family: var(--f-b); color: var(--fg2); }
+.guard li.g-blocked { color: var(--hot-text); }
+.guard li.g-withheld { color: var(--fg3); }
+.gtable .prow { grid-template-columns: minmax(0, 3fr) .9fr .8fr .8fr 1.3fr; }
+.flow { margin: 0 0 22px; padding-left: 22px; display: grid; gap: 10px; font-size: 17px; }
+.flow li::marker { font-family: var(--f-m); color: var(--hot-text); }
+.code { background: color-mix(in srgb, var(--fg) 5%, transparent); border-left: 3px solid var(--hot); padding: 14px 16px; overflow-x: auto; font-family: var(--f-m); font-size: 13px; line-height: 1.6; margin: 0 0 12px; white-space: pre; max-width: 100%; }

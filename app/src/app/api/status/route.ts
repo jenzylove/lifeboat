@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { DATA_DIR } from '@/lib/server/config';
 import { redact } from '@/lib/server/redact';
-import { listDecisions } from '@/lib/server/data';
+import { listDecisions, readPayments } from '@/lib/server/data';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -40,6 +40,7 @@ export async function GET(req: Request) {
     totals,
     latestSweep: clean(sweeps[0]) ?? null,
     sweeps: sweeps.map(clean),
+    payments: await readPayments(5),
     askChecks: asks.length,
     now: Math.floor(Date.now() / 1000),
   });

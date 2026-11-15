@@ -78,6 +78,9 @@ export interface PublicConfig {
   repo: string;
 }
 
+export interface GuardItem { text: string; kind: string; verdict: 'pass' | 'blocked' | 'unscreened' | string; by: string | null; model: string | null }
+export interface GuardSummary { checked: number; passed: number; blocked: number; unscreened: number; results: GuardItem[] }
+
 export interface DecisionSummary {
   file: string;
   hash: string;
@@ -95,6 +98,7 @@ export interface DecisionSummary {
   notice: string | null;
   noticeModel: string | null;
   ask: boolean;
+  guard: GuardSummary | null;
   vaultName: string | null;
   collateral: string | null;
   tx: { hash: string | null; explorer: string | null; ok: boolean | null; error: string | null } | null;

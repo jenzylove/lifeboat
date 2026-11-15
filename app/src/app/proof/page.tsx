@@ -1,5 +1,7 @@
 import { Contracts, Decisions } from '@/components/Proof';
 import { WatcherProof } from '@/components/Watcher';
+import { PaymentsProof } from '@/components/Agents';
+import { GuardCheck } from '@/components/Guard';
 
 export const metadata = { title: 'Proof · Lifeboat' };
 
@@ -19,6 +21,15 @@ export default function ProofPage() {
         <h2 className="display" style={{ fontSize: 'clamp(36px,5vw,64px)', marginBottom: 20 }}>Contracts</h2>
         <Contracts />
         <p className="small dim" style={{ marginTop: 18, maxWidth: '70ch' }}>The keeper can call exit and move. Exit pulls money from a vault back into the account; move does that and then deposits into another vault the owner approved. Neither can send money to any other address. Only the owner can withdraw, sweep, pause the keeper or change the approved list.</p>
+      </section>
+      <section className="section" style={{ paddingTop: 40 }}>
+        <h2 className="display" style={{ fontSize: 'clamp(36px,5vw,64px)', marginBottom: 20 }}>Paid checks (x402)</h2>
+        <p className="small dim" style={{ maxWidth: '70ch' }}>Agents and apps buy a live Lifeboat decision for $0.01 in USDC on Base. Every payment settles onchain; each receipt links to Basescan.</p>
+        <PaymentsProof />
+      </section>
+      <section className="section" style={{ paddingTop: 40 }}>
+        <h2 className="display" style={{ fontSize: 'clamp(36px,5vw,64px)', marginBottom: 20 }}>SERV PromptGuard check</h2>
+        <GuardCheck />
       </section>
       <section className="section" style={{ paddingTop: 40 }}>
         <h2 className="display" style={{ fontSize: 'clamp(36px,5vw,64px)', marginBottom: 20 }}>The watcher</h2>

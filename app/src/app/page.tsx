@@ -6,6 +6,7 @@ import { ReplayPlayer } from '@/components/ReplayPlayer';
 import { HouseBoat } from '@/components/HouseBoat';
 import { Contracts, Decisions } from '@/components/Proof';
 import { WatcherLine } from '@/components/Watcher';
+import { PaymentsLive } from '@/components/Agents';
 
 function Head({ n, title, children }: { n: string; title: React.ReactNode; children?: React.ReactNode }) {
   return (
@@ -19,13 +20,15 @@ function Head({ n, title, children }: { n: string; title: React.ReactNode; child
   );
 }
 
+const AGENT_CODE = "curl -i \"https://lifeboat.jdollar.site/api/x402/ask?vault=0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61&chain=8453\"\n# 402 Payment Required, with the terms: $0.01 USDC on Base\n\nnode scripts/x402-ask.mjs 0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61\n# signs the payment, Lifeboat settles it, the live decision comes back";
+
 const FAQ: [string, string][] = [
   ['Can Lifeboat take my money?', 'No. Your money sits in your own Lifeboat account, a small contract only you own. The agent key can do two things: pull money out of a vault into your account, and put it into another vault you approved. The contract has no function that lets the agent send money anywhere else. You can withdraw everything to your wallet at any time, and you can pause the agent with one click.'],
   ['What if the model gets it wrong?', 'Hard rules sit above the model. If the oracle sits more than 25% above the market and the curator has been silent for 30 minutes, Lifeboat leaves whatever the model says. If the curator has already cut the market to zero and moved money away, it stays. If the model answers in a broken format, the rules decide that call, and if the model is unavailable for 10 minutes while a clock is open, Lifeboat leaves by rule. Every decision is published with the evidence it used and a hash that is written onchain with the move.'],
   ['What if the market is already fully borrowed?', 'Then nobody can get out, including Lifeboat. A lender can only withdraw the cash that borrowers have not taken. That is why minutes matter, and why the replay shows exactly how much was still withdrawable at the minute Lifeboat would have left, instead of pretending the whole deposit was saved. It is also why Lifeboat opens a second kind of clock when a market sits near fully borrowed, before any price moves: in the Stream collapse of November 2025, lenders were locked in 13 hours before the price broke.'],
-  ['What does it cost?', 'Planned: 10% of the yield earned while armed, taken when you withdraw. Not charged during the hackathon. Running the model is cheap: reading the full evidence for one watched vault costs pennies a day on Dolphin, and the exact token counts and cost of every decision are on the proof page.'],
+  ['What does it cost?', 'Two ways: agents and apps pay $0.01 per live check over x402 today; for armed accounts, a planned 10% of yield earned, taken when you withdraw, not charged during the hackathon. Running the model is cheap: reading the full evidence for one watched vault costs pennies a day on Dolphin, and the exact token counts and cost of every decision are on the proof page.'],
   ['Which chains does it work on?', 'Live accounts run on Base with USDC in Morpho vaults. The board and vault pages read Base and Ethereum. The replays use Ethereum and Base mainnet data from the incidents themselves (the Stream replay reads Arbitrum, where that market lived).'],
-  ['What is SERV Reasoning used for?', 'After every action, SERV Reasoning writes the plain words notice you read: what happened, why, and where your money is now. Code states the facts (amounts, vaults, transaction) so the notice can never misstate where money went; SERV explains them.'],
+  ['What is SERV Reasoning used for?', 'After every action, SERV Reasoning writes the plain words notice you read: what happened, why, and where your money is now. Code states the facts (amounts, vaults, transaction) so the notice can never misstate where money went; SERV explains them. SERV Reasoning with PromptGuard also screens every outside text Lifeboat reads (forum posts, vault, curator and token names) before Dolphin sees it; a planted "ignore your rules" post is blocked and never reaches the decision.'],
   ['What does the curator have to do with it?', 'Curators run Morpho vaults and choose which markets your money lends into. When a price feed breaks, a good curator cuts the cap or moves money away within minutes. Lifeboat watches for those onchain moves. If the curator acts, you stay and keep earning. Lifeboat only steps in when the curator is silent.'],
   ['What is an oracle, and why does a stale one matter?', 'An oracle is the price feed a lending market trusts. If it keeps saying a token is worth $1.13 while it trades far lower, borrowers can post that token and borrow your USDC against a price that is not real. Lenders end up holding the loss. That is what happened on March 22 2026.'],
 ];
@@ -86,9 +89,28 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section" id="agents">
+        <div className="wrap">
+          <Head n="06" title="For agents: pay per check">Any agent or app can buy a live Lifeboat decision on any Morpho vault for $0.01 in USDC on Base, over x402. It is gasless for the payer: the agent signs an EIP 3009 transfer and Lifeboat settles it onchain. The site itself stays free for people.</Head>
+          <div className="split">
+            <div>
+              <ol className="flow">
+                <li><b>Ask.</b> The agent calls the check with a vault address and gets 402 back, with the price and where to pay.</li>
+                <li><b>Sign.</b> It signs a $0.01 USDC transfer to Lifeboat. No gas, no account, no key exchange.</li>
+                <li><b>Get the answer.</b> Lifeboat settles the payment on Base and returns the live decision with the receipt.</li>
+              </ol>
+              <pre className="code"><code>{AGENT_CODE}</code></pre>
+              
+              <p className="small"><a href="https://github.com/jenzylove/lifeboat/blob/master/scripts/x402-ask.mjs" target="_blank" rel="noreferrer">The client script on GitHub</a></p>
+            </div>
+            <div><PaymentsLive /></div>
+          </div>
+        </div>
+      </section>
+
       <section className="section" id="proof">
         <div className="wrap">
-          <Head n="06" title="Proof">Every claim on this page has something you can click.</Head>
+          <Head n="07" title="Proof">Every claim on this page has something you can click.</Head>
           <div className="stat-row">
             <div><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">9</div></a><div className="small dim"><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer">contract tests on a Base mainnet fork</a></div></div>
             <div><a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">48</div></a><div className="small dim">engine unit tests: <a href="https://github.com/jenzylove/lifeboat/blob/master/engine/src/decide/policy.test.ts" target="_blank" rel="noreferrer">policy</a> and <a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer">engine/test</a></div></div>
@@ -102,7 +124,7 @@ export default function Home() {
 
       <section className="section" id="dolphin">
         <div className="wrap">
-          <Head n="07" title="Why Dolphin" />
+          <Head n="08" title="Why Dolphin" />
           <div className="why">
             <p>The core act here is a personal decision to move one person&apos;s money between named investment products. <a href="https://www.anthropic.com/legal/aup" target="_blank" rel="noreferrer">Anthropic&apos;s usage policy</a>, effective November 12 2026, requires a qualified person to review that kind of decision before it is acted on, so an agent that runs alone at 3 a.m. cannot run it on Claude. Open weights on Dolphin can: Lifeboat uses DeepSeek V4.1 Flash served by Dolphin to make the stay or leave call, and reading the full evidence for one watched vault costs pennies a day.</p>
             <p className="dim small">Dolphin serves open weights (DeepSeek V4.1 Flash) on its own network today; Lifeboat calls it over a standard API, so the model can move to any node that serves the same weights.</p>
@@ -112,7 +134,7 @@ export default function Home() {
 
       <section className="section" id="faq">
         <div className="wrap">
-          <Head n="08" title="Questions" />
+          <Head n="09" title="Questions" />
           <div className="faq">
             {FAQ.map(([q, a]) => (
               <details key={q}><summary>{q}</summary><p>{a}</p></details>

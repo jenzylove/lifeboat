@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { pct, ratioPct, short, usd } from '@/lib/format';
 import { Who } from './Who';
+import { GuardLine } from './Guard';
 
 type J = any;
 interface Answer {
@@ -99,6 +100,7 @@ export function AskNow({ address, chain }: { address: string; chain: 1 | 8453 })
               ))}
             </div>
           )}
+          <GuardLine guard={rec?.guard} />
           {d.modelError && <p className="small hot-t">Model error, rules decided: {String(d.modelError).slice(0, 160)}</p>}
           <p className="tiny faint mono" style={{ marginTop: 18, wordBreak: 'break-all' }}>
             {m ? <><Who decidedBy="model" model={m.model} provider={m.provider} /> · {(m.inputTokens ?? 0) + (m.outputTokens ?? 0)} tokens · {m.costUsd == null ? 'cost not recorded' : `$${Number(m.costUsd).toFixed(6)}`} · </> : 'model not called · '}
