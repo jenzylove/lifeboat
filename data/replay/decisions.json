@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-15T03:25:48.022Z",
+ "generatedAt": "2026-11-15T04:58:48.710Z",
  "cadence": "10 minute samples (the live watcher reads every minute)",
  "firstBreak": "2026-03-22T02:27:23Z",
  "note": "Real historical onchain data replayed through the live Lifeboat clocks, sweep, evidence pack, model call and clamp. Model and provider recorded per call. Position size $1,000 is illustrative; market withdrawable amounts are onchain.",
@@ -13,7 +13,7 @@
    "flags": [
     {
      "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-     "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+     "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
      "related_to": [
       "USR",
       "wstUSR"
@@ -21,7 +21,7 @@
     },
     {
      "marketId": "0xff0f2bd52ca786a4f8149f96622885e880222d8bed12bbbf5950296be8d03f89",
-     "reason": "This Resolv USD collateral is related to the breaking USR and to wstUSR, its wrapped staked form.",
+     "reason": "The collateral is Resolv USD (USR), directly matching the breaking USR and serving as the underlying for wrapped/staked wstUSR.",
      "related_to": [
       "USR",
       "wstUSR"
@@ -29,7 +29,7 @@
     },
     {
      "marketId": "0x4b86442549b52826e0fc11770ec5154450cb3c5c14dc751a761d81dcfbe7a7b2",
-     "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+     "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
      "related_to": [
       "USR",
       "wstUSR"
@@ -37,12 +37,12 @@
     }
    ],
    "model": {
-    "model": "gpt-6-luna",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash",
     "provider": "dolphin",
-    "inputTokens": 943,
-    "outputTokens": 1033,
-    "costUsd": 0.00008174000000000001,
-    "ms": 11094
+    "inputTokens": 617,
+    "outputTokens": 1148,
+    "costUsd": 0.00008653000000000001,
+    "ms": 6130
    },
    "error": null
   },
@@ -101,7 +101,12 @@
     "clockKind": "gap",
     "exitFilledAt": "2026-03-22T02:50:11Z",
     "exitFillBlock": 24710171,
-    "marketWithdrawableAtFill": 111279.64
+    "marketWithdrawableAtFill": 111279.64,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Gauntlet USDC Core and into Steakhouse USDC. The oracle price fell far out of step with the market price, dropping to 0.0434 while the oracle showed 1.1330, signaling a serious breakdown in the collateral rather than a normal price fluctuation. The curator made no moves to address this problem after the market opened. Moving the funds now lets you withdraw the full amount while it's still possible, avoiding the risk that utilization or an actual depeg could trap or reduce your deposit later.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 23,
@@ -145,44 +150,50 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the available USDC and move it to candidate vault 0xSAFE.",
+     "summary": "wstUSR's market price has collapsed far below its oracle while the curator is silent, so withdraw your fully available USDC now into the no-Resolv-exposure candidate vault.",
      "reasons": [
       {
-       "claim": "The market price fell sharply while the oracle price stayed unchanged, widening the gap first to 5.1% and then to 2510.6%.",
+       "claim": "The oracle/market gap widened from a stable 0.1% through 02:20 to 5.1% at 02:30 and then 2510.6% at 02:40, with oracle 1.1330 versus market 0.0434, indicating a severe collateral price break rather than a benign discount.",
        "evidence_ids": [
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
         "E7",
         "E8"
        ]
       },
       {
-       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "claim": "The curator has taken no action on this market since the clock opened, so there is no evidence the stale oracle or collapsing market price has been handled.",
        "evidence_ids": [
         "E9"
        ]
       },
       {
-       "claim": "The entire $1,000 position is withdrawable now.",
+       "claim": "The user can withdraw the full $1000 now, so leaving avoids the risk that utilization or a real depeg locks or impairs the deposit.",
        "evidence_ids": [
-        "E1"
+        "E1",
+        "E8"
        ]
       },
       {
-       "claim": "Candidate 0xSAFE is approved and has no open clocks, though its APY and TVL are unknown.",
+       "claim": "Candidate vault Steakhouse USDC is explicitly described as having no exposure to Resolv markets in this replay, making it a suitable parking venue.",
        "evidence_ids": [
         "E10"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2305,
-      "outputTokens": 619,
-      "costUsd": 0.00006638000000000001,
-      "ms": 7294
+      "inputTokens": 1031,
+      "outputTokens": 751,
+      "costUsd": 0.00006288000000000001,
+      "ms": 3513
      },
      "modelError": null,
-     "hash": "0xa15555807b97e289dd43fda11a12ffe0c015bd8c19b464324cf7e98031716bb2",
+     "hash": "0x14331d44e374d218053871dec3fe0dd999e0b9660eea42ae5235c254147b5ffa",
      "gap": 25.105990783410135,
      "utilization": 0.7912,
      "marketWithdrawable": 1069.78
@@ -212,7 +223,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -226,7 +237,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:59:59Z",
     "exitFillBlock": 24710220,
-    "marketWithdrawableAtFill": 239146.25
+    "marketWithdrawableAtFill": 239146.25,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Gauntlet USDC Frontier and into Steakhouse USDC. Lifeboat moved the USDC because the oracle was significantly mispriced compared to the market, and the related Resolv system was breaking elsewhere with much larger discrepancies. The curator had not acted to protect the market, and moving to a vault without Resolv exposure eliminated the risk of being locked in if the problem spread.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 33,
@@ -270,10 +286,10 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the full withdrawable position and move it to 0xSAFE.",
+     "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the curator has not acted.",
      "reasons": [
       {
-       "claim": "The related USR and wstUSR incidents may indicate risk to RLP and make a calm local feed unreliable.",
+       "claim": "RLP collateral is tied to the same Resolv USR system as USR and wstUSR, which are breaking elsewhere with oracles 2511% above market.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -281,36 +297,41 @@
        ]
       },
       {
-       "claim": "The local oracle is 12.6% below the market, while utilization increased from 83.2% to 86.7%.",
+       "claim": "This market's own feed may be blind to the related break: the gap was unknown until recently and then showed oracle 1.2872 vs market 1.4722, while utilization rose from 83.2% to 86.7%.",
        "evidence_ids": [
         "E10",
         "E11"
        ]
       },
       {
-       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "claim": "The curator has taken no action on this market since the clock opened, so there is no curator protection to rely on.",
        "evidence_ids": [
         "E12"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable, and 0xSAFE is described as approved with no open clocks.",
+       "claim": "The user can withdraw the full $1000 now, so leaving costs little relative to the risk of being locked if the related Resolv break spreads.",
        "evidence_ids": [
-        "E1",
+        "E1"
+       ]
+      },
+      {
+       "claim": "The candidate vault is explicitly described as having no exposure to Resolv markets in this replay.",
+       "evidence_ids": [
         "E13"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2551,
-      "outputTokens": 659,
-      "costUsd": 0.00007164000000000001,
-      "ms": 7410
+      "inputTokens": 1149,
+      "outputTokens": 1005,
+      "costUsd": 0.00008184,
+      "ms": 5892
      },
      "modelError": null,
-     "hash": "0x19ca2344a631d04628f744a0096b3a95bf8acbfc31b1401ca9e4267a63b0044e",
+     "hash": "0xd203502efe90e00ed7ef7daa20ae62114f81ece1958ed41cb3592735ecfc7a9f",
      "gap": -0.12566227414753434,
      "utilization": 0.8666,
      "marketWithdrawable": 225086.45
@@ -340,7 +361,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -354,7 +375,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:59:59Z",
     "exitFillBlock": 24710220,
-    "marketWithdrawableAtFill": 239146.25
+    "marketWithdrawableAtFill": 239146.25,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Clearstar Yield USDC and into Steakhouse USDC. Lifeboat moved USDC out of Clearstar Yield because the linked Resolv system has broken oracles showing prices far above market, and Clearstar's own oracle may not reflect this damage. Utilization was rising toward dangerous levels, and immediate withdrawal was available. The new vault has no exposure to the broken system.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 33,
@@ -398,10 +424,16 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the currently withdrawable position and move it to 0xSAFE, given the linked-token incident, rising utilization, and curator inaction.",
+     "summary": "Because RLP is tied to the breaking Resolv USR system, utilization is rising, the curator is silent, and your full $1000 is still withdrawable now, leave for the Resolv-free candidate vault.",
      "reasons": [
       {
-       "claim": "RLP is linked to USR and wstUSR, whose oracle prices are reported 2,511% above market; this related-token incident may make the calm local feed an unreliable reassurance.",
+       "claim": "The user can withdraw the full $1000 now, so exiting is immediately available.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "RLP is tied to the same Resolv USR system as USR and wstUSR, which are breaking elsewhere with oracles 2511% above market.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -409,31 +441,42 @@
        ]
       },
       {
-       "claim": "Utilization increased from 83.2% to 86.7%, and no curator or allocator action has occurred since the clock opened.",
+       "claim": "This market's own feed shows oracle 1.2872 vs market 1.4722, a -12.6% gap, so its calm/undervalued feed may be blind to the linked-system break.",
        "evidence_ids": [
         "E10",
-        "E11",
+        "E11"
+       ]
+      },
+      {
+       "claim": "Utilization rose from 83.2% to 86.7% at the clock open, increasing the risk that withdrawable liquidity disappears.",
+       "evidence_ids": [
+        "E5",
+        "E11"
+       ]
+      },
+      {
+       "claim": "The curator or allocator has taken no action on this market since the clock opened.",
+       "evidence_ids": [
         "E12"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable now, and 0xSAFE is an approved candidate with no open clocks; its APY and TVL are unknown.",
+       "claim": "The candidate vault is explicitly described as having no exposure to Resolv markets in this replay.",
        "evidence_ids": [
-        "E1",
         "E13"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2583,
-      "outputTokens": 741,
-      "costUsd": 0.0000777,
-      "ms": 8132
+      "inputTokens": 1148,
+      "outputTokens": 1078,
+      "costUsd": 0.00008694000000000002,
+      "ms": 4607
      },
      "modelError": null,
-     "hash": "0xad88a824308add0853ba695879c727570052f7b0d6c3d35cc5b9111b3382b8dd",
+     "hash": "0xa3de714229a1c4e1412a1b039d925fc9b7be3003ac21b665a3241030f6f4e0a9",
      "gap": -0.12566227414753434,
      "utilization": 0.8666,
      "marketWithdrawable": 225086.45
@@ -463,7 +506,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -477,7 +520,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:59:59Z",
     "exitFillBlock": 24710220,
-    "marketWithdrawableAtFill": 239146.25
+    "marketWithdrawableAtFill": 239146.25,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Resolv USDC and into Steakhouse USDC. The RLP collateral system was breaking with oracles far above market prices, and because USDC was tied to that same system, its price feed could become unreliable as utilization rose. Moving to Steakhouse USDC let the user withdraw their full amount while avoiding the risk that liquidity would disappear if conditions worsened.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 33,
@@ -521,10 +569,10 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the currently available position and use candidate vault 0xSAFE; related-token risk and rising utilization warrant leaving despite unknown candidate APY and TVL.",
+     "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because this RLP market is linked to the already-breaking Resolv USR system and liquidity may not last.",
      "reasons": [
       {
-       "claim": "A related-token incident reports oracle prices 2,511% above market for USR and wstUSR; RLP is linked to both, so the calm local feed may not reflect the related risk.",
+       "claim": "RLP collateral is tied to the same Resolv USR system as USR and wstUSR, which are already breaking with oracles 2511% above market.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -532,42 +580,46 @@
        ]
       },
       {
-       "claim": "Utilization increased from 83.2% to 86.7% over ten minutes.",
+       "claim": "This market's own feed looks calm, but because the collateral is linked to a token breaking elsewhere, that feed may be blind; utilization also rose from 83.2% to 86.7% at the same time.",
        "evidence_ids": [
+        "E4",
         "E10",
         "E11"
        ]
       },
       {
-       "claim": "The curator withdrew 1,969 USDC and supplied 56 USDC in the same transaction, reducing funds in the market.",
+       "claim": "The user can withdraw the full $1000 now, so leaving avoids the risk that liquidity disappears if utilization keeps rising.",
+       "evidence_ids": [
+        "E1",
+        "E11"
+       ]
+      },
+      {
+       "claim": "The curator did reallocate away 1969 USDC at 02:33, but also supplied 56 USDC and did not fully remove the market or cut its cap, so the market remains exposed.",
        "evidence_ids": [
         "E13",
-        "E14"
+        "E14",
+        "E5",
+        "E11"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable now.",
-       "evidence_ids": [
-        "E1"
-       ]
-      },
-      {
-       "claim": "Candidate vault 0xSAFE is approved and has no open clocks; its APY and TVL are unknown.",
+       "claim": "The candidate vault is explicitly described as having no exposure to Resolv markets in this replay.",
        "evidence_ids": [
         "E15"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 3237,
-      "outputTokens": 866,
-      "costUsd": 0.00009299000000000002,
-      "ms": 10476
+      "inputTokens": 1476,
+      "outputTokens": 1874,
+      "costUsd": 0.00014594,
+      "ms": 34500
      },
      "modelError": null,
-     "hash": "0xe176313a765a734bed4ce2ccd2128b39a66dd6841ffb9b42f574314c9cf7e4d3",
+     "hash": "0x829028fe4df61cd54bcbeafee77b2c20b8eb8241667bd0e92706fd12a3825a5a",
      "gap": -0.12566227414753434,
      "utilization": 0.8666,
      "marketWithdrawable": 225086.45
@@ -599,7 +651,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xff0f2bd52ca786a4f8149f96622885e880222d8bed12bbbf5950296be8d03f89",
-    "reason": "This Resolv USD collateral is related to the breaking USR and to wstUSR, its wrapped staked form.",
+    "reason": "The collateral is Resolv USD (USR), directly matching the breaking USR and serving as the underlying for wrapped/staked wstUSR.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -613,7 +665,12 @@
     "clockKind": "gap",
     "exitFilledAt": "2026-03-22T02:40:01Z",
     "exitFillBlock": 43678927,
-    "marketWithdrawableAtFill": 6123.15
+    "marketWithdrawableAtFill": 6123.15,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Re7 USDC and into Steakhouse USDC. The oracle-to-market gap for USR jumped sharply from 0.1% to 5.1%, signaling a sudden collateral price divergence that warranted moving immediately. The curator had not addressed this gap despite the clock opening, and moving now allowed the user to withdraw the full amount without locking exposure during the divergence. The Steakhouse USDC vault offered the same asset without exposure to Resolv markets.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 13,
@@ -657,43 +714,51 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the full withdrawable position and move it to 0xSAFE.",
+     "summary": "USR's oracle gap suddenly widened to 5.1% with no curator action, so withdraw your fully available USDC now into the candidate vault.",
      "reasons": [
       {
-       "claim": "The market price is 0.9515 while the oracle is 1.0001, a 5.1% gap.",
+       "claim": "The USR market's oracle-to-market gap jumped from a stable 0.1% to 5.1% at 02:40, indicating a sudden collateral price divergence rather than a shallow fixed discount.",
        "evidence_ids": [
+        "E7",
         "E8"
        ]
       },
       {
-       "claim": "The curator has taken no action on this market since the clock opened.",
-       "evidence_ids": [
-        "E9"
-       ]
-      },
-      {
-       "claim": "The full $1,000 position is withdrawable now.",
+       "claim": "The user can withdraw the full $1000 now, so leaving avoids locking exposure while the gap is fresh.",
        "evidence_ids": [
         "E1"
        ]
       },
       {
-       "claim": "Candidate vault 0xSAFE is approved and has no open clocks; its APY and TVL are unknown.",
+       "claim": "The curator has taken no action on this market since the clock opened, despite the 5.1% gap.",
+       "evidence_ids": [
+        "E9"
+       ]
+      },
+      {
+       "claim": "Utilization is still 47.6% and vault exposure is $11694, so the market is not yet fully borrowed, but the sudden divergence and curator silence justify moving now.",
+       "evidence_ids": [
+        "E8",
+        "E9"
+       ]
+      },
+      {
+       "claim": "The candidate vault is explicitly described as Steakhouse USDC with no exposure to Resolv markets in this replay.",
        "evidence_ids": [
         "E10"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2300,
-      "outputTokens": 569,
-      "costUsd": 0.00006283,
-      "ms": 6936
+      "inputTokens": 1025,
+      "outputTokens": 814,
+      "costUsd": 0.00006723,
+      "ms": 3486
      },
      "modelError": null,
-     "hash": "0x2d12cf5b00a02d48c60cb80354bb57acd142b4a34c5bff1f8ffcce42e0e58c2d",
+     "hash": "0xa86309ed412ac1ce650ec4b9cf71a48dec9b04d0011b4a348f9eee1880110e2a",
      "gap": 0.05107724645296897,
      "utilization": 0.4765,
      "marketWithdrawable": 6123.15
@@ -723,7 +788,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0x4b86442549b52826e0fc11770ec5154450cb3c5c14dc751a761d81dcfbe7a7b2",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -737,7 +802,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:50:11Z",
     "exitFillBlock": 24710171,
-    "marketWithdrawableAtFill": 35618.98
+    "marketWithdrawableAtFill": 35618.98,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of August AUSD and into Steakhouse USDC. The user can withdraw the full amount now without waiting through a system break. The market's oracle is tied to the same broken system as other tokens, so its stable price may not reflect the real problem. With utilization already very high and limited room left, lenders could be locked if conditions worsen.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 23,
@@ -781,10 +851,16 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the available USDC and move it to 0xSAFE.",
+     "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the curator has not acted.",
      "reasons": [
       {
-       "claim": "The related USR and wstUSR reports show oracle prices 2,511% above market, and RLP is linked to those tokens, making the calm local feed potentially misleading.",
+       "claim": "The user can withdraw the full $1000 now, so leaving costs little and avoids waiting through a linked-system break.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "RLP is tied to the same Resolv USR system as the breaking USR and wstUSR tokens, so this market's calm feed may be blind to the broader problem.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -792,34 +868,47 @@
        ]
       },
       {
-       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "claim": "This market's oracle is 12.6% below its market price at 02:30-02:40, but that does not rule out a stale or blind feed given the linked USR/wstUSR break.",
+       "evidence_ids": [
+        "E10",
+        "E11"
+       ]
+      },
+      {
+       "claim": "Utilization is already high at 88.7% with $315,882 vault exposure, leaving limited room before lenders could be locked.",
+       "evidence_ids": [
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11"
+       ]
+      },
+      {
+       "claim": "The curator has taken no action on this market since the clock opened, so there is no curator protection to rely on.",
        "evidence_ids": [
         "E12"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable now.",
-       "evidence_ids": [
-        "E1"
-       ]
-      },
-      {
-       "claim": "0xSAFE is an approved candidate vault with no open clocks; its APY and TVL are unknown.",
+       "claim": "The candidate vault is explicitly described as having no exposure to Resolv markets in this replay.",
        "evidence_ids": [
         "E13"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2534,
-      "outputTokens": 633,
-      "costUsd": 0.00006965,
-      "ms": 7123
+      "inputTokens": 1147,
+      "outputTokens": 1492,
+      "costUsd": 0.00011591,
+      "ms": 4905
      },
      "modelError": null,
-     "hash": "0x394e248fb96cdda5a7c99e42b3753d58b591f45f80d6a8d0e0ffb15f475bb1d9",
+     "hash": "0xd0f20dbf68cbb3ae8effc804fbc9f8b5f22286ccb506eb96e51af8a3671ca376",
      "gap": -0.12566227414753434,
      "utilization": 0.8872,
      "marketWithdrawable": 35618.98
@@ -849,7 +938,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -863,7 +952,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:59:59Z",
     "exitFillBlock": 24710220,
-    "marketWithdrawableAtFill": 239146.25
+    "marketWithdrawableAtFill": 239146.25,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Duplicated Key and into Steakhouse USDC. RLP collateral is tied to a breaking token system with oracles severely above market, creating hidden risk despite this market's calm feed. High utilization rising toward limits threatened withdrawal access. The candidate vault avoids this collateral exposure entirely.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 33,
@@ -907,10 +1001,10 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the currently withdrawable USDC and move it to 0xSAFE.",
+     "summary": "Withdraw your $1000 now into the Steakhouse USDC vault because RLP is linked to the breaking Resolv USR system and the curator has not acted.",
      "reasons": [
       {
-       "claim": "The related USR and wstUSR markets have oracle prices reported 2,511% above market, and RLP is linked to both, so a calm local feed may not reflect related-token risk.",
+       "claim": "RLP collateral is tied to the same Resolv USR system as USR and wstUSR, which are already breaking with oracles 2511% above market.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -918,15 +1012,27 @@
        ]
       },
       {
-       "claim": "Local utilization increased from 83.2% to 86.7%, and no curator or allocator action has occurred since the clock opened.",
+       "claim": "This market's own feed looks calm/undervalued (oracle 1.2872 vs market 1.4722, gap -12.6%), but because the collateral is linked to a breaking token it may be blind to the real risk.",
+       "evidence_ids": [
+        "E10",
+        "E4"
+       ]
+      },
+      {
+       "claim": "Utilization is high and rising from 83.2% to 86.7% while vault exposure is $2484, reducing time before withdrawals could be locked.",
        "evidence_ids": [
         "E5",
-        "E11",
+        "E11"
+       ]
+      },
+      {
+       "claim": "The curator/allocator has taken no action since the clock opened, so there is no curator protection signal.",
+       "evidence_ids": [
         "E12"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable now, and candidate vault 0xSAFE is approved with no open clocks.",
+       "claim": "The user can withdraw the full $1000 now, and the candidate vault is explicitly free of Resolv exposure.",
        "evidence_ids": [
         "E1",
         "E13"
@@ -934,15 +1040,15 @@
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2543,
-      "outputTokens": 628,
-      "costUsd": 0.00006939000000000001,
-      "ms": 7702
+      "inputTokens": 1146,
+      "outputTokens": 1803,
+      "costUsd": 0.00013767000000000003,
+      "ms": 5779
      },
      "modelError": null,
-     "hash": "0xa02e241bade917b2a426000df0dce9bbaeddd7d5647822e0bc4ad631364a51a4",
+     "hash": "0x07b0f547d132fb6e73bbe276f3aba3b4e8f935a6d36aa881a0384128d19a1444",
      "gap": -0.12566227414753434,
      "utilization": 0.8666,
      "marketWithdrawable": 225086.45
@@ -972,7 +1078,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -986,7 +1092,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:59:59Z",
     "exitFillBlock": 24710220,
-    "marketWithdrawableAtFill": 239146.25
+    "marketWithdrawableAtFill": 239146.25,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Usual Boosted USDC and into Steakhouse USDC. Lifeboat moved the USDC because the original market's oracle is unreliable due to breaks in linked tokens, utilization is rising toward a lender lockup, and the curator has not protected the market. The candidate vault avoids the problematic Resolv system entirely.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 33,
@@ -1030,10 +1141,16 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the full withdrawable position and move it to 0xSAFE.",
+     "summary": "Withdraw your USDC now into the Steakhouse USDC vault because RLP is linked to the breaking Resolv USR system and the curator has not acted.",
      "reasons": [
       {
-       "claim": "The related USR and wstUSR oracle incidents are linked to this market’s RLP collateral, so a calm local feed may not reflect the full risk.",
+       "claim": "The user can withdraw the full $1000 now, so leaving preserves the deposit before any lock-up.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "RLP is tied to the same Resolv USR system as the already-breaking USR and wstUSR tokens, so this market's calm feed may be blind to the broader collateral problem.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -1041,36 +1158,42 @@
        ]
       },
       {
-       "claim": "The market price is 12.6% above the oracle, and utilization increased from 83.2% to 86.7%.",
+       "claim": "This market's oracle is below market by 12.6%, which is not itself the dangerous direction, but the linked-token break elsewhere makes the feed unreliable rather than clearly benign.",
        "evidence_ids": [
         "E10",
+        "E4"
+       ]
+      },
+      {
+       "claim": "Utilization is high and rising, from 83.2% to 86.7%, reducing the time before lenders could be locked.",
+       "evidence_ids": [
+        "E5",
         "E11"
        ]
       },
       {
-       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "claim": "The curator has taken no action on this market since the clock opened, so there is no curator protection to rely on.",
        "evidence_ids": [
         "E12"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable, and 0xSAFE is an approved candidate vault with no open clocks.",
+       "claim": "The candidate vault is explicitly described as having no exposure to Resolv markets in this replay.",
        "evidence_ids": [
-        "E1",
         "E13"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2554,
-      "outputTokens": 613,
-      "costUsd": 0.00006845000000000001,
-      "ms": 7022
+      "inputTokens": 1150,
+      "outputTokens": 1058,
+      "costUsd": 0.00008556,
+      "ms": 6444
      },
      "modelError": null,
-     "hash": "0x0fdfe28a4acd91ce28e2d3cea8cb2431d5ae16bc4134b286e00c33b5137a8150",
+     "hash": "0xb55ce6d0e4ce9d5fff4b501e26e422b2509ef20cfbde7ecbda93388def196066",
      "gap": -0.12566227414753434,
      "utilization": 0.8666,
      "marketWithdrawable": 225086.45
@@ -1106,7 +1229,12 @@
     "clockKind": "gap",
     "exitFilledAt": "2026-03-22T02:50:11Z",
     "exitFillBlock": 24710171,
-    "marketWithdrawableAtFill": 4440.81
+    "marketWithdrawableAtFill": 4440.81,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of Smokehouse USDC and into Steakhouse USDC. The oracle price was severely outdated, showing 1.0000 while the market had collapsed to 0.0383. This massive gap meant collateral was drastically overvalued, and the divergence was widening rapidly rather than stabilizing. With utilization already high at 89.2%, there was serious risk that borrowers could drain the market and lock in lenders, especially since the curator had taken minimal protective action despite the collapse.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 23,
@@ -1150,38 +1278,61 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the full withdrawable balance and move it to 0xSAFE.",
+     "summary": "USR collateral has collapsed against a stale $1 oracle while utilization is high and the curator has not acted further, so withdraw your fully available $1000 now into the no-exposure candidate vault.",
      "reasons": [
       {
-       "claim": "The market price diverged sharply from the oracle, with the gap reaching 5.1% and then 2511.0%.",
+       "claim": "The oracle is stale at 1.0000 while the market price collapsed to 0.0383, a ~2511% gap, so collateral is being valued far above real market price.",
        "evidence_ids": [
         "E7",
         "E8"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable now.",
+       "claim": "The gap widened rapidly from 0.1% to 5.1% to 2511%, indicating the divergence is not benign or stable.",
+       "evidence_ids": [
+        "E2",
+        "E7",
+        "E8"
+       ]
+      },
+      {
+       "claim": "Utilization is already high at 89.2%, leaving limited room before lenders could be locked in if borrowers drain the market.",
+       "evidence_ids": [
+        "E5",
+        "E6",
+        "E8"
+       ]
+      },
+      {
+       "claim": "The curator only withdrew 132 USDC early and there is no evidence of further protective action after the severe price collapse.",
+       "evidence_ids": [
+        "E9",
+        "E8"
+       ]
+      },
+      {
+       "claim": "The user can withdraw the full $1000 now, so leaving costs little relative to staying through a real depeg.",
        "evidence_ids": [
         "E1"
        ]
       },
       {
-       "claim": "Candidate vault 0xSAFE is approved and has no open clocks.",
+       "claim": "The candidate vault is explicitly identified as having no exposure to Resolv markets in this replay.",
        "evidence_ids": [
         "E10"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2509,
-      "outputTokens": 483,
-      "costUsd": 0.00005890000000000001,
-      "ms": 6337
+      "inputTokens": 1120,
+      "outputTokens": 781,
+      "costUsd": 0.00006587,
+      "ms": 2776
      },
      "modelError": null,
-     "hash": "0xe8136a3376142ec3bc312e6e5205c7b5fbe71022ba5480f9ea5d2a470479a3cd",
+     "hash": "0x2a4ef992862812756a2d5e0c2cf22fb4aaad29ec63cd125b6c0b67d7e13175f2",
      "gap": 25.109660574412533,
      "utilization": 0.8917,
      "marketWithdrawable": 1101.67
@@ -1211,7 +1362,7 @@
    "sweepFlag": {
     "ts": "2026-03-22T02:40:00Z",
     "marketId": "0xe1b65304edd8ceaea9b629df4c3c926a37d1216e27900505c04f14b2ed279f33",
-    "reason": "RLP is a Resolv liquidity-provider token, linking it to the Resolv USR and its wrapped staked form, wstUSR.",
+    "reason": "RLP is a Resolv protocol liquidity provider token tied to the same Resolv USR system as the breaking USR and wstUSR tokens.",
     "related_to": [
      "USR",
      "wstUSR"
@@ -1225,7 +1376,12 @@
     "clockKind": "related",
     "exitFilledAt": "2026-03-22T02:59:59Z",
     "exitFillBlock": 24710220,
-    "marketWithdrawableAtFill": 239146.25
+    "marketWithdrawableAtFill": 239146.25,
+    "notice": {
+     "text": "In this replay, Lifeboat moves the USDC out of kpk USDC Yield and into Steakhouse USDC. The RLP collateral system is breaking across multiple tokens with severely distorted oracles, and the local market's rising utilization increased lock-up risk. Since the curator had not addressed this growing risk, moving to a vault with no exposure to the broken system was the safer choice. Withdrawal was possible now without cost.",
+     "provider": "serv",
+     "model": "claude-haiku-4-5-20251001"
+    }
    },
    "minutesFromFirstBreakToDecision": 13,
    "minutesFromFirstBreakToExitFilled": 33,
@@ -1269,10 +1425,10 @@
      "decidedBy": "model",
      "rule": null,
      "waitMinutes": null,
-     "summary": "Withdraw the full withdrawable position to 0xSAFE, the supported candidate vault.",
+     "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the local curator has not acted.",
      "reasons": [
       {
-       "claim": "RLP is linked to USR and wstUSR, both reported with oracle prices 2,511% above market, making the calm local feed potentially misleading.",
+       "claim": "RLP collateral is tied to the same Resolv USR system as USR and wstUSR, which are breaking elsewhere with oracles 2511% above market since the same timestamp.",
        "evidence_ids": [
         "E2",
         "E3",
@@ -1280,36 +1436,49 @@
        ]
       },
       {
-       "claim": "The local market shows a 12.6% oracle-market gap and utilization rising from 83.2% to 86.7%.",
+       "claim": "The local RLP market's utilization rose from 83.2% to 86.7% at the clock-open reading, increasing lock-up risk.",
        "evidence_ids": [
         "E10",
         "E11"
        ]
       },
       {
-       "claim": "No curator or allocator action has occurred since the clock opened.",
+       "claim": "The curator has taken no action on this market since the clock opened, so there is no evidence the risk has been handled.",
        "evidence_ids": [
         "E12"
        ]
       },
       {
-       "claim": "The full $1,000 position is withdrawable now; candidate 0xSAFE is approved and has no open clocks.",
+       "claim": "The local oracle is 12.6% below market rather than above it, but because the collateral is linked to a breaking token system, the calm local feed may be blind to the broader issue.",
        "evidence_ids": [
-        "E1",
+        "E10",
+        "E11",
+        "E4"
+       ]
+      },
+      {
+       "claim": "The user can withdraw the full $1000 now, so leaving costs little and avoids the chance liquidity disappears.",
+       "evidence_ids": [
+        "E1"
+       ]
+      },
+      {
+       "claim": "A candidate vault with no exposure to Resolv markets is available for parking the withdrawn funds.",
+       "evidence_ids": [
         "E13"
        ]
       }
      ],
      "model": {
-      "model": "gpt-6-luna",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash",
       "provider": "dolphin",
-      "inputTokens": 2565,
-      "outputTokens": 640,
-      "costUsd": 0.00007045,
-      "ms": 8399
+      "inputTokens": 1148,
+      "outputTokens": 1098,
+      "costUsd": 0.00008834000000000001,
+      "ms": 7057
      },
      "modelError": null,
-     "hash": "0xb7473c92fb4ff97692596a375aa31e2f1a129382e9ac33b316c32e86d476c74b",
+     "hash": "0x1207b313db48ebe156812bf81866c45d0d819a5240189ba4c9ec9a65b7430359",
      "gap": -0.12566227414753434,
      "utilization": 0.8666,
      "marketWithdrawable": 225086.45

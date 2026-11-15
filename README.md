@@ -28,6 +28,8 @@ Your USDC earns yield in a Morpho vault. Every vault lends into markets that tru
 
 On March 22 2026 a compromised key minted about 80 million unbacked Resolv USR. Morpho markets kept pricing wstUSR at **$1.1330** for the whole incident while it traded at a fraction of that. In one market that had **$4,053** borrowed, borrowers pulled **$6,244,125** in 133 transactions and it was fully borrowed **42 minutes** after the price broke. Across the five affected markets, **$10.8M** of vault money was still stuck two days later. One curator got its vault out in 23 minutes; others took hours or days.
 
+**Replayed through the live code on Dolphin, a $1,000 depositor in each of the 10 exposed vaults is out by 02:59 UTC, 33 minutes after the first break, with the money actually withdrawable at that moment.** In the seven RLP positions Lifeboat moves before RLP's own price feed shows anything. Curators in those same vaults took between 6 minutes and 30 hours to make their first move.
+
 Every number above is read onchain at the historical block. See [`data/replay`](data/replay).
 
 ## Try it in a minute (no wallet needed)
@@ -70,7 +72,7 @@ flowchart LR
 
 The core act is a personalized decision to pull one person's money out of one named investment product and put it in another. [Anthropic's Usage Policy](https://www.anthropic.com/legal/aup) treats that as a high risk recommendation that a qualified person must review before it is acted on, so an unattended agent cannot run it on Claude as built. Lifeboat runs the decision on **DeepSeek V4.1 Flash, open weights served by Dolphin**, over a standard API, so the model can move to any node that serves the same weights.
 
-It is also the only way the economics work. Lifeboat reads a full evidence pack for every open clock every minute and sweeps every guarded market whenever a break appears anywhere. At Dolphin's price of **$0.01 per million input tokens** that costs fractions of a cent per decision.
+It is also the only way the economics work. Lifeboat reads a full evidence pack for every open clock every minute and sweeps every guarded market whenever a break appears anywhere. At Dolphin's price of **$0.01 per million input tokens** that is nearly free: the whole March 22 replay, 10 decisions and the sweeps, cost **$0.001** on Dolphin, recorded per call in [`data/replay/decisions.json`](data/replay/decisions.json).
 
 ## Where SERV Reasoning is used
 

@@ -82,11 +82,11 @@ export async function sweep(guarded: GuardedMarket[], breaks: Break[], now: numb
       { role: 'system' as const, content: SYSTEM },
       { role: 'user' as const, content: buildSweepMessage(candidates, breaks, now) },
     ];
-    let r = await dolphin(msgs, { json: true, maxTokens: 1500 });
+    let r = await dolphin(msgs, { json: true, maxTokens: 6000 });
     try {
       extractJson(r.text);
     } catch {
-      r = await dolphin(msgs, { json: true, maxTokens: 1500 }); // one retry on unparseable output
+      r = await dolphin(msgs, { json: true, maxTokens: 6000 }); // one retry on unparseable output
     }
     const known = new Map(candidates.map(c => [c.marketId.toLowerCase(), c]));
     const flags = normalizeFlags(extractJson(r.text)).filter(f => known.has(f.marketId.toLowerCase()));

@@ -54,7 +54,7 @@ export const isDolphinHost = (url: string) => {
 
 export async function dolphin(messages: Msg[], opts: { json?: boolean; maxTokens?: number; timeoutMs?: number } = {}): Promise<LlmResult> {
   const t0 = Date.now();
-  const body: Record<string, unknown> = { model: DOLPHIN_MODEL, messages, [process.env.DOLPHIN_MAXTOK_PARAM ?? 'max_tokens']: opts.maxTokens ?? 1500 };
+  const body: Record<string, unknown> = { model: DOLPHIN_MODEL, messages, [process.env.DOLPHIN_MAXTOK_PARAM ?? 'max_tokens']: opts.maxTokens ?? 6000 };
   if (!process.env.DOLPHIN_NO_TEMP) body.temperature = 0.2;
   if (opts.json) body.response_format = { type: 'json_object' };
   let j;
