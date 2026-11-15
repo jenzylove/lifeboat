@@ -5,7 +5,7 @@ import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 
 // Self hosted (latin subset, variable weight) so builds never depend on a font CDN.
-const display = localFont({ src: '../fonts/BigShoulders.woff2', weight: '100 900', variable: '--f-display', display: 'swap' });
+const display = localFont({ src: [{ path: '../fonts/BigShoulders-800.ttf', weight: '800' }, { path: '../fonts/BigShoulders-900.ttf', weight: '900' }], variable: '--f-display', display: 'swap' });
 const body = localFont({ src: '../fonts/InstrumentSans.woff2', weight: '400 700', variable: '--f-body', display: 'swap' });
 const mono = localFont({ src: '../fonts/JetBrainsMono.woff2', weight: '100 800', variable: '--f-mono', display: 'swap' });
 

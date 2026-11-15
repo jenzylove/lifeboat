@@ -1,66 +1,11 @@
-## Foundry
+# Lifeboat contracts
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+`LifeboatAccount` is one account per user. The owner approves ERC4626 USDC vaults; the keeper (the Lifeboat agent) can only deposit idle USDC into an approved vault, exit a vault back into the account, or move between them. Only the owner can withdraw, sweep tokens, change the approved list or pause the keeper.
 
-Foundry consists of:
+`LifeboatFactory` deploys accounts as minimal clones with the owner as `msg.sender`, so nobody can create an account for someone else.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```bash
+forge test   # 9 fork tests against Base mainnet USDC and Morpho vaults
 ```
 
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Deployed on Base: factory `0xdeb5BDF6BADaFBdE806a86B385CFf14d05dCeaDE`, implementation `0x35810276c5937ADA331F50986aB27a23A14AC237`.
