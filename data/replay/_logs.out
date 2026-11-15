@@ -1,0 +1,13 @@
+file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:17
+      if (j.error) { lastErr=new Error(url+" "+JSON.stringify(j.error).slice(0,200)); if(/revert/i.test(j.error.message||"")) throw lastErr; continue; }
+                             ^
+
+Error: https://rpc.flashbots.net {"code":4444,"message":"pruned history unavailable"}
+    at rpc (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:17:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async getLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:41:23)
+    at async getLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:42:41)
+    at async getLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:42:41)
+    at async file:///C:/Users/LENOVO/lifeboat/scripts/replay/logs.mjs:12:12
+
+Node.js v24.19.0
