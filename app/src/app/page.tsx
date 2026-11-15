@@ -5,6 +5,7 @@ import { HowItWorks } from '@/components/HowItWorks';
 import { ReplayPlayer } from '@/components/ReplayPlayer';
 import { HouseBoat } from '@/components/HouseBoat';
 import { Contracts, Decisions } from '@/components/Proof';
+import { WatcherLine } from '@/components/Watcher';
 
 function Head({ n, title, children }: { n: string; title: React.ReactNode; children?: React.ReactNode }) {
   return (
@@ -21,7 +22,7 @@ function Head({ n, title, children }: { n: string; title: React.ReactNode; child
 const FAQ: [string, string][] = [
   ['Can Lifeboat take my money?', 'No. Your money sits in your own Lifeboat account, a small contract only you own. The agent key can do two things: pull money out of a vault into your account, and put it into another vault you approved. The contract has no function that lets the agent send money anywhere else. You can withdraw everything to your wallet at any time, and you can pause the agent with one click.'],
   ['What if the model gets it wrong?', 'Hard rules sit above the model. If the oracle sits more than 25% above the market and the curator has been silent for 30 minutes, Lifeboat leaves whatever the model says. If the curator has already cut the market to zero and moved money away, it stays. If the model is down or answers in a broken format, the rules decide. Every decision is published with the evidence it used and a hash that is written onchain with the move.'],
-  ['What if the market is already fully borrowed?', 'Then nobody can get out, including Lifeboat. A lender can only withdraw the cash that borrowers have not taken. That is why minutes matter, and why the replay shows exactly how much was still withdrawable at the minute Lifeboat would have left, instead of pretending the whole deposit was saved.'],
+  ['What if the market is already fully borrowed?', 'Then nobody can get out, including Lifeboat. A lender can only withdraw the cash that borrowers have not taken. That is why minutes matter, and why the replay shows exactly how much was still withdrawable at the minute Lifeboat would have left, instead of pretending the whole deposit was saved. It is also why Lifeboat opens a second kind of clock when a market sits near fully borrowed, before any price moves: in the Stream collapse of November 2025, lenders were locked in 13 hours before the price broke.'],
   ['What does it cost?', 'Nothing to arm during the hackathon. The plan is 10% of the yield earned while armed, taken only when you withdraw. Running the model is cheap: reading the full evidence for one watched vault costs pennies a day on Dolphin, and the exact token counts and cost of every decision are on the proof page.'],
   ['Which chains does it work on?', 'Live accounts run on Base with USDC in Morpho vaults. The board and vault pages read Base and Ethereum. The March 22 replay uses Ethereum mainnet data, because that is where the Resolv incident happened.'],
   ['What is SERV Reasoning used for?', 'After every action, SERV Reasoning writes the plain words notice you read: what happened, why, and where your money is now. Code states the facts (amounts, vaults, transaction) so the notice can never misstate where money went; SERV explains them.'],
@@ -44,6 +45,7 @@ export default function Home() {
             <Link href="/replay" className="btn">Replay March 22</Link>
           </div>
           <LiveStrip />
+          <WatcherLine />
         </div>
       </section>
 
@@ -57,14 +59,14 @@ export default function Home() {
 
       <section className="section" id="how">
         <div className="wrap">
-          <Head n="02" title="Two silences">A vault gets dangerous when two things go quiet at once: the price feed, and the people running the vault. Lifeboat waits for the second one before it moves.</Head>
+          <Head n="02" title="Two silences">A vault gets dangerous when two things go quiet at once: the price feed, and the people running the vault. Lifeboat waits for the second one before it moves. And it looks sideways: one break on the board can sink a market whose own feed looks fine.</Head>
           <HowItWorks />
         </div>
       </section>
 
       <section className="section" id="replay">
         <div className="wrap">
-          <Head n="03" title="Replay March 22">On March 22 2026 a Resolv key minted about 80 million unbacked USR. Morpho markets kept pricing wstUSR near $1.13 while it traded far lower. Here is that day, block by block, and what Lifeboat would have done.</Head>
+          <Head n="03" title="Replay March 22">On March 22 2026 a Resolv key minted about 80 million unbacked USR. Morpho markets kept pricing wstUSR near $1.13 while it traded far lower. Here is that day, block by block, with every call Lifeboat would have made. Switch to Stream, November 2025, for the case where lenders were locked in before the price moved at all.</Head>
           <ReplayPlayer compact />
           <p style={{ marginTop: 22 }}><Link href="/replay" className="btn small">Open the full replay</Link></p>
         </div>
@@ -89,7 +91,7 @@ export default function Home() {
           <Head n="06" title="Proof">Every claim on this page has something you can click.</Head>
           <div className="stat-row">
             <div><div className="bignum">9</div><div className="small dim">contract tests on a Base mainnet fork</div></div>
-            <div><div className="bignum">38</div><div className="small dim">engine unit tests</div></div>
+            <div><div className="bignum">43</div><div className="small dim">engine unit tests</div></div>
           </div>
           <Contracts />
           <h3 className="display" style={{ margin: '56px 0 8px' }}>Latest decisions</h3>

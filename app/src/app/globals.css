@@ -353,3 +353,19 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 
 @media (max-width: 900px) { .mlabel-s { display: inline; } }
 @media (max-width: 640px) { .chart .ax { font-size: 24px; } .chart .mk-lbl { font-size: 22px; } }
+
+/* replay v2 */
+.callout { border-left: 3px solid var(--hot); padding: 4px 0 4px 18px; margin: 0 0 22px; max-width: 860px; }
+.callout-h { font-family: var(--f-d); font-weight: 800; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.05; text-transform: uppercase; margin: 6px 0 8px; }
+.ptable { border-top: 1px solid var(--rule2); }
+.prow { display: grid; grid-template-columns: minmax(0, 2.2fr) .8fr 1.4fr 1.1fr 1.2fr; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline; font-size: 15px; }
+.prow b { font-weight: 600; }
+.prow.phead2 { font-family: var(--f-m); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
+.plabel { display: none; }
+@media (max-width: 760px) {
+  .prow { grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+  .prow > span:first-child { grid-column: 1 / -1; }
+  .prow.phead2 { display: none; }
+  .plabel { display: block; font-family: var(--f-m); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
+}
+.live-strip.watcher { margin-top: 0; border-top: 0; padding-top: 8px; }

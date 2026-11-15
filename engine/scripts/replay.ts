@@ -117,7 +117,7 @@ for (let now = START; now <= END && calls < MAX_CALLS; now += 600) {
         curatorActions: p.actions.filter(a => a.ts <= now && a.ts >= p.clock.openedAt! - 3600),
         supplyChanges: [],
         posts: [],
-        candidates: [{ address: '0xSAFE', name: 'an approved vault with no open clocks', curator: 'n/a', apy: null, tvlUsd: null, openClocks: 0 }],
+        candidates: [{ address: '0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB', name: 'Steakhouse USDC (Ethereum, no exposure to Resolv markets in this replay)', curator: 'Steakhouse Financial', apy: null, tvlUsd: null, openClocks: 0 }],
         readSource: `historical onchain reads at each block: oracle price(), ${s.priceSource ?? 'market price'}, Morpho Blue market()`,
         related,
       },

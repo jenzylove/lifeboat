@@ -79,10 +79,16 @@ export function HowItWorks() {
             </g>
           );
         })}
+        {/* 4: the sweep */}
+        <g className="s6">
+          <line className="hotl" x1="0" x2="40" y1="392" y2="392" />
+          <text x="0" y="420" className="t-big">+  The sweep</text>
+          <Lines x={0} y={444} lines={['Dolphin also reads every market you hold next to every', 'break on the board, and catches the ones a price feed', 'can’t see (same issuer, wrapped or tranche tokens).']} gap={18} />
+        </g>
       </svg>
 
       {/* phone layout */}
-      <svg className="mob" viewBox="0 0 360 1010" role="img" aria-label="How Lifeboat works, step by step.">
+      <svg className="mob" viewBox="0 0 360 1160" role="img" aria-label="How Lifeboat works, step by step.">
         <g className="s0">
           <text x="0" y="30" className="t-big">1  The feed goes quiet</text>
           <Lines x={0} y={56} lines={['The oracle keeps its old price while', 'the real market falls.']} />
@@ -121,6 +127,10 @@ export function HowItWorks() {
             </g>
           );
         })}
+        <g className="s6">
+          <text x="0" y="1040" className="t-big">+  The sweep</text>
+          <Lines x={0} y={1066} lines={['Dolphin also reads every market you hold', 'next to every break on the board, and', 'catches the ones a price feed can’t see', '(same issuer, wrapped or tranche tokens).']} gap={19} />
+        </g>
       </svg>
       <div className="who-key">
         <span><b>Code</b>watches and clamps</span>
