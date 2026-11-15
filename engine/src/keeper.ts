@@ -152,8 +152,21 @@ async function sendUnlocked(fn: 'move' | 'exit' | 'deposit', account: Address, a
   return { hash, status: r.status, block: r.blockNumber, explorer: `https://basescan.org/tx/${hash}` };
 }
 
-export const keeperMove = (account: Address, from: Address, to: Address, recordHash: string, reason: string) =>
-  send('move', account, [from, to, decisionHashOf(recordHash), reason.slice(0, 200)]);
+/**
+ * Move = exit + deposit in one transaction. If the destination refuses the deposit (for example its caps are full),
+ * the whole move reverts and the money would stay in the vault we are leaving. So on any failure we fall back to a
+ * plain exit into the owner's account: getting out comes first, parking second.
+ */
+export async function keeperMove(account: Address, from: Address, to: Address, recordHash: string, reason: string): Promise<TxResult & { fallback?: 'exit' }> {
+  try {
+    const t = await send('move', account, [from, to, decisionHashOf(recordHash), reason.slice(0, 200)]);
+    if (t.status === 'success') return t;
+  } catch {
+    /* simulation or send failed: fall through to the exit */
+  }
+  const e = await send('exit', account, [from, decisionHashOf(recordHash), `${reason.slice(0, 150)} (park failed, held in account)`]);
+  return { ...e, fallback: 'exit' };
+}
 export const keeperExit = (account: Address, vault: Address, recordHash: string, reason: string) =>
   send('exit', account, [vault, decisionHashOf(recordHash), reason.slice(0, 200)]);
 export const keeperDeposit = (account: Address, vault: Address, amount: bigint) => send('deposit', account, [vault, amount]);
