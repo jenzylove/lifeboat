@@ -4,7 +4,8 @@
   "description": "Your USDC gets off before the vault sinks.",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "test": "cd engine && npx vitest run && cd ../contracts && forge test"
+    "test": "cd engine && npx vitest run && cd ../contracts && forge test",
+    "build": "cd engine && npm ci && cd ../app && npm ci && npm run build"
   },
   "license": "MIT",
   "dependencies": {
