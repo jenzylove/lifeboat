@@ -106,6 +106,14 @@ export interface TxResult {
  * A directory lock under DATA_DIR; a lock older than 180 s is treated as stale.
  */
 export async function withKeeperLock<T>(fn: () => Promise<T>, waitMs = 120_000): Promise<T> {
+  // Re entrant within one async call chain (a drill holds the lock and then sends), exclusive across everything else.
+  const { AsyncLocalStorage } = await import('node:async_hooks');
+  const als = ((globalThis as { __keeperLockAls?: InstanceType<typeof AsyncLocalStorage<boolean>> }).__keeperLockAls ??= new AsyncLocalStorage<boolean>());
+  if (als.getStore()) return fn();
+  return als.run(true, () => acquireAndRun(fn, waitMs));
+}
+
+async function acquireAndRun<T>(fn: () => Promise<T>, waitMs: number): Promise<T> {
   const fs = await import('node:fs');
   const path = await import('node:path');
   const dir = path.join(process.env.DATA_DIR ?? path.resolve(process.cwd(), '../data'), 'locks', 'keeper');
