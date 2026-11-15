@@ -9,9 +9,10 @@ import { decodeEventLog, parseAbi, type Address } from 'viem';
 import { snapshotVault, type VaultSnapshot } from './snapshot.js';
 import { getClient } from './onchain.js';
 import { accountStatus, keeperMove, publicClient, FACTORY_ABI, type AccountStatus } from './keeper.js';
-import { stepClock, type ClockState, type CuratorAction, type CuratorActionType, type MarketRead } from './decide/policy.js';
+import { stepClock, openRelated, type ClockState, type CuratorAction, type CuratorActionType, type MarketRead } from './decide/policy.js';
 import { decide, type DecisionRecord } from './decide/decide.js';
 import type { CandidateVault, Post, SupplyChange } from './decide/evidence.js';
+import { sweep, type Break, type GuardedMarket } from './decide/sweep.js';
 
 export const DATA_DIR = process.env.DATA_DIR ?? path.resolve(process.cwd(), '../data');
 const STATE_FILE = () => path.join(DATA_DIR, 'state.json');
@@ -23,6 +24,9 @@ interface State {
   supply: Record<string, { ts: number; supply: number }[]>;
   lastDecisionAt: Record<string, number>;
   waitUntil: Record<string, number>;
+  lastSweepKey?: string;
+  names?: Record<string, string>;
+  related?: Record<string, { ts: number; related_to: string[]; reason: string }>;
   heartbeat: { at: number; accounts: number; markets: number; openClocks: number; decisions: number; costUsd: number; errors: string[] } | null;
   totals: { cycles: number; dolphinCalls: number; inputTokens: number; outputTokens: number; costUsd: number };
 }
@@ -133,6 +137,36 @@ export async function armedAccounts(): Promise<Address[]> {
   return [...set] as Address[];
 }
 
+const NAME_ABI = parseAbi(['function name() view returns (string)']);
+async function tokenName(state: State, address: string, symbol: string): Promise<string> {
+  const names = (state.names ??= {});
+  const k = address.toLowerCase();
+  if (names[k]) return names[k]!;
+  try {
+    names[k] = await getClient(8453).readContract({ address: address as Address, abi: NAME_ABI, functionName: 'name' });
+  } catch {
+    names[k] = symbol;
+  }
+  return names[k]!;
+}
+
+/** Breaks seen by the app's board scan of the top Base vaults (data/cache/board.json), so the sweep sees beyond the vaults we hold. */
+function boardBreaks(now: number): Break[] {
+  try {
+    const b = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'cache', 'board.json'), 'utf8'));
+    const vaults = b.vaults ?? b.data?.vaults ?? [];
+    const out: Break[] = [];
+    for (const v of vaults) for (const m of v.markets ?? []) {
+      if ((m.gapPct ?? 0) < 5) continue;
+      const sym = typeof m.collateral === 'string' ? m.collateral : m.collateral?.symbol ?? '?';
+      out.push({ marketId: m.marketId, collateralSymbol: sym, collateralName: (typeof m.collateral === 'object' && m.collateral?.name) || sym, collateralAddress: (typeof m.collateral === 'object' && m.collateral?.address) || '', gapPct: m.gapPct, since: now, where: `Morpho Base, vault ${v.name ?? ''} (board scan read ${b.readAt ?? 'unknown'})` });
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}
+
 export interface CycleResult {
   at: number;
   accounts: number;
@@ -150,6 +184,8 @@ export async function cycle(opts: { act?: boolean; now?: number } = {}): Promise
   const accounts = await armedAccounts();
   res.accounts = accounts.length;
   const snapCache = new Map<string, VaultSnapshot>();
+  const guarded: (GuardedMarket & { key: string })[] = [];
+  const ownBreaks: Break[] = [];
   const snap = async (v: string) => {
     if (!snapCache.has(v)) snapCache.set(v, await snapshotVault(8453, v));
     return snapCache.get(v)!;
@@ -182,6 +218,8 @@ export async function cycle(opts: { act?: boolean; now?: number } = {}): Promise
         while (reads.length > 60) reads.shift();
         const clock = stepClock(state.clocks[key] ?? { marketId: m.marketId, divergentReads: 0, openedAt: null }, read);
         state.clocks[key] = clock;
+        guarded.push({ key, marketId: m.marketId, collateralSymbol: m.collateral.symbol, collateralName: await tokenName(state, m.collateral.address, m.collateral.symbol), collateralAddress: m.collateral.address, vaultName: s.vault.name, exposureUsd: m.allocationUsd });
+        if (clock.openedAt != null && clock.kind === 'gap') ownBreaks.push({ marketId: m.marketId, collateralSymbol: m.collateral.symbol, collateralName: await tokenName(state, m.collateral.address, m.collateral.symbol), collateralAddress: m.collateral.address, gapPct: (m.gapPct ?? 0), since: clock.openedAt, where: `Morpho Base, vault ${s.vault.name}` });
         if (clock.openedAt == null) continue;
         res.openClocks++;
         if ((state.waitUntil[key] ?? 0) > now) continue;
@@ -209,6 +247,7 @@ export async function cycle(opts: { act?: boolean; now?: number } = {}): Promise
             supplyChanges: await supplyChanges(state, s, m.collateral.address, m.collateral.decimals, now),
             posts: await posts(m.collateral.symbol, s.vault.curatorName),
             candidates,
+            related: clock.kind === 'related' && state.related?.[key] ? [{ ts: state.related[key]!.ts, text: `Sweep linked this market's collateral ${m.collateral.symbol} to ${state.related[key]!.related_to.join(', ')}, which is breaking: ${state.related[key]!.reason}`, source: 'Lifeboat sweep (Dolphin)' }] : [],
             readSource: `snapshotVault: oracle price() onchain, market price ${m.marketPriceMeta?.source ?? 'unavailable'}, Morpho Blue market() onchain`,
           },
           clock,
@@ -240,6 +279,26 @@ export async function cycle(opts: { act?: boolean; now?: number } = {}): Promise
       }
     }
   }
+  // The sweep: when the set of live breaks changes, one model call checks every guarded market for a hidden link.
+  const breaks = [...ownBreaks, ...boardBreaks(now)];
+  const sweepKey = breaks.map(b => b.marketId).sort().join('|');
+  if (breaks.length && guarded.length && sweepKey !== state.lastSweepKey) {
+    state.lastSweepKey = sweepKey;
+    const uniq = [...new Map(guarded.map(g => [g.marketId.toLowerCase(), g])).values()];
+    const sw = await sweep(uniq, breaks, now);
+    state.totals.dolphinCalls++;
+    state.totals.inputTokens += sw.model?.inputTokens ?? 0;
+    state.totals.outputTokens += sw.model?.outputTokens ?? 0;
+    state.totals.costUsd += sw.model?.costUsd ?? 0;
+    fs.mkdirSync(path.join(DATA_DIR, 'sweeps'), { recursive: true });
+    fs.writeFileSync(path.join(DATA_DIR, 'sweeps', `${now}.json`), JSON.stringify({ at: now, breaks, guarded: uniq.length, ...sw }, null, 1));
+    for (const f of sw.flags) for (const g of guarded) if (g.marketId.toLowerCase() === f.marketId.toLowerCase()) {
+      state.clocks[g.key] = openRelated(state.clocks[g.key] ?? { marketId: g.marketId, divergentReads: 0, openedAt: null }, now, f.related_to);
+      (state.related ??= {})[g.key] = { ts: now, related_to: f.related_to, reason: f.reason };
+    }
+    if (sw.error) res.errors.push(`sweep: ${sw.error}`);
+  }
+  if (!breaks.length) state.lastSweepKey = '';
   state.totals.cycles++;
   state.heartbeat = { at: now, accounts: res.accounts, markets: res.markets, openClocks: res.openClocks, decisions: res.decisions.length, costUsd: state.totals.costUsd, errors: res.errors.slice(0, 10) };
   saveState(state);
