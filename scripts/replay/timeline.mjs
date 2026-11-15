@@ -23,8 +23,8 @@ async function blockFor(c,t){ // estimate then refine
 }
 const cache=fs.existsSync(OUT+"_timeline_raw.json")?JSON.parse(fs.readFileSync(OUT+"_timeline_raw.json")):{};
 for(const c of [1,8453]){
-  if(cache[c]) continue;
-  const rows=await pool(grid,6,async t=>{
+  const prev=cache[c]||[]; const todo=grid.filter((t,k)=>!prev[k]); if(!todo.length) continue;
+  const got=await pool(todo,Number(process.env.CONC||6),async t=>{
     const {b,ts}=await blockFor(c,t);
     const r={t,ts,block:b,markets:{}};
     for(const m of MK.filter(m=>m.chain===c)){ const s=await marketState(c,m.id,b); const p=await oraclePrice(c,m.oracle,b);
@@ -33,6 +33,7 @@ for(const c of [1,8453]){
       r.wstRate=BigInt(await call(1,WSTUSR,"0x07a2d13a"+(10n**18n).toString(16).padStart(64,"0"),b)).toString(); }
     return r;
   });
+  const rows=grid.map((t,k)=>prev[k]||got[todo.indexOf(t)]||null);
   cache[c]=rows; fs.writeFileSync(OUT+"_timeline_raw.json",JSON.stringify(cache));
   console.log("chain",c,"done",rows.filter(Boolean).length);
 }

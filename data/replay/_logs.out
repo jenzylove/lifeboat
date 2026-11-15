@@ -1,13 +1,9 @@
-file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:17
-      if (j.error) { lastErr=new Error(url+" "+JSON.stringify(j.error).slice(0,200)); if(/revert/i.test(j.error.message||"")) throw lastErr; continue; }
-                             ^
+file:///C:/Users/LENOVO/lifeboat/scripts/replay/bs.mjs:11
+    if(!j||!Array.isArray(j.result)) { if(j?.message==="No logs found") break; throw new Error("bs fail "+JSON.stringify(j).slice(0,200)); }
+                                                                                     ^
 
-Error: https://rpc.flashbots.net {"code":4444,"message":"pruned history unavailable"}
-    at rpc (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:17:30)
-    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
-    at async getLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:41:23)
-    at async getLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:42:41)
-    at async getLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/rpc.mjs:42:41)
-    at async file:///C:/Users/LENOVO/lifeboat/scripts/replay/logs.mjs:12:12
+Error: bs fail {"message":"Too many requests. Increase limits now at https://dev.blockscout.com","result":null,"status":"0"}
+    at bsLogs (file:///C:/Users/LENOVO/lifeboat/scripts/replay/bs.mjs:11:86)
+    at async file:///C:/Users/LENOVO/lifeboat/scripts/replay/logs.mjs:15:21
 
 Node.js v24.19.0

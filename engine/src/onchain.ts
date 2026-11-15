@@ -8,16 +8,27 @@ export const RPC_URLS: Record<ChainId, string> = {
   1: process.env.ETH_RPC_URL ?? 'https://ethereum-rpc.publicnode.com',
 };
 
+/**
+ * Historical state (eth_call at old blocks) and old logs need an archive node. publicnode serves Base archive for free but
+ * refuses Ethereum archive without a token, so Ethereum history defaults to the free MEV Blocker RPC. Override with *_ARCHIVE_RPC_URL.
+ */
+export const ARCHIVE_RPC_URLS: Record<ChainId, string> = {
+  8453: process.env.BASE_ARCHIVE_RPC_URL ?? RPC_URLS[8453],
+  1: process.env.ETH_ARCHIVE_RPC_URL ?? 'https://rpc.mevblocker.io',
+};
+
 /** Seconds per block, used to convert wall-clock ages to block heights. */
 export const BLOCK_TIME_S: Record<ChainId, number> = { 8453: 2, 1: 12 };
 
-const clients: Partial<Record<ChainId, PublicClient>> = {};
-export function getClient(chainId: ChainId): PublicClient {
-  clients[chainId] ??= createPublicClient({
+const clients: Record<string, PublicClient> = {};
+/** archive=true returns a client on the archive endpoint (history reads, large getLogs ranges). */
+export function getClient(chainId: ChainId, archive = false): PublicClient {
+  const url = archive ? ARCHIVE_RPC_URLS[chainId] : RPC_URLS[chainId];
+  clients[url] ??= createPublicClient({
     chain: chainId === 8453 ? base : mainnet,
-    transport: http(RPC_URLS[chainId], { retryCount: 3, retryDelay: 400, timeout: 30_000 }),
+    transport: http(url, { retryCount: 3, retryDelay: 400, timeout: 30_000 }),
   }) as PublicClient;
-  return clients[chainId]!;
+  return clients[url]!;
 }
 
 export const oracleAbi = parseAbi(['function price() view returns (uint256)']);
@@ -28,7 +39,7 @@ export const morphoAbi = parseAbi([
 
 /** Raw IOracle.price() at `blockNumber` (latest when omitted). */
 export async function readOraclePriceRaw(chainId: ChainId, oracle: string, blockNumber?: bigint): Promise<bigint> {
-  return getClient(chainId).readContract({
+  return getClient(chainId, blockNumber !== undefined).readContract({
     address: oracle as `0x${string}`, abi: oracleAbi, functionName: 'price', ...(blockNumber ? { blockNumber } : {}),
   });
 }

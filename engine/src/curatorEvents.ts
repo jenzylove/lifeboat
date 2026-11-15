@@ -88,7 +88,7 @@ const topicToAddr = (t: string | undefined) => (t ? `0x${t.slice(26)}` : null);
 export async function fetchCuratorEvents(chainId: ChainId, vault: string, opts: FetchOpts = {}): Promise<Result<CuratorEvents>> {
   const src = 'eth_getLogs';
   try {
-    const client = getClient(chainId);
+    const client = getClient(chainId, true); // archive endpoint: lookback is days, beyond a full node's window
     const version = opts.version ?? 'v1';
     const topicMap = version === 'v1' ? V1_TOPICS : V2_TOPICS;
     const head = Number(await client.getBlockNumber());

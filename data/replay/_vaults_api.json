@@ -1,0 +1,271 @@
+{
+ "1:0xc582f04d8a82795aa2ff9c8bb4c1c889fe7b754e": {
+  "name": "Gauntlet USDC Frontier",
+  "asset": "USDC",
+  "curatorAddr": "0x9E33faAE38ff641094fa68c65c2cE600b3410585",
+  "owner": "0xC684c6587712e5E7BDf9fD64415F23Bd2b05fAec",
+  "curatorNames": [
+   "Gauntlet"
+  ]
+ },
+ "1:0xbeefff209270748ddd194831b3fa287a5386f5bc": {
+  "name": "Smokehouse USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x827e86072B06674a077f592A531dcE4590aDeCdB",
+  "owner": "0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD",
+  "curatorNames": [
+   "Steakhouse Financial"
+  ]
+ },
+ "1:0x132e6c9c33a62d7727cd359b1f51e5b566e485eb": {
+  "name": "Resolv USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x9E33faAE38ff641094fa68c65c2cE600b3410585",
+  "owner": "0xC684c6587712e5E7BDf9fD64415F23Bd2b05fAec",
+  "curatorNames": [
+   "Gauntlet"
+  ]
+ },
+ "1:0x8eb67a509616cd6a7c1b3c8c21d48ff57df3d458": {
+  "name": "Gauntlet USDC Core",
+  "asset": "USDC",
+  "curatorAddr": "0x9E33faAE38ff641094fa68c65c2cE600b3410585",
+  "owner": "0xC684c6587712e5E7BDf9fD64415F23Bd2b05fAec",
+  "curatorNames": [
+   "Gauntlet"
+  ]
+ },
+ "1:0x87cb57d154ed695c4652ed755d49d7c99708b943": {
+  "name": "alpha8USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x1D9C4116E5784036dBD15BcED8AFf88970b4a598",
+  "owner": "0x1D9C4116E5784036dBD15BcED8AFf88970b4a598",
+  "curatorNames": []
+ },
+ "1:0x341193ed21711472e71aeca4a942123452bd0dda": {
+  "name": "Re7 USDC Core",
+  "asset": "USDC",
+  "curatorAddr": "0x0000000000000000000000000000000000000000",
+  "owner": "0xE86399fE6d7007FdEcb08A2ee1434Ee677a04433",
+  "curatorNames": [
+   "RE7 Labs"
+  ]
+ },
+ "1:0x777791c4d6dc2ce140d00d2828a7c93503c67777": {
+  "name": "Hyperithm USDC Apex",
+  "asset": "USDC",
+  "curatorAddr": "0x75178137D3B4B9A0F771E0e149b00fB8167BA325",
+  "owner": "0xEe7E9bb21D5589BF657b94083dB2fA349a3918C8",
+  "curatorNames": [
+   "Hyperithm"
+  ]
+ },
+ "1:0x214b47c50057efaa7adc1b1c2608c3751cd77d78": {
+  "name": "Apostro Resolv USDC",
+  "asset": "USDC",
+  "curatorAddr": "0xC91578e51BCE35844E345CC7F733b4bBf6721734",
+  "owner": "0xf726311F85D45a7fECfFbC94bD8508a0A39958c6",
+  "curatorNames": [
+   "Apostro"
+  ]
+ },
+ "1:0x9178ebe0691593184c1d785a864b62a326cc3509": {
+  "name": "kpk USDC Yield",
+  "asset": "USDC",
+  "curatorAddr": "0x7E43Df1c1c5A2245858b60D4655fDA83704e4171",
+  "owner": "0x354C92aF243d53A24feb3dFF20372Af7b7c47478",
+  "curatorNames": []
+ },
+ "1:0x9b5e92fd227876b4c07a8c02367e2cb23c639dfa": {
+  "name": "Clearstar Yield USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x72882eb5D27C7088DFA6DDE941DD42e5d184F0ef",
+  "owner": "0x30988479C2E6a03E7fB65138b94762D41a733458",
+  "curatorNames": [
+   "Clearstar"
+  ]
+ },
+ "1:0xbeef1898443d2eb9c9c471e073f46a3928db21de": {
+  "name": "Steakhouse High Yield Term USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x827e86072B06674a077f592A531dcE4590aDeCdB",
+  "owner": "0x0000aeB716a0DF7A9A1AAd119b772644Bc089dA8",
+  "curatorNames": []
+ },
+ "1:0x1e2aaadcf528b9cc08f43d4fd7db488ce89f5741": {
+  "name": "9Summits USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x59e608E4842162480591032f3c8b0aE55C98d104",
+  "owner": "0x23E6aecB76675462Ad8f2B31eC7C492060c2fAEF",
+  "curatorNames": [
+   "9Summits"
+  ]
+ },
+ "1:0xd63070114470f685b75b74d60eec7c1113d33a3d": {
+  "name": " Usual Boosted USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x0000000000000000000000000000000000000000",
+  "owner": "0x38afC3aA2c76b4cA1F8e1DabA68e998e1F4782DB",
+  "curatorNames": [
+   "MEV Capital"
+  ]
+ },
+ "1:0xd3468749951ed99566c528cccf56db3d23bddf43": {
+  "name": "SingularV USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x46057881E0B9d190920FB823F840B837f65745d5",
+  "owner": "0x46057881E0B9d190920FB823F840B837f65745d5",
+  "curatorNames": []
+ },
+ "1:0x13aa4f80ad5f06ce4f1a3a3ca58c37059f0ee4c5": {
+  "name": "Stake DAO USDC v1",
+  "asset": "USDC",
+  "curatorAddr": "0xF930EBBd05eF8b25B1797b9b2109DDC9B0d43063",
+  "owner": "0xB0552b6860CE5C0202976Db056b5e3Cc4f9CC765",
+  "curatorNames": []
+ },
+ "1:0xf29ce940178c8794802fb48a6c1b2edddac96431": {
+  "name": "Lulo USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x3E7b25304a7002E6EaF65B10717d0594Ed2247ED",
+  "owner": "0x3E7b25304a7002E6EaF65B10717d0594Ed2247ED",
+  "curatorNames": []
+ },
+ "1:0x874e7fb1abb4c27a7bbeeefa39e888b63181939c": {
+  "name": "AlphaPing USDC Prime",
+  "asset": "USDC",
+  "curatorAddr": "0x6788c8ad65E85CCa7224a0B46D061EF7D81F9Da5",
+  "owner": "0xEB4Af6fA3AFA08B10d593EC8fF87efB03BC04645",
+  "curatorNames": []
+ },
+ "1:0x974c8fbf4fd795f66b85b73ebc988a51f1a040a9": {
+  "name": "Hakutora USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x2413A57FBD695f6B13C1D8d7D30EE10fa61b1b02",
+  "owner": "0x345023d92f3051bB2B68DF79dFf760EccFEE80ED",
+  "curatorNames": [
+   "Hakutora"
+  ]
+ },
+ "1:0x6c26793c7f1e2785c09b460676e797b716f0bc8e": {
+  "name": "Keyrock USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x9ea3709E1A3f0B9501DD4a66163861D9BcCe7A08",
+  "owner": "0xbA75546ACD56b3a9142f94F179b03970eE4283Fd",
+  "curatorNames": [
+   "Keyrock"
+  ]
+ },
+ "1:0x9b7cca326004967f9d2b7cf5f2328d82cf65b302": {
+  "name": "August AUSD",
+  "asset": "AUSD",
+  "curatorAddr": "0x7AE0c0A7800466A6738e8a41DFC0CDd854aBF017",
+  "owner": "0xB392a71Ce96ecA72CA3B135071038B56553b18f6",
+  "curatorNames": []
+ },
+ "1:0x711a68a82dd80cb0435b281af76b0b80804efab9": {
+  "name": "August USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x7AE0c0A7800466A6738e8a41DFC0CDd854aBF017",
+  "owner": "0xB392a71Ce96ecA72CA3B135071038B56553b18f6",
+  "curatorNames": []
+ },
+ "1:0x7193794ec82f527efb618ac50c078d348ecba4b6": {
+  "name": "Etherealm USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x0000000000000000000000000000000000000000",
+  "owner": "0xdA6b209D7619567cFDAE61dAbBfbaC1C8A08f2BC",
+  "curatorNames": []
+ },
+ "1:0x0b6c8ef0de1be5ed1b59e6e7a67fb9442fb9e49c": {
+  "name": "Duplicated Key",
+  "asset": "USDC",
+  "curatorAddr": "0x27DE5155c2407Bc0161e571b2086d0B700446D73",
+  "owner": "0x27DE5155c2407Bc0161e571b2086d0B700446D73",
+  "curatorNames": []
+ },
+ "1:0xca7c196f00e04a5e1c71b91476d0d58f82499734": {
+  "name": "Tanken USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x12393CCf9553Eb402fFEB43678565ea5727cEcF6",
+  "owner": "0x59803bD2d66f6d8D948381bA90fEDd9D4030E3E4",
+  "curatorNames": []
+ },
+ "1:0x09c4c7b1d2e9aa7506db8b76f1dbbd61c08c114b": {
+  "name": "Everstone",
+  "asset": "USDC",
+  "curatorAddr": "0x45E3191752014713fCDFe3743549ca21687341f9",
+  "owner": "0x5883841058f300351BC48f92668909Ea33E56507",
+  "curatorNames": []
+ },
+ "1:0xdc2dd5189f70fe2832d9caf7b17d27aa3d79dbe1": {
+  "name": "Yearn Degen USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x90D0f26025571295D18a6c041E47450B81886B51",
+  "owner": "0xe5e2Baf96198c56380dDD5E992D7d1ADa0e989c0",
+  "curatorNames": [
+   "Yearn"
+  ]
+ },
+ "8453:0x12afdefb2237a5963e7bab3e2d46ad0eee70406e": {
+  "name": "Re7 USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x0000000000000000000000000000000000000000",
+  "owner": "0xD8B0F4e54a8dac04E0A57392f5A630cEdb99C940",
+  "curatorNames": [
+   "RE7 Labs"
+  ]
+ },
+ "8453:0x616a4e1db48e22028f6bbf20444cd3b8e3273738": {
+  "name": "Seamless USDC Vault",
+  "asset": "USDC",
+  "curatorAddr": "0x0000000000000000000000000000000000000000",
+  "owner": "0x0000000000000000000000000000000000000000",
+  "curatorNames": []
+ },
+ "8453:0xc0c5689e6f4d256e861f65465b691aeecc0deb12": {
+  "name": "Gauntlet USDC Core",
+  "asset": "USDC",
+  "curatorAddr": "0x9E33faAE38ff641094fa68c65c2cE600b3410585",
+  "owner": "0x5a4E19842e09000a582c20A4f524C26Fb48Dd4D0",
+  "curatorNames": [
+   "Gauntlet"
+  ]
+ },
+ "8453:0xcbeef01994e24a60f7dcb8de98e75ad8bd4ad60d": {
+  "name": "Steakhouse High Yield USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x827e86072B06674a077f592A531dcE4590aDeCdB",
+  "owner": "0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD",
+  "curatorNames": [
+   "Steakhouse Financial"
+  ]
+ },
+ "8453:0xbeefa74640a5f7c28966cba82466eed5609444e0": {
+  "name": "Smokehouse USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x827e86072B06674a077f592A531dcE4590aDeCdB",
+  "owner": "0x0A0e559bc3b0950a7e448F0d4894db195b9cf8DD",
+  "curatorNames": [
+   "Steakhouse Financial"
+  ]
+ },
+ "8453:0x23479229e52ab6aad312d0b03df9f33b46753b5e": {
+  "name": "Extrafi XLend USDC",
+  "asset": "USDC",
+  "curatorAddr": "0x9E33faAE38ff641094fa68c65c2cE600b3410585",
+  "owner": "0x5a4E19842e09000a582c20A4f524C26Fb48Dd4D0",
+  "curatorNames": [
+   "Gauntlet"
+  ]
+ },
+ "8453:0xcddcdd18a16ed441f6cb10c3909e5e7ec2b9e8f3": {
+  "name": "Apostro Resolv USDC",
+  "asset": "USDC",
+  "curatorAddr": "0xC91578e51BCE35844E345CC7F733b4bBf6721734",
+  "owner": "0xf726311F85D45a7fECfFbC94bD8508a0A39958c6",
+  "curatorNames": [
+   "Apostro"
+  ]
+ }
+}

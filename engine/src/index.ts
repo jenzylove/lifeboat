@@ -6,3 +6,5 @@ export * from "./marketPrice.js";
 export * from "./oracleStaleness.js";
 export * from "./curatorEvents.js";
 export * from "./snapshot.js";
+export * from "./keeper.js";
+export * from "./watcher.js";
