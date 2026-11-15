@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "cd engine && npx vitest run && cd ../contracts && forge test",
-    "build": "cd engine && npm ci --include=dev && cd ../app && npm ci --include=dev && npm run build"
+    "build": "cd engine && npm ci --include=dev && cd ../app && npm ci --include=dev && NODE_OPTIONS=--max-old-space-size=3072 NEXT_TELEMETRY_DISABLED=1 npx next build --debug"
   },
   "license": "MIT",
   "dependencies": {
