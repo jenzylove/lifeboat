@@ -104,3 +104,48 @@ export function extractJson(text: string): unknown {
   if (start < 0 || end <= start) throw new Error('no JSON object in model output');
   return JSON.parse(s.slice(start, end + 1));
 }
+
+/** SERV prices are cents per million tokens (from GET /v1/models). */
+export const SERV_PRICES: Record<string, { input: number; output: number }> = {
+  'claude-opus-5.5': { input: 4.8, output: 24 },
+  'claude-sonnet-5.5': { input: 2.4, output: 12 },
+  'serv-swift': { input: 1.25, output: 6.5 },
+};
+
+/** A structured call through SERV Reasoning (strict json_schema, required by the Anthropic models SERV serves). */
+export async function servJson(messages: Msg[], model: string, schema: object, opts: { maxTokens?: number; timeoutMs?: number } = {}): Promise<LlmResult> {
+  const t0 = Date.now();
+  const j = await chat(
+    SERV_URL,
+    process.env.SERV_API_KEY,
+    { model, messages, max_completion_tokens: opts.maxTokens ?? 3000, response_format: { type: 'json_schema', json_schema: { name: 'decision', strict: true, schema } } },
+    {},
+    opts.timeoutMs ?? 120_000,
+  );
+  const inTok = j.usage?.prompt_tokens ?? 0;
+  const outTok = j.usage?.completion_tokens ?? 0;
+  const p = SERV_PRICES[model];
+  return {
+    text: j.choices?.[0]?.message?.content ?? '',
+    model: j.model ?? model,
+    provider: 'serv',
+    inputTokens: inTok,
+    outputTokens: outTok,
+    ms: Date.now() - t0,
+    costUsd: p ? (inTok * p.input + outTok * p.output) / 1e6 : null,
+  };
+}
+
+export const DECISION_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['action', 'wait_minutes', 'target_vault', 'confidence', 'reasons', 'summary'],
+  properties: {
+    action: { type: 'string', enum: ['STAY', 'WAIT', 'LEAVE'] },
+    wait_minutes: { type: ['number', 'null'] },
+    target_vault: { type: ['string', 'null'] },
+    confidence: { type: 'number' },
+    reasons: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['claim', 'evidence_ids'], properties: { claim: { type: 'string' }, evidence_ids: { type: 'array', items: { type: 'string' } } } } },
+    summary: { type: 'string' },
+  },
+};

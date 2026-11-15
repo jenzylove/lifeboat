@@ -1,0 +1,4175 @@
+{
+ "ranAt": "2026-11-15T17:24:36.939Z",
+ "question": "Does the cheap open model on Dolphin make the right call, including staying quiet on calm markets, compared with a frontier model on the same evidence?",
+ "arms": {
+  "dolphin": "DeepSeek V4.1 Flash on Dolphin, alone",
+  "lifeboat": "Lifeboat as shipped: Dolphin, plus the SERV Reasoning second opinion (Claude Sonnet 5.5) that can only make a STAY or WAIT stricter",
+  "frontier": "claude-opus-5.5 through SERV Reasoning, alone"
+ },
+ "truth": "LEAVE cases: exposed positions during real incidents. NOT_LEAVE cases: the same markets before the break, live calm markets today, and live markets with a small benign gap. For NOT_LEAVE, STAY or WAIT both count as correct; LEAVE is a false alarm.",
+ "hardRules": "The code hard rules run in every arm (for example 95% borrowed during a price gap forces LEAVE). Each result says whether the model or a rule decided.",
+ "summary": {
+  "dolphin": {
+   "correct": 85,
+   "total": 94,
+   "falseAlarms": 0,
+   "calmCases": 48,
+   "leaveCaught": 37,
+   "leaveCases": 46,
+   "positionsLeft": 10,
+   "positions": 10,
+   "medianMinutesToLeave": 13,
+   "invalidCitations": 0,
+   "errors": 0,
+   "costPerDecisionUsd": 0.00007558255319148938,
+   "totalCostUsd": 0.0071047600000000025,
+   "misses": [
+    {
+     "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it, utilization is stable, and your full balance is withdrawable, so there is no current justification to leave.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Clearstar Yield USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it and utilization is stable, so this does not currently look like a dangerous overvaluation; keep watching.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Resolv USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The price gap is in the safe direction and utilization is stable, so there is no evidence-backed reason to leave right now.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Re7 USDC:USR:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The USR market shows only a stable 0.1% oracle discount with steady utilization, so there is no evidence yet that justifies withdrawing.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:August AUSD:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it, utilization is flat, and the curator has not flagged a problem, so staying is justified for now.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Duplicated Key:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it and utilization is stable, so there is no evidence of a stale-price drain; stay put and keep watching.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Usual Boosted USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The RLP market's oracle is below the real market price, not above it, and utilization is stable, so your USDC is not currently at risk from this divergence.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:kpk USDC Yield:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it, and utilization is stable, so this does not look like a collateral-overvaluation drain risk; stay for now.",
+     "error": null
+    },
+    {
+     "id": "stream_exposed:MEV Capital USDC:xUSD:22:00",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The first model's STAY is escalated to WAIT. Utilization reached 99.9% and only $769.70 of $1000 is withdrawable, so liquidity risk is real. The oracle gap is small and stable, the curator is active, and the candidate vault is unvetted, so a full LEAVE is not yet warranted. Recheck in about 60 minutes and leave if utilization stays near 100% or the oracle gap widens.",
+     "error": null
+    }
+   ]
+  },
+  "lifeboat": {
+   "correct": 85,
+   "total": 94,
+   "falseAlarms": 0,
+   "calmCases": 48,
+   "leaveCaught": 37,
+   "leaveCases": 46,
+   "positionsLeft": 10,
+   "positions": 10,
+   "medianMinutesToLeave": 13,
+   "invalidCitations": 0,
+   "errors": 0,
+   "costPerDecisionUsd": 0.007656365531914892,
+   "totalCostUsd": 0.7196983599999999,
+   "misses": [
+    {
+     "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it, utilization is stable, and your full balance is withdrawable, so there is no current justification to leave.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Clearstar Yield USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it and utilization is stable, so this does not currently look like a dangerous overvaluation; keep watching.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Resolv USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The price gap is in the safe direction and utilization is stable, so there is no evidence-backed reason to leave right now.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Re7 USDC:USR:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The USR market shows only a stable 0.1% oracle discount with steady utilization, so there is no evidence yet that justifies withdrawing.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:August AUSD:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it, utilization is flat, and the curator has not flagged a problem, so staying is justified for now.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Duplicated Key:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it and utilization is stable, so there is no evidence of a stale-price drain; stay put and keep watching.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Usual Boosted USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The RLP market's oracle is below the real market price, not above it, and utilization is stable, so your USDC is not currently at risk from this divergence.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:kpk USDC Yield:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The oracle is below market rather than above it, and utilization is stable, so this does not look like a collateral-overvaluation drain risk; stay for now.",
+     "error": null
+    },
+    {
+     "id": "stream_exposed:MEV Capital USDC:xUSD:22:00",
+     "truth": "LEAVE",
+     "got": "WAIT",
+     "by": "serv_second_opinion",
+     "rule": null,
+     "summary": "The first model's STAY is escalated to WAIT. Utilization reached 99.9% and only $769.70 of $1000 is withdrawable, so liquidity risk is real. The oracle gap is small and stable, the curator is active, and the candidate vault is unvetted, so a full LEAVE is not yet warranted. Recheck in about 60 minutes and leave if utilization stays near 100% or the oracle gap widens.",
+     "error": null
+    }
+   ]
+  },
+  "frontier": {
+   "correct": 84,
+   "total": 94,
+   "falseAlarms": 0,
+   "calmCases": 48,
+   "leaveCaught": 36,
+   "leaveCases": 46,
+   "positionsLeft": 10,
+   "positions": 10,
+   "medianMinutesToLeave": 13,
+   "invalidCitations": 0,
+   "errors": 0,
+   "costPerDecisionUsd": 0.029287914893617015,
+   "totalCostUsd": 2.7530639999999993,
+   "misses": [
+    {
+     "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "STAY. The -12.6% gap has the oracle below the market price, which protects lenders rather than endangering them. Utilization is steady at 83.2%, exposure is unchanged, the curator is actively managing the market, and the full $1000 is withdrawable. Re-check if the gap flips so the oracle sits above the market or if utilization starts climbing.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:50",
+     "truth": "LEAVE",
+     "got": "WAIT",
+     "by": "rule",
+     "rule": "model_unavailable_retry",
+     "summary": null,
+     "error": "no JSON object in model output"
+    },
+    {
+     "id": "march22_exposed:Clearstar Yield USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "Stay in Clearstar Yield USDC. The oracle is pricing RLP 12.6% below market, which protects lenders rather than exposing them. Utilization has been steady at 83.2%, and the full $1000 is withdrawable. Curator silence and the single market-price reading are worth continued monitoring, but they do not justify leaving now.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Resolv USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The price gap runs in the safe direction because the oracle understates the collateral. Utilization is stable and below full, the curator is actively supplying, and the full position remains withdrawable. Staying is reasonable, but keep watching for any reversal of the gap or a jump in utilization.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Re7 USDC:USR:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "The USR market looks benign: a steady 0.1% price gap, flat 47.6% utilization, unchanged exposure, and the full $1000.00 still withdrawable. The 0-minute curator silence is not yet meaningful, and no related-token incident is reported. Stay in Re7 USDC and keep watching for any widening gap, rising utilization, or incident news.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:August AUSD:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "Stay in August AUSD. The -12.6% gap comes from the oracle undervaluing RLP collateral, which is the safe direction for lenders. Utilization (88.7%) and vault exposure are stable, and the full $1000 can still be withdrawn. The curator's silence and the single market-price reading reduce confidence, so keep watching for a reversal in the gap's direction or a rise in utilization.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Duplicated Key:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "Stay. The oracle is pricing RLP 12.6% below market, which protects lenders rather than exposing them. Utilization is flat at 83.2% and the full $1000 can be withdrawn. Curator silence and the lack of earlier market-price history are worth watching, but they do not justify exiting now.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:Usual Boosted USDC:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "Stay in Usual Boosted USDC. The -12.6% gap means the oracle undervalues RLP collateral, which protects lenders. Utilization and exposure are flat, and the full $1000 can be withdrawn. Keep watching future reads for a flip to an overstated oracle, rising utilization, or continued curator silence.",
+     "error": null
+    },
+    {
+     "id": "march22_exposed:kpk USDC Yield:RLP:02:30",
+     "truth": "LEAVE",
+     "got": "STAY",
+     "by": "model",
+     "rule": null,
+     "summary": "Stay in kpk USDC Yield. The -12.6% gap has the oracle pricing RLP below market, which protects lenders rather than exposing them. Utilization is steady at 83.2%, and the full $1000 can be withdrawn. Keep monitoring because the curator has not acted and the market price only just became visible, but there is no basis for exiting now.",
+     "error": null
+    },
+    {
+     "id": "stream_exposed:Vaultik USDC:xUSD:22:00",
+     "truth": "LEAVE",
+     "got": "WAIT",
+     "by": "model",
+     "rule": null,
+     "summary": "Price signals are calm, with an oracle gap of 0.2% or less and no widening trend. However, utilization has risen to 99.9% and the curator has not responded, which threatens withdrawal liquidity. Since $769.70 can still be withdrawn and there is no sign of collateral loss, I recommend waiting 10 minutes. Leave for Steakhouse USDC if utilization stays pinned, the gap widens, withdrawable funds shrink, or the curator remains silent.",
+     "error": null
+    }
+   ]
+  }
+ },
+ "cases": [
+  {
+   "id": "march22_exposed:Gauntlet USDC Core:wstUSR:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Core:wstUSR",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008067000000000001,
+    "tokens": 2427,
+    "summary": "The wstUSR oracle just moved 5.1% above market with no curator response, so withdraw your fully available $1000 now into the Steakhouse USDC candidate vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008067000000000001,
+    "tokens": 2427,
+    "summary": "The wstUSR oracle just moved 5.1% above market with no curator response, so withdraw your fully available $1000 now into the Steakhouse USDC candidate vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0339408,
+    "tokens": 3567,
+    "summary": "In the latest reading, the wstUSR market price dropped about 5% while the oracle price stayed the same. That overstates the collateral's value and could let borrowers drain lender USDC. The curator has not acted since the gap appeared, and its most recent move added funds to this market. Your full $1000 can be withdrawn right now, so the recommendation is to withdraw it all and move it to Steakhouse USDC before liquidity or losses get worse."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Core:wstUSR:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Core:wstUSR",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007088000000000001,
+    "tokens": 2288,
+    "summary": "The wstUSR market's oracle is stale while its real price has collapsed, so withdraw your full $1000 now and move it to the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007088000000000001,
+    "tokens": 2288,
+    "summary": "The wstUSR market's oracle is stale while its real price has collapsed, so withdraw your full $1000 now and move it to the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.027105599999999997,
+    "tokens": 3283,
+    "summary": "wstUSR has crashed to about 0.043 while the oracle still reads 1.133, a gap of over 2500% that opens the market to bad-debt draining. The curator has not responded and the full $1000 is withdrawable now, so withdraw everything immediately and move it to Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Core:wstUSR:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Core:wstUSR",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00013498,
+    "tokens": 6418,
+    "summary": "The wstUSR market price has collapsed while the oracle remains stale and the curator is adding large USDC liquidity, so withdraw your fully withdrawable $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00013498,
+    "tokens": 6418,
+    "summary": "The wstUSR market price has collapsed while the oracle remains stale and the curator is adding large USDC liquidity, so withdraw your fully withdrawable $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.054604799999999995,
+    "tokens": 8024,
+    "summary": "Severe oracle-overstated depeg: wstUSR market is at 0.0434 against an oracle price of 1.1330, and large Public Allocator inflows are pushing USDC into the market. No protective curator action has been taken. Withdraw the full $1000 now and park it in Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Core:wstUSR:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Core:wstUSR",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00017358,
+    "tokens": 10242,
+    "summary": "The wstUSR market’s oracle is badly stale while utilization is near fully borrowed, so withdraw your $1000 now into the Steakhouse USDC candidate vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00017358,
+    "tokens": 10242,
+    "summary": "The wstUSR market’s oracle is badly stale while utilization is near fully borrowed, so withdraw your $1000 now into the Steakhouse USDC candidate vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0800352,
+    "tokens": 12742,
+    "summary": "wstUSR crashed to 0.0434 and is still about 12.6% below a frozen oracle price of 1.1330. Utilization has risen to 97.5% while the Public Allocator keeps feeding USDC into the market, and the curator has not stopped it. Withdraw the full withdrawable $1000 now and park it in Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Frontier:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00006992000000000002,
+    "tokens": 2312,
+    "summary": "The oracle is below market rather than above it, utilization is stable, and your full balance is withdrawable, so there is no current justification to leave."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01630832,
+    "tokens": 2312,
+    "summary": "The oracle is below market rather than above it, utilization is stable, and your full balance is withdrawable, so there is no current justification to leave."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0368352,
+    "tokens": 3754,
+    "summary": "STAY. The -12.6% gap has the oracle below the market price, which protects lenders rather than endangering them. Utilization is steady at 83.2%, exposure is unchanged, the curator is actively managing the market, and the full $1000 is withdrawable. Re-check if the gap flips so the oracle sits above the market or if utilization starts climbing."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0162384
+   }
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Frontier:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00014299,
+    "tokens": 3415,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is linked to the breaking Resolv USR system and utilization is rising fast while the curator stays silent."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00014299,
+    "tokens": 3415,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is linked to the breaking Resolv USR system and utilization is rising fast while the curator stays silent."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0369888,
+    "tokens": 3834,
+    "summary": "Withdraw the full $1000 now and move it to Steakhouse USDC. The RLP collateral is tied to the USR/wstUSR incident, the oracle is flat while the market price diverges, utilization is climbing, and the curator has been silent with about $702k still exposed."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Frontier:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Frontier:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00015643000000000002,
+    "tokens": 3607,
+    "summary": "RLP is tied to the breaking USR system, utilization is climbing, and the curator has not acted protectively, so withdraw your $1,000 now into the Steakhouse USDC candidate vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00015643000000000002,
+    "tokens": 3607,
+    "summary": "RLP is tied to the breaking USR system, utilization is climbing, and the curator has not acted protectively, so withdraw your $1,000 now into the Steakhouse USDC candidate vault."
+   },
+   "frontier": {
+    "action": "WAIT",
+    "decidedBy": "rule",
+    "rule": "model_unavailable_retry",
+    "invalid": false,
+    "modelError": "no JSON object in model output",
+    "costUsd": 0.041044800000000006,
+    "tokens": 4003,
+    "summary": null
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Gauntlet USDC Frontier:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Gauntlet USDC Frontier:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00015466,
+    "tokens": 3700,
+    "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate because the RLP market is tied to the breaking USR system and already hit 100% utilization."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00015466,
+    "tokens": 3700,
+    "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate because the RLP market is tied to the breaking USR system and already hit 100% utilization."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0433488,
+    "tokens": 4223,
+    "summary": "RLP is tied to the breaking USR system, the oracle has been frozen for hours, and utilization recently hit 100%. The curator has added funds rather than reducing exposure. While the full $1,000 is still withdrawable, withdraw it and move it to Steakhouse USDC, accepting the yield and gas cost to avoid possible losses or locked funds."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Clearstar Yield USDC:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Clearstar Yield USDC:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00005882000000000001,
+    "tokens": 1874,
+    "summary": "The oracle is below market rather than above it and utilization is stable, so this does not currently look like a dangerous overvaluation; keep watching."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01595642,
+    "tokens": 1874,
+    "summary": "The oracle is below market rather than above it and utilization is stable, so this does not currently look like a dangerous overvaluation; keep watching."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0322896,
+    "tokens": 3255,
+    "summary": "Stay in Clearstar Yield USDC. The oracle is pricing RLP 12.6% below market, which protects lenders rather than exposing them. Utilization has been steady at 83.2%, and the full $1000 is withdrawable. Curator silence and the single market-price reading are worth continued monitoring, but they do not justify leaving now."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.015897599999999998
+   }
+  },
+  {
+   "id": "march22_exposed:Clearstar Yield USDC:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Clearstar Yield USDC:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009346,
+    "tokens": 2428,
+    "summary": "Withdraw your USDC now and move it to the Steakhouse USDC candidate vault because RLP is tied to the breaking Resolv USR system and the curator has not acted."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009346,
+    "tokens": 2428,
+    "summary": "Withdraw your USDC now and move it to the Steakhouse USDC candidate vault because RLP is tied to the breaking Resolv USR system and the curator has not acted."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0348912,
+    "tokens": 3437,
+    "summary": "Withdraw the full $1000 now and park it in Steakhouse USDC. The related Resolv USR/wstUSR incident could hit RLP collateral without the frozen local oracle showing it. Utilization is rising and the curator has done nothing, while the deposit is still fully withdrawable."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Clearstar Yield USDC:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Clearstar Yield USDC:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009766000000000001,
+    "tokens": 2488,
+    "summary": "Withdraw your full $1000 now and move it to Steakhouse USDC, because RLP is tied to the breaking USR system and the curator has not acted while utilization is rising."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009766000000000001,
+    "tokens": 2488,
+    "summary": "Withdraw your full $1000 now and move it to Steakhouse USDC, because RLP is tied to the breaking USR system and the curator has not acted while utilization is rising."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.035659199999999995,
+    "tokens": 3469,
+    "summary": "Withdraw the full $1000 from Clearstar Yield USDC and park it in Steakhouse USDC. The RLP collateral is tied to the breaking USR system, and the oracle has sat unchanged for two hours. Utilization is climbing and the curator has not acted, while full liquidity is still available now."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Clearstar Yield USDC:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Clearstar Yield USDC:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000056080000000000005,
+    "tokens": 1906,
+    "summary": "Withdraw your USDC now because the RLP collateral is linked to the breaking Resolv USR system, utilization has already hit 100%, and the curator is silent."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000056080000000000005,
+    "tokens": 1906,
+    "summary": "Withdraw your USDC now because the RLP collateral is linked to the breaking Resolv USR system, utilization has already hit 100%, and the curator is silent."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.039643199999999996,
+    "tokens": 3643,
+    "summary": "Withdraw all $1000.00 from Clearstar Yield USDC now and move it to Steakhouse USDC. The RLP collateral is tied to the breaking Resolv USR system, and the oracle reading has not moved for two hours, so it may not reflect real losses. Utilization recently hit 100%, which blocks withdrawals, and the curator has not responded. The full balance is withdrawable today, so leaving costs some yield and gas but avoids getting trapped or losing the deposit."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Resolv USDC:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Resolv USDC:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009360000000000001,
+    "tokens": 2964,
+    "summary": "The price gap is in the safe direction and utilization is stable, so there is no evidence-backed reason to leave right now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.017172,
+    "tokens": 2964,
+    "summary": "The price gap is in the safe direction and utilization is stable, so there is no evidence-backed reason to leave right now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0341424,
+    "tokens": 3977,
+    "summary": "The price gap runs in the safe direction because the oracle understates the collateral. Utilization is stable and below full, the curator is actively supplying, and the full position remains withdrawable. Staying is reasonable, but keep watching for any reversal of the gap or a jump in utilization."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0170784
+   }
+  },
+  {
+   "id": "march22_exposed:Resolv USDC:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Resolv USDC:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00016403000000000004,
+    "tokens": 4241,
+    "summary": "Withdraw your USDC now and park it in the Steakhouse USDC candidate vault because the RLP market is linked to the breaking Resolv USR system and the curator has not fully de-risked it."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00016403000000000004,
+    "tokens": 4241,
+    "summary": "Withdraw your USDC now and park it in the Steakhouse USDC candidate vault because the RLP market is linked to the breaking Resolv USR system and the curator has not fully de-risked it."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0428304,
+    "tokens": 4643,
+    "summary": "Leave now and move the full $1000 to Steakhouse USDC. The RLP collateral is linked to the breaking USR system, the oracle has been frozen while a 12.6% price gap has appeared, and utilization is starting to rise. The curator has not meaningfully reduced exposure, and the whole position is still withdrawable, so the lost yield and gas cost are small compared with the risk of losses or being unable to withdraw."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Resolv USDC:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Resolv USDC:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00011209,
+    "tokens": 3499,
+    "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate vault because RLP is tied to the breaking Resolv USR system and the market is not clearly protected."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00011209,
+    "tokens": 3499,
+    "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate vault because RLP is tied to the breaking Resolv USR system and the market is not clearly protected."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.04556639999999999,
+    "tokens": 4757,
+    "summary": "Leave now. RLP collateral is tied to the breaking USR system, the oracle looks frozen, utilization is rising, and the curator has not meaningfully cut the vault's $676k exposure. Withdraw the full $1,000 while it is liquid and park it in Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Resolv USDC:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Resolv USDC:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00013078000000000002,
+    "tokens": 3778,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and this market briefly hit 100% utilization without a protective curator action."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00013078000000000002,
+    "tokens": 3778,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and this market briefly hit 100% utilization without a protective curator action."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.04645439999999999,
+    "tokens": 4802,
+    "summary": "Withdraw the full $1000 now and move it to Steakhouse USDC. RLP is exposed to the breaking Resolv USR system, and the oracle has been stuck at the same value, so it may not reflect real losses. Utilization recently hit 100%, which shows withdrawals can be blocked. The curator has not meaningfully reduced exposure. The position is fully withdrawable at the moment, so leaving while the window is open is the safer choice than waiting."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Re7 USDC:USR:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Re7 USDC:USR",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00005202,
+    "tokens": 1842,
+    "summary": "The USR market shows only a stable 0.1% oracle discount with steady utilization, so there is no evidence yet that justifies withdrawing."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01511202,
+    "tokens": 1842,
+    "summary": "The USR market shows only a stable 0.1% oracle discount with steady utilization, so there is no evidence yet that justifies withdrawing."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0295728,
+    "tokens": 3181,
+    "summary": "The USR market looks benign: a steady 0.1% price gap, flat 47.6% utilization, unchanged exposure, and the full $1000.00 still withdrawable. The 0-minute curator silence is not yet meaningful, and no related-token incident is reported. Stay in Re7 USDC and keep watching for any widening gap, rising utilization, or incident news."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.01506
+   }
+  },
+  {
+   "id": "march22_exposed:Re7 USDC:USR:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Re7 USDC:USR",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000754,
+    "tokens": 2176,
+    "summary": "USR collateral’s oracle price is now 5.1% above market and the curator is silent, so withdraw your fully withdrawable USDC into the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000754,
+    "tokens": 2176,
+    "summary": "USR collateral’s oracle price is now 5.1% above market and the curator is silent, so withdraw your fully withdrawable USDC into the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0314448,
+    "tokens": 3259,
+    "summary": "Withdraw the full $1,000 from Re7 USDC now and move it to Steakhouse USDC. USR's market price dropped 5.1% below an oracle stuck near $1, and the curator has not acted. Liquidity is still fully available, so leaving now protects the deposit before borrowers can drain it, at a modest cost in yield and gas."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Re7 USDC:USR:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Re7 USDC:USR",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00006043,
+    "tokens": 1963,
+    "summary": "USR collateral has collapsed while the oracle remains stale and the curator is silent, so withdraw your full $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00006043,
+    "tokens": 1963,
+    "summary": "USR collateral has collapsed while the oracle remains stale and the curator is silent, so withdraw your full $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0254976,
+    "tokens": 3012,
+    "summary": "USR collateral has crashed to about $0.04 while the oracle still prices it near $1. The curator has not acted, and the vault remains exposed. The full $1000 is withdrawable now, so withdraw everything immediately and move it to Steakhouse USDC before borrowers can drain the market."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Re7 USDC:USR:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Re7 USDC:USR",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00005189,
+    "tokens": 1841,
+    "summary": "USR collateral is showing a severe oracle/market divergence with no curator action, so withdraw your fully available USDC now into the Steakhouse USDC candidate vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00005189,
+    "tokens": 1841,
+    "summary": "USR collateral is showing a severe oracle/market divergence with no curator action, so withdraw your fully available USDC now into the Steakhouse USDC candidate vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0256656,
+    "tokens": 3019,
+    "summary": "USR has depegged badly (market price 0.04–0.41) while the oracle still reads about 1.00. The curator has not acted, and the user's full $1,000 is still withdrawable. Withdraw everything now from Re7 USDC and park it in Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:August AUSD:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "August AUSD:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009661,
+    "tokens": 2413,
+    "summary": "The oracle is below market rather than above it, utilization is flat, and the curator has not flagged a problem, so staying is justified for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01561741,
+    "tokens": 2413,
+    "summary": "The oracle is below market rather than above it, utilization is flat, and the curator has not flagged a problem, so staying is justified for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.036134400000000004,
+    "tokens": 3412,
+    "summary": "Stay in August AUSD. The -12.6% gap comes from the oracle undervaluing RLP collateral, which is the safe direction for lenders. Utilization (88.7%) and vault exposure are stable, and the full $1000 can still be withdrawn. The curator's silence and the single market-price reading reduce confidence, so keep watching for a reversal in the gap's direction or a rise in utilization."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0155208
+   }
+  },
+  {
+   "id": "march22_exposed:August AUSD:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "August AUSD:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00013531,
+    "tokens": 3025,
+    "summary": "Because RLP is linked to the breaking USR/wstUSR system and the full $1000 is still withdrawable now, exit to the candidate Steakhouse USDC vault rather than wait through a possible collateral failure."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00013531,
+    "tokens": 3025,
+    "summary": "Because RLP is linked to the breaking USR/wstUSR system and the full $1000 is still withdrawable now, exit to the candidate Steakhouse USDC vault rather than wait through a possible collateral failure."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.036456,
+    "tokens": 3499,
+    "summary": "LEAVE: withdraw the full $1000 from August AUSD now and park it in Steakhouse USDC. The RLP collateral is tied to the breaking USR/wstUSR system, the local feed looks frozen and possibly blind, utilization is high at 88.7%, and the curator has not acted. The whole position is still withdrawable, so exiting now costs little compared with the risk of loss."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:August AUSD:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "August AUSD:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007553,
+    "tokens": 2171,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because the RLP collateral is linked to the breaking Resolv USR system while utilization is high and the curator has not acted."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007553,
+    "tokens": 2171,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because the RLP collateral is linked to the breaking Resolv USR system while utilization is high and the curator has not acted."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.036264,
+    "tokens": 3491,
+    "summary": "Withdraw the full $1,000 now and park it in Steakhouse USDC. The collateral is tied to the breaking Resolv USR system, the oracle has been frozen and may be blind, and the curator has not acted. Utilization is high but the whole position can still be withdrawn. The cost of leaving is small compared with the risk of losing the deposit."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:August AUSD:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "August AUSD:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00014896,
+    "tokens": 3232,
+    "summary": "RLP is tied to the breaking Resolv USR system and the curator has not acted, so withdraw your fully available $1000 now into the Steakhouse USDC candidate vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00014896,
+    "tokens": 3232,
+    "summary": "RLP is tied to the breaking Resolv USR system and the curator has not acted, so withdraw your fully available $1000 now into the Steakhouse USDC candidate vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.03684,
+    "tokens": 3523,
+    "summary": "Withdraw the full $1,000 now and move it to Steakhouse USDC. The RLP collateral is tied to the breaking USR system, and the oracle has not moved for hours. Utilization is high and the curator has done nothing. The whole position is withdrawable today, so leaving costs little compared with the risk of being trapped or losing value."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Duplicated Key:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Duplicated Key:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007462,
+    "tokens": 2098,
+    "summary": "The oracle is below market rather than above it and utilization is stable, so there is no evidence of a stale-price drain; stay put and keep watching."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.015588219999999998,
+    "tokens": 2098,
+    "summary": "The oracle is below market rather than above it and utilization is stable, so there is no evidence of a stale-price drain; stay put and keep watching."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0341664,
+    "tokens": 3330,
+    "summary": "Stay. The oracle is pricing RLP 12.6% below market, which protects lenders rather than exposing them. Utilization is flat at 83.2% and the full $1000 can be withdrawn. Curator silence and the lack of earlier market-price history are worth watching, but they do not justify exiting now."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.015513599999999999
+   }
+  },
+  {
+   "id": "march22_exposed:Duplicated Key:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Duplicated Key:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009428000000000001,
+    "tokens": 2438,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the curator is silent while utilization rises."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009428000000000001,
+    "tokens": 2438,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the curator is silent while utilization rises."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.03924,
+    "tokens": 3615,
+    "summary": "Leave now. RLP is tied to the breaking USR/wstUSR system, and the oracle has been frozen at 1.2872 for hours, so it may be blind to real losses. Utilization is rising from 83.2% to 86.7% and the curator has not acted. Withdraw the full $1000 while it is still available and park it in Steakhouse USDC (0xBEEF01735c132Ada46AA9aA4c54623cAA92A64CB)."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Duplicated Key:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Duplicated Key:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009421000000000001,
+    "tokens": 2437,
+    "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the curator has not acted while utilization is rising."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009421000000000001,
+    "tokens": 2437,
+    "summary": "Withdraw your full $1000 now and park it in the Steakhouse USDC candidate vault, because RLP is tied to the breaking Resolv USR system and the curator has not acted while utilization is rising."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.037536,
+    "tokens": 3544,
+    "summary": "LEAVE: withdraw the full $1000 now and park it in Steakhouse USDC (0xBEEF...64CB). RLP shares the Resolv USR system that is currently breaking, and the oracle has sat frozen at 1.2872 for hours, so the calm feed may be hiding real losses. Utilization just started climbing and the curator has not acted. The whole position is still withdrawable, so exiting now is cheap insurance against getting trapped."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Duplicated Key:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Duplicated Key:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00011878000000000001,
+    "tokens": 2800,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault because the RLP collateral is linked to the breaking Resolv USR system and this market already hit 100% utilization while the curator stayed silent."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00011878000000000001,
+    "tokens": 2800,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault because the RLP collateral is linked to the breaking Resolv USR system and this market already hit 100% utilization while the curator stayed silent."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.035904,
+    "tokens": 3484,
+    "summary": "Withdraw the full $1000 and move it to Steakhouse USDC. The RLP collateral is tied to the breaking USR system, the oracle has been frozen, utilization recently spiked to 100%, and the curator has not acted. The position is fully withdrawable right now, but that window may close."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Usual Boosted USDC:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Usual Boosted USDC:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00006562,
+    "tokens": 1972,
+    "summary": "The RLP market's oracle is below the real market price, not above it, and utilization is stable, so your USDC is not currently at risk from this divergence."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01730002,
+    "tokens": 1972,
+    "summary": "The RLP market's oracle is below the real market price, not above it, and utilization is stable, so your USDC is not currently at risk from this divergence."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.033148800000000006,
+    "tokens": 3290,
+    "summary": "Stay in Usual Boosted USDC. The -12.6% gap means the oracle undervalues RLP collateral, which protects lenders. Utilization and exposure are flat, and the full $1000 can be withdrawn. Keep watching future reads for a flip to an overstated oracle, rising utilization, or continued curator silence."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0172344
+   }
+  },
+  {
+   "id": "march22_exposed:Usual Boosted USDC:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Usual Boosted USDC:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00014478,
+    "tokens": 3162,
+    "summary": "Withdraw your USDC now and park it in Steakhouse USDC because RLP is tied to the breaking USR system and the market's buffer is shrinking while the curator stays silent."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00014478,
+    "tokens": 3162,
+    "summary": "Withdraw your USDC now and park it in Steakhouse USDC because RLP is tied to the breaking USR system and the market's buffer is shrinking while the curator stays silent."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0380544,
+    "tokens": 3568,
+    "summary": "The vault's collateral, RLP, is part of the Resolv system whose USR and wstUSR tokens are breaking. The local oracle has stayed flat, utilization is starting to climb, and the curator has not acted. Since the full $1000 can be withdrawn now, withdraw everything and move it to Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Usual Boosted USDC:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Usual Boosted USDC:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00010775000000000002,
+    "tokens": 2633,
+    "summary": "Withdraw your full $1000 from the RLP market now and park it in Steakhouse USDC, because RLP is tied to the breaking USR/wstUSR system and utilization is rising while the curator stays silent."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00010775000000000002,
+    "tokens": 2633,
+    "summary": "Withdraw your full $1000 from the RLP market now and park it in Steakhouse USDC, because RLP is tied to the breaking USR/wstUSR system and utilization is rising while the curator stays silent."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0371664,
+    "tokens": 3531,
+    "summary": "Withdraw the full $1000 now and park it in Steakhouse USDC (0xBEEF…64CB). RLP is tied to the breaking USR/wstUSR system, and the flat oracle may be hiding a real loss. Utilization is rising and the curator has not acted, so liquidity could get locked or drained soon. Leaving costs some yield and gas, which is small next to that risk."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Usual Boosted USDC:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Usual Boosted USDC:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00012042000000000002,
+    "tokens": 2826,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is linked to the breaking Resolv USR system and the market briefly hit 100% utilization while the curator stayed silent."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00012042000000000002,
+    "tokens": 2826,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is linked to the breaking Resolv USR system and the market briefly hit 100% utilization while the curator stayed silent."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0361824,
+    "tokens": 3498,
+    "summary": "Leave now. RLP is tied to the breaking USR/wstUSR tokens, and the oracle has been frozen at 1.2872 for hours, so it may not reflect a real collapse. Utilization already hit 100% once, and the curator has stayed silent. The full $1000 is withdrawable at the moment, so move it to Steakhouse USDC, which has no open clocks."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Smokehouse USDC:USR:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Smokehouse USDC:USR",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008115000000000001,
+    "tokens": 3195,
+    "summary": "The USR collateral market's oracle is now 5.1% above market while utilization is high, so withdraw your fully available $1000 and park it in the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008115000000000001,
+    "tokens": 3195,
+    "summary": "The USR collateral market's oracle is now 5.1% above market while utilization is high, so withdraw your fully available $1000 and park it in the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.037161599999999996,
+    "tokens": 4518,
+    "summary": "USR's market price broke 5.1% below a fixed 1.0000 oracle. Utilization is near 89%, and the curator has not responded. All $1000 is withdrawable now, so withdraw everything and park it in Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Smokehouse USDC:USR:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Smokehouse USDC:USR",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000068,
+    "tokens": 3008,
+    "summary": "USR collateral has depegged violently while the oracle remains at $1.00 and the curator is silent, so withdraw your fully withdrawable $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000068,
+    "tokens": 3008,
+    "summary": "USR collateral has depegged violently while the oracle remains at $1.00 and the curator is silent, so withdraw your fully withdrawable $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.03342239999999999,
+    "tokens": 4363,
+    "summary": "USR collateral has crashed to about $0.04 while the oracle still reads $1.00. Utilization is high and the curator has taken no protective action. Withdraw the full $1000 now and move it to Steakhouse USDC (0xBEEF...64CB)."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Smokehouse USDC:USR:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Smokehouse USDC:USR",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008991000000000001,
+    "tokens": 3321,
+    "summary": "USR collateral has collapsed from a stable 0.9995 market price to 0.0383 while the oracle remains at 1.0000 and the curator is silent, so withdraw your fully available $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008991000000000001,
+    "tokens": 3321,
+    "summary": "USR collateral has collapsed from a stable 0.9995 market price to 0.0383 while the oracle remains at 1.0000 and the curator is silent, so withdraw your fully available $1000 now into the candidate Steakhouse USDC vault."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.03452639999999999,
+    "tokens": 4409,
+    "summary": "USR has collapsed to about $0.04 while the oracle still prices it at $1.00. Utilization is near 89% and the curator has not reduced exposure since the depeg. I recommend withdrawing the full $1000 now while it is still withdrawable and parking it in Steakhouse USDC."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:Smokehouse USDC:USR:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "Smokehouse USDC:USR",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00025025000000000004,
+    "tokens": 5717,
+    "summary": "The USR market is in a severe depeg and fully utilized, so you cannot withdraw now; watch briefly for any liquidity or curator rescue."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00025025000000000004,
+    "tokens": 5717,
+    "summary": "The USR market is in a severe depeg and fully utilized, so you cannot withdraw now; watch briefly for any liquidity or curator rescue."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.042182399999999995,
+    "tokens": 4844,
+    "summary": "LEAVE now and move any freed USDC into Steakhouse USDC. USR has depegged hard and was still about 11% below a stuck oracle price of 1.0000 in the latest read. The market is 100% utilized and the user's withdrawable balance is $0.00. The curator pulled 1561 USDC, but $10121 of vault exposure remains. Keep retrying the withdrawal for the full $1000 as soon as liquidity frees up, because staying risks losing the deposit to bad debt."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:kpk USDC Yield:RLP:02:30",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "kpk USDC Yield:RLP",
+   "minutesFromBreak": 3,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00009564000000000001,
+    "tokens": 2400,
+    "summary": "The oracle is below market rather than above it, and utilization is stable, so this does not look like a collateral-overvaluation drain risk; stay for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.016240440000000002,
+    "tokens": 2400,
+    "summary": "The oracle is below market rather than above it, and utilization is stable, so this does not look like a collateral-overvaluation drain risk; stay for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.033936,
+    "tokens": 3322,
+    "summary": "Stay in kpk USDC Yield. The -12.6% gap has the oracle pricing RLP below market, which protects lenders rather than exposing them. Utilization is steady at 83.2%, and the full $1000 can be withdrawn. Keep monitoring because the curator has not acted and the market price only just became visible, but there is no basis for exiting now."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0161448
+   }
+  },
+  {
+   "id": "march22_exposed:kpk USDC Yield:RLP:02:40",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "kpk USDC Yield:RLP",
+   "minutesFromBreak": 13,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008681,
+    "tokens": 2333,
+    "summary": "Withdraw your USDC now because the RLP market is linked to the breaking Resolv USR system, utilization is rising, and the curator has not acted."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008681,
+    "tokens": 2333,
+    "summary": "Withdraw your USDC now because the RLP market is linked to the breaking Resolv USR system, utilization is rising, and the curator has not acted."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0379536,
+    "tokens": 3563,
+    "summary": "Withdraw the full $1000 now and park it in Steakhouse USDC. The RLP collateral is tied to the breaking USR/wstUSR system, and the oracle has been static throughout. Utilization is rising and the curator has been silent. Exiting while full liquidity remains costs little compared with the risk of a sudden loss."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:kpk USDC Yield:RLP:02:50",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "kpk USDC Yield:RLP",
+   "minutesFromBreak": 23,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00012167000000000002,
+    "tokens": 2831,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking USR/wstUSR system and the curator has not acted while utilization is rising."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00012167000000000002,
+    "tokens": 2831,
+    "summary": "Withdraw your full $1000 now and move it to the Steakhouse USDC candidate vault, because RLP is tied to the breaking USR/wstUSR system and the curator has not acted while utilization is rising."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0382656,
+    "tokens": 3576,
+    "summary": "I recommend leaving now: withdraw the full $1000 from kpk USDC Yield and move it to Steakhouse USDC. The RLP collateral is tied to the breaking Resolv USR system, the oracle has been frozen for two hours with little market price data, utilization is rising and the curator has done nothing. The funds are fully withdrawable today, so exiting now costs only some yield and gas."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "march22_exposed:kpk USDC Yield:RLP:03:00",
+   "group": "march22_exposed",
+   "truth": "LEAVE",
+   "series": "kpk USDC Yield:RLP",
+   "minutesFromBreak": 33,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007652,
+    "tokens": 2198,
+    "summary": "Withdraw your USDC now and move it to the Steakhouse USDC candidate vault because the RLP market is tied to the breaking Resolv USR system and the curator has not acted."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00007652,
+    "tokens": 2198,
+    "summary": "Withdraw your USDC now and move it to the Steakhouse USDC candidate vault because the RLP market is tied to the breaking Resolv USR system and the curator has not acted."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.035697599999999996,
+    "tokens": 3477,
+    "summary": "Leave now. Withdraw all $1000 and move it to Steakhouse USDC. RLP is tied to the breaking USR system, the price feeds look static and possibly blind, utilization recently hit 100%, and the curator has done nothing. Liquidity is available right now, but it could disappear."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "stream_exposed:MEV Capital USDC:xUSD:22:00",
+   "group": "stream_exposed",
+   "truth": "LEAVE",
+   "series": "MEV Capital USDC:xUSD",
+   "minutesFromBreak": -820,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00017785,
+    "tokens": 3481,
+    "summary": "The first model's STAY is escalated to WAIT. Utilization reached 99.9% and only $769.70 of $1000 is withdrawable, so liquidity risk is real. The oracle gap is small and stable, the curator is active, and the candidate vault is unvetted, so a full LEAVE is not yet warranted. Recheck in about 60 minutes and leave if utilization stays near 100% or the oracle gap widens."
+   },
+   "lifeboat": {
+    "action": "WAIT",
+    "decidedBy": "serv_second_opinion",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.02087065,
+    "tokens": 3481,
+    "summary": "The first model's STAY is escalated to WAIT. Utilization reached 99.9% and only $769.70 of $1000 is withdrawable, so liquidity risk is real. The oracle gap is small and stable, the curator is active, and the candidate vault is unvetted, so a full LEAVE is not yet warranted. Recheck in about 60 minutes and leave if utilization stays near 100% or the oracle gap widens."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0357984,
+    "tokens": 3246,
+    "summary": "Utilization on the xUSD market spiked to 99.9%, the curator is pulling funds out, and the oracle price is fixed and may not reflect a real loss. Withdraw the $769.70 that is available now into Steakhouse USDC, and keep trying to recover the remaining balance as liquidity frees up."
+   },
+   "secondOpinion": {
+    "action": "WAIT",
+    "applied": true,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0206928
+   }
+  },
+  {
+   "id": "stream_exposed:MEV Capital USDC:xUSD:11:40",
+   "group": "stream_exposed",
+   "truth": "LEAVE",
+   "series": "MEV Capital USDC:xUSD",
+   "minutesFromBreak": 0,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00033938,
+    "tokens": 5948,
+    "summary": "The xUSD market is overvalued and fully utilized with no curator action, so leave if any liquidity appears; your position is currently locked."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00033938,
+    "tokens": 5948,
+    "summary": "The xUSD market is overvalued and fully utilized with no curator action, so leave if any liquidity appears; your position is currently locked."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0331872,
+    "tokens": 3334,
+    "summary": "Leave now. The xUSD oracle is overstating price by 6.9% after a sudden jump, the market is 100% utilized, and the curator has been silent for about 350 minutes. Withdraw whatever USDC becomes available, which is $0 right now, and move it to Steakhouse USDC. Keep retrying as liquidity frees up, because the full $1000 stays at risk until it can be withdrawn."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "stream_exposed:Not Gauntlet:xUSD:22:00",
+   "group": "stream_exposed",
+   "truth": "LEAVE",
+   "series": "Not Gauntlet:xUSD",
+   "minutesFromBreak": -820,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00010714000000000002,
+    "tokens": 2398,
+    "summary": "Withdraw the $769.70 still available and move it to the Steakhouse USDC candidate vault because utilization is at 99.9% and the curator has not acted."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00010714000000000002,
+    "tokens": 2398,
+    "summary": "Withdraw the $769.70 still available and move it to the Steakhouse USDC candidate vault because utilization is at 99.9% and the curator has not acted."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0340224,
+    "tokens": 3092,
+    "summary": "Withdraw the $769.70 that is available now and move it to Steakhouse USDC. Utilization spiked to 99.9%, the curator has not acted, and the oracle has stayed fixed while the market price moved. The remaining $230.30 is locked until liquidity frees up and should keep being monitored."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "stream_exposed:Not Gauntlet:xUSD:11:40",
+   "group": "stream_exposed",
+   "truth": "LEAVE",
+   "series": "Not Gauntlet:xUSD",
+   "minutesFromBreak": 0,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00016675,
+    "tokens": 3481,
+    "summary": "Your position is fully locked with $0 withdrawable while the xUSD oracle gap widened to 6.9% and the curator remains silent, so monitor closely for any liquidity or curator action."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00016675,
+    "tokens": 3481,
+    "summary": "Your position is fully locked with $0 withdrawable while the xUSD oracle gap widened to 6.9% and the curator remains silent, so monitor closely for any liquidity or curator action."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0323904,
+    "tokens": 3300,
+    "summary": "The xUSD price gap has widened sharply to 6.9% while the oracle stays frozen, utilization remains at 100%, and the curator has taken no action. Lifeboat is leaving: it will withdraw whatever USDC becomes withdrawable and park it in Steakhouse USDC. Right now the withdrawable amount is $0, so the exit will only capture funds as liquidity frees up."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "stream_exposed:Vaultik USDC:xUSD:22:00",
+   "group": "stream_exposed",
+   "truth": "LEAVE",
+   "series": "Vaultik USDC:xUSD",
+   "minutesFromBreak": -820,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000984,
+    "tokens": 2274,
+    "summary": "Withdraw the $769.70 still available and move it to the Steakhouse USDC candidate vault, because utilization is at 99.9% and the curator has not acted."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000984,
+    "tokens": 2274,
+    "summary": "Withdraw the $769.70 still available and move it to the Steakhouse USDC candidate vault, because utilization is at 99.9% and the curator has not acted."
+   },
+   "frontier": {
+    "action": "WAIT",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0331104,
+    "tokens": 3054,
+    "summary": "Price signals are calm, with an oracle gap of 0.2% or less and no widening trend. However, utilization has risen to 99.9% and the curator has not responded, which threatens withdrawal liquidity. Since $769.70 can still be withdrawn and there is no sign of collateral loss, I recommend waiting 10 minutes. Leave for Steakhouse USDC if utilization stays pinned, the gap widens, withdrawable funds shrink, or the curator remains silent."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "stream_exposed:Vaultik USDC:xUSD:11:40",
+   "group": "stream_exposed",
+   "truth": "LEAVE",
+   "series": "Vaultik USDC:xUSD",
+   "minutesFromBreak": 0,
+   "dolphin": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00018181000000000002,
+    "tokens": 3697,
+    "summary": "xUSD's oracle is 6.9% above market with 100% utilization and no curator action, so exit to Steakhouse USDC is warranted, though the position currently shows $0 withdrawable."
+   },
+   "lifeboat": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00018181000000000002,
+    "tokens": 3697,
+    "summary": "xUSD's oracle is 6.9% above market with 100% utilization and no curator action, so exit to Steakhouse USDC is warranted, though the position currently shows $0 withdrawable."
+   },
+   "frontier": {
+    "action": "LEAVE",
+    "decidedBy": "rule",
+    "rule": "utilization_hard_limit",
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0329904,
+    "tokens": 3325,
+    "summary": "Exit now. The price gap jumped to 6.9% and is holding, the oracle has been frozen at 1.2661, utilization is at 100%, and the curator has been silent the whole time. Withdrawable funds are currently $0, so withdraw any USDC the moment liquidity frees up and move it to Steakhouse USDC (0xBEEF…64CB). Keep attempting withdrawals rather than waiting for the curator to act."
+   },
+   "secondOpinion": null
+  },
+  {
+   "id": "prebreak:ethereum:wstUSR:0xd9e34b",
+   "group": "march22_before_break",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000037510000000000005,
+    "tokens": 1681,
+    "summary": "The market looks calm with only a tiny stable oracle gap and no sign of lender lock-up, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.013981509999999999,
+    "tokens": 1681,
+    "summary": "The market looks calm with only a tiny stable oracle gap and no sign of lender lock-up, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.026208,
+    "tokens": 3108,
+    "summary": "STAY. The wstUSR market looks calm: the price gap is a flat 0.1%, utilization is easing to 79.1%, exposure is steady, and the full $1,000 can be withdrawn at any time. Nothing in the evidence justifies paying to move to a vault with unknown terms."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.013944
+   }
+  },
+  {
+   "id": "prebreak:ethereum:RLP:0xe1b653",
+   "group": "march22_before_break",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00008727000000000001,
+    "tokens": 2349,
+    "summary": "The market shows only a tiny stable oracle discount and flat utilization, so I would stay for now rather than withdraw."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01530087,
+    "tokens": 2349,
+    "summary": "The market shows only a tiny stable oracle discount and flat utilization, so I would stay for now rather than withdraw."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.032846400000000005,
+    "tokens": 3355,
+    "summary": "Stay. The price gap is small and was stable, utilization is flat around 83%, and the full $1,000 can be withdrawn. Nothing current justifies leaving. One caveat: the market price feed has been missing for an hour. If it comes back showing a wider gap, or if utilization starts climbing toward 100%, this should be checked again."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.015213599999999999
+   }
+  },
+  {
+   "id": "prebreak:ethereum:USR:0x8e7cc0",
+   "group": "march22_before_break",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004672,
+    "tokens": 1816,
+    "summary": "USR's 0.1% market discount is shallow and stable with no rapid utilization spike, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.014173119999999999,
+    "tokens": 1816,
+    "summary": "USR's 0.1% market discount is shallow and stable with no rapid utilization spike, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0260976,
+    "tokens": 3105,
+    "summary": "STAY. The USR market looks calm: the price gap is a steady 0.1%, utilization is stable at about 87%, and the full $1,000 can be withdrawn at any time. Nothing justifies leaving now. Keep watching for a widening price gap, utilization nearing 100%, or a USR-related incident."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.014126399999999999
+   }
+  },
+  {
+   "id": "prebreak:ethereum:RLP:0x4b8644",
+   "group": "march22_before_break",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00006747000000000002,
+    "tokens": 2067,
+    "summary": "The 0.2% gap is small and stable with flat utilization and no curator concern, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01659387,
+    "tokens": 2067,
+    "summary": "The 0.2% gap is small and stable with flat utilization and no curator concern, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "WAIT",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.034656,
+    "tokens": 3432,
+    "summary": "The last visible price gap was small and utilization is steady, so nothing yet justifies leaving. However, the market price feed has been blank for an hour and the curator has been silent. Wait 10 minutes and re-check whether the price returns or utilization rises before deciding to stay or move to Steakhouse USDC."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0165264
+   }
+  },
+  {
+   "id": "prebreak:base:USR:0xff0f2b",
+   "group": "march22_before_break",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004198,
+    "tokens": 1744,
+    "summary": "The USR market shows only a stable 0.1% oracle discount with steady utilization and no curator alarm, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.013995579999999999,
+    "tokens": 1744,
+    "summary": "The USR market shows only a stable 0.1% oracle discount with steady utilization and no curator alarm, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.023860799999999998,
+    "tokens": 3007,
+    "summary": "STAY. This USR-collateral market looks stable: the price gap is flat at 0.1%, utilization is steady at 47.6%, and your full $1,000 can be withdrawn now. Nothing in the evidence justifies the cost of leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.013953599999999998
+   }
+  },
+  {
+   "id": "live_calm:Grove x Steakhouse USDC:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003253,
+    "tokens": 1105,
+    "summary": "The cbBTC oracle gap is small and conservative, with no sign of an active problem, so staying is reasonable while monitoring."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.010866129999999998,
+    "tokens": 1105,
+    "summary": "The cbBTC oracle gap is small and conservative, with no sign of an active problem, so staying is reasonable while monitoring."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.021177599999999998,
+    "tokens": 2296,
+    "summary": "STAY. The cbBTC market looks healthy. The oracle sits about 0.1% below the market price, utilization is 85.9% but not full, all $1,000 can be withdrawn now, and no alarm or related incident has been reported. Nothing justifies paying the costs of leaving. It is still worth re-checking if utilization approaches 100% or the price gap widens."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.010833599999999999
+   }
+  },
+  {
+   "id": "live_calm:Grove x Steakhouse USDC:WETH:0x8793cf",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00002924,
+    "tokens": 1058,
+    "summary": "Nothing in the current evidence justifies leaving; the small oracle gap is benign and the position remains fully withdrawable."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01057724,
+    "tokens": 1058,
+    "summary": "Nothing in the current evidence justifies leaving; the small oracle gap is benign and the position remains fully withdrawable."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.019867199999999998,
+    "tokens": 2243,
+    "summary": "Stay in Grove x Steakhouse USDC. The WETH market's price gap is small (-0.2%), the oracle is not above the market price, utilization is 85.6% with your full $1,000 withdrawable, and no incident or alarm has been reported. Nothing currently justifies paying to move funds. Keep an eye on utilization if it climbs toward 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.010548
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse High Yield USDC Edition:USDe:0x54cf9b",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004232000000000001,
+    "tokens": 1274,
+    "summary": "Nothing currently justifies leaving: the price gap is negligible and stable, the full balance is still withdrawable, and there is no fresh curator alarm."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.012555919999999998,
+    "tokens": 1274,
+    "summary": "Nothing currently justifies leaving: the price gap is negligible and stable, the full balance is still withdrawable, and there is no fresh curator alarm."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0223488,
+    "tokens": 2384,
+    "summary": "This was an on-demand check with no alarm. USDe is trading at its oracle price, and the feed looks fixed-rate by design. Utilization is 90%, but all $1,000 is withdrawable. No related-token incident or worsening trend was found. Nothing justifies leaving, so stay and re-check if utilization nears 100% or a price gap opens."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.012513599999999998
+   }
+  },
+  {
+   "id": "live_benign_gap:Steakhouse High Yield USDC Edition:mGLO:0xe0cda5",
+   "group": "live_benign_gap",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004237,
+    "tokens": 1279,
+    "summary": "The market's oracle is below market rather than above it, the feed looks fixed by design, and there is no curator alarm, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01354957,
+    "tokens": 1279,
+    "summary": "The market's oracle is below market rather than above it, the feed looks fixed by design, and there is no curator alarm, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.027393599999999997,
+    "tokens": 2599,
+    "summary": "STAY. The 2% gap comes from a likely fixed-rate oracle that understates collateral, which is the safe direction for lenders. Utilization is high but the full $1,000 can be withdrawn now, and no alarm or incident points to imminent loss. Re-check if utilization climbs toward 100%, the gap flips to the oracle sitting above the market, or the curator stays silent during a developing event."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0135072
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse High Yield USDC Edition:cbXRP:0xd4a903",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003430000000000001,
+    "tokens": 1132,
+    "summary": "The cbXRP market shows only a small conservative oracle discount and no curator alarm, so your $1,000 remains safely withdrawable and does not justify leaving right now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.010975899999999999,
+    "tokens": 1132,
+    "summary": "The cbXRP market shows only a small conservative oracle discount and no curator alarm, so your $1,000 remains safely withdrawable and does not justify leaving right now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0193728,
+    "tokens": 2224,
+    "summary": "STAY. The small -0.4% oracle gap runs in the lender-safe direction. Utilization is 90.3% but the full $1,000 is still withdrawable, and no alarm or incident is present. Keep watching utilization in case it nears 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0109416
+   }
+  },
+  {
+   "id": "live_benign_gap:Steakhouse High Yield USDC Edition:mGLO:0x29ae7a",
+   "group": "live_benign_gap",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000058540000000000005,
+    "tokens": 1510,
+    "summary": "The oracle gap is downward and stable, with no curator alarm or withdrawal lock, so staying is justified for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.013784139999999999,
+    "tokens": 1510,
+    "summary": "The oracle gap is downward and stable, with no curator alarm or withdrawal lock, so staying is justified for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.028694400000000002,
+    "tokens": 2654,
+    "summary": "STAY. The -6% gap comes from an oracle that understates the collateral price, likely a fixed-rate feed, which protects lenders rather than putting them at risk. There is no incident or alarm, and the full $1,000 can still be withdrawn. Keep an eye on utilization at 90.3%: if it climbs toward 100%, or the curator stays silent during a real collateral event, reassess."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0137256
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse High Yield USDC Edition:cbZEC:0xe458a5",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004525000000000001,
+    "tokens": 1285,
+    "summary": "The 0.6% oracle gap is small and there is no evidence of a widening depeg or curator concern, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01234765,
+    "tokens": 1285,
+    "summary": "The 0.6% oracle gap is small and there is no evidence of a widening depeg or curator concern, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.019723199999999996,
+    "tokens": 2237,
+    "summary": "STAY. The 0.6% price gap is benign, no alarm or related incident is present, and the full $1,000 is withdrawable. Utilization of 90.5% is worth monitoring on future checks, but it does not justify leaving now."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0123024
+   }
+  },
+  {
+   "id": "live_benign_gap:Steakhouse High Yield USDC Edition:PAXG:0x48dca3",
+   "group": "live_benign_gap",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000036230000000000004,
+    "tokens": 1187,
+    "summary": "The PAXG market shows only a small, stable oracle gap with no curator concern or alarm, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01264343,
+    "tokens": 1187,
+    "summary": "The PAXG market shows only a small, stable oracle gap with no curator concern or alarm, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0286416,
+    "tokens": 2647,
+    "summary": "STAY. The 1.5% overstated gap is consistent with a fixed-rate oracle feed, utilization is high but not full, the full $1,000 is withdrawable, and no alarm or related incident is present. Re-check if the gap widens, utilization approaches 100%, or the curator stays silent after an alarm."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0126072
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003252,
+    "tokens": 1104,
+    "summary": "The cbBTC market shows only a tiny benign oracle gap and no alarm, so keep the deposit in place for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011461319999999999,
+    "tokens": 1104,
+    "summary": "The cbBTC market shows only a tiny benign oracle gap and no alarm, so keep the deposit in place for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0191328,
+    "tokens": 2210,
+    "summary": "Stay. The cbBTC oracle is only about 0.1% below market, utilization is 85.9% but the full $1,000 can still be withdrawn, no alarm or incident has been reported, and the clock only just opened. Nothing justifies leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0114288
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:WETH:0x8793cf",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003567,
+    "tokens": 1149,
+    "summary": "Nothing in the evidence suggests a real depeg or curator concern, so keep the $1,000 in the vault and continue watching."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00966447,
+    "tokens": 1149,
+    "summary": "Nothing in the evidence suggests a real depeg or curator concern, so keep the $1,000 in the vault and continue watching."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0191664,
+    "tokens": 2213,
+    "summary": "Stay in Gauntlet USDC Prime. The WETH oracle is within 0.2% of the market price and slightly conservative, utilization is 85.6% but not full, and the full $1,000 is withdrawable. No incident has fired, so nothing justifies paying gas and giving up yield to move."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0096288
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbETH:0x0ca101",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000026039999999999998,
+    "tokens": 1014,
+    "summary": "The cbETH market shows no oracle divergence and your full $1,000 remains withdrawable, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011423639999999999,
+    "tokens": 1014,
+    "summary": "The cbETH market shows no oracle divergence and your full $1,000 remains withdrawable, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020078400000000003,
+    "tokens": 2255,
+    "summary": "I recommend staying in Gauntlet USDC Prime. The cbETH oracle and market prices match, utilization is 87% with your full $1,000 still withdrawable, and no alarm or incident is present. Moving now would cost gas and yield for no clear benefit. Run another check if utilization nears 100% or a price gap appears."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011397599999999999
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:wstETH:0x13c427",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004575000000000001,
+    "tokens": 1293,
+    "summary": "The wstETH market shows only a small 0.3% oracle premium with no alarm or curator concern, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011371349999999999,
+    "tokens": 1293,
+    "summary": "The wstETH market shows only a small 0.3% oracle premium with no alarm or curator concern, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.019992,
+    "tokens": 2245,
+    "summary": "Stay in Gauntlet USDC Prime. The wstETH market shows only a 0.3% price gap, and your full $1,000 can be withdrawn. Utilization of 88.3% is worth watching. Nothing currently justifies paying to move to a vault with unknown yield."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011325599999999998
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbETH:0x1c21c5",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003497,
+    "tokens": 1139,
+    "summary": "Nothing in the evidence shows a real depeg or curator concern, so keep the deposit in place and continue monitoring."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01199177,
+    "tokens": 1139,
+    "summary": "Nothing in the evidence shows a real depeg or curator concern, so keep the deposit in place and continue monitoring."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.018811199999999997,
+    "tokens": 2195,
+    "summary": "Stay. The cbETH oracle matches the market price, utilization is high but not full, and all $1,000 can be withdrawn. Nothing justifies leaving today. Keep an eye on utilization in case it moves toward 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0119568
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbETH:0xdba352",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003264,
+    "tokens": 1104,
+    "summary": "Nothing in the current evidence shows a harmful oracle divergence or curator concern, so staying is appropriate while monitoring."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01194144,
+    "tokens": 1104,
+    "summary": "Nothing in the current evidence shows a harmful oracle divergence or curator concern, so staying is appropriate while monitoring."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.018672,
+    "tokens": 2190,
+    "summary": "Stay in Gauntlet USDC Prime. The cbETH oracle matches the market price and all $1,000 can be withdrawn. No alarm has fired and no related-token incident is reported. Utilization at 91% is worth monitoring, but it does not justify leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011908799999999999
+   }
+  },
+  {
+   "id": "live_calm:Spark USDC Vault:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004266,
+    "tokens": 1248,
+    "summary": "The cbBTC market shows only a tiny benign oracle discount and no urgent curator warning, so keep the USDC in the Spark vault for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.010067459999999999,
+    "tokens": 1248,
+    "summary": "The cbBTC market shows only a tiny benign oracle discount and no urgent curator warning, so keep the USDC in the Spark vault for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0196944,
+    "tokens": 2231,
+    "summary": "The cbBTC market looks calm. The price gap is tiny and in the safe direction, utilization is not full, and your $1,000 is fully withdrawable. Nothing justifies leaving, so staying in Spark USDC Vault is the call."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.010024799999999999
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003189,
+    "tokens": 1095,
+    "summary": "The cbBTC oracle gap is tiny and in the safe direction, with no curator alarm or withdrawal lock, so staying is justified for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01113429,
+    "tokens": 1095,
+    "summary": "The cbBTC oracle gap is tiny and in the safe direction, with no curator alarm or withdrawal lock, so staying is justified for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0203088,
+    "tokens": 2259,
+    "summary": "Stay in Gauntlet USDC Prime. The cbBTC oracle is in line with the market (-0.1%, conservative direction), utilization of 85.9% still allows a full $1,000 withdrawal, and no alarm or related incident is present. Nothing justifies paying gas or giving up yield to leave."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0111024
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:WETH:0x8793cf",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000030770000000000005,
+    "tokens": 1079,
+    "summary": "The WETH market shows only a tiny benign oracle discount with no curator concern, so staying is appropriate."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.009042769999999999,
+    "tokens": 1079,
+    "summary": "The WETH market shows only a tiny benign oracle discount with no curator concern, so staying is appropriate."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0194064,
+    "tokens": 2223,
+    "summary": "Stay in Gauntlet USDC Prime. The WETH oracle sits slightly below the market price, utilization is high but not full, and the full $1,000 can be withdrawn. Nothing justifies leaving. Keep an eye on utilization."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.009012
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbETH:0x0ca101",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000027580000000000007,
+    "tokens": 1036,
+    "summary": "The cbETH market shows no oracle divergence and no curator alarm, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011312379999999999,
+    "tokens": 1036,
+    "summary": "The cbETH market shows no oracle divergence and no curator alarm, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020438400000000002,
+    "tokens": 2270,
+    "summary": "Stay. The oracle and market prices for cbETH collateral match, utilization is 87% with the full $1000 withdrawable, and there is no alarm or incident signal. Nothing justifies leaving today. Keep watching utilization in case it approaches 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0112848
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:wstETH:0x13c427",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000054430000000000006,
+    "tokens": 1417,
+    "summary": "The wstETH market shows only a small 0.3% oracle gap and no curator alarm, so your $1,000 can stay for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00936643,
+    "tokens": 1417,
+    "summary": "The wstETH market shows only a small 0.3% oracle gap and no curator alarm, so your $1,000 can stay for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.021432,
+    "tokens": 2305,
+    "summary": "STAY. The wstETH market shows a small 0.3% price gap, utilization of 88.3% that is not full, and the whole $1,000 is withdrawable. No alarm or incident justifies paying to move into a candidate vault with unknown yield. Keep monitoring: a growing gap, utilization approaching 100%, or a related-token incident would warrant reassessment."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.009312
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbETH:0x1c21c5",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000029370000000000005,
+    "tokens": 1059,
+    "summary": "Nothing in the current evidence shows a real depeg or curator concern, so keep the deposit in place and continue watching."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01112697,
+    "tokens": 1059,
+    "summary": "Nothing in the current evidence shows a real depeg or curator concern, so keep the deposit in place and continue watching."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020203199999999998,
+    "tokens": 2253,
+    "summary": "Stay. The cbETH oracle and market prices match, the full $1,000 is withdrawable, no alarm or related incident has appeared, and the alternative vault has unknown yield. Nothing justifies leaving. Keep an eye on utilization, which is near 88%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011097599999999999
+   }
+  },
+  {
+   "id": "live_calm:Gauntlet USDC Prime:cbETH:0xdba352",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00002955,
+    "tokens": 1059,
+    "summary": "The cbETH market shows no real oracle divergence and no alarm, so your $1,000 remains safe to stay for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011770349999999999,
+    "tokens": 1059,
+    "summary": "The cbETH market shows no real oracle divergence and no alarm, so your $1,000 remains safe to stay for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0195312,
+    "tokens": 2225,
+    "summary": "Stay. The cbETH oracle matches the market price, no alarm has fired, and the full $1,000 is withdrawable. Utilization is high at 91%, so it is worth checking again if it moves toward 100% or a price gap appears."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0117408
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse Prime USDC:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000029230000000000003,
+    "tokens": 1057,
+    "summary": "The cbBTC oracle gap is tiny and conservative, with no curator concern, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011071629999999999,
+    "tokens": 1057,
+    "summary": "The cbBTC oracle gap is tiny and conservative, with no curator concern, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0207888,
+    "tokens": 2279,
+    "summary": "The cbBTC market looks healthy. The oracle-market gap is a negligible -0.1%, utilization is 85.9% with the full $1,000 withdrawable, and no alarm or incident has been reported. Nothing justifies leaving, so I recommend staying in Steakhouse Prime USDC."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011042399999999999
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse Prime USDC:WETH:0x8793cf",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000030210000000000004,
+    "tokens": 1071,
+    "summary": "The WETH market shows only a tiny oracle discount and no curator concern, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00966861,
+    "tokens": 1071,
+    "summary": "The WETH market shows only a tiny oracle discount and no curator concern, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020174400000000002,
+    "tokens": 2255,
+    "summary": "The WETH market shows a small, benign gap with the oracle below the market price. Utilization is not full, the full $1,000 is withdrawable, and no alarm or incident has been reported. Nothing justifies leaving, so the recommendation is to stay in Steakhouse Prime USDC and recheck if an alarm fires or utilization nears 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0096384
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse Prime USDC:cbETH:0x0ca101",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00002779,
+    "tokens": 1039,
+    "summary": "Nothing in the evidence shows a real oracle divergence or curator concern, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011581389999999999,
+    "tokens": 1039,
+    "summary": "Nothing in the evidence shows a real oracle divergence or curator concern, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.019598400000000002,
+    "tokens": 2235,
+    "summary": "STAY. The cbETH oracle matches the market price, no alarm has fired, and the full $1,000 is currently withdrawable. Utilization at 87% is worth watching, but the evidence does not justify leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011553599999999999
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse Prime USDC:wstETH:0x13c427",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000037980000000000006,
+    "tokens": 1182,
+    "summary": "The wstETH market shows only a small 0.3% oracle premium with no alarm or curator concern, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01217478,
+    "tokens": 1182,
+    "summary": "The wstETH market shows only a small 0.3% oracle premium with no alarm or curator concern, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020136,
+    "tokens": 2251,
+    "summary": "The wstETH market shows only a 0.3% oracle-to-market gap, and the full $1,000 is withdrawable. No alarm or related incident is present, so nothing justifies leaving. Stay in Steakhouse Prime USDC and recheck if utilization approaches 100% or the price gap widens."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0121368
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse USDC:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000033600000000000004,
+    "tokens": 1122,
+    "summary": "Nothing in the current evidence shows a harmful cbBTC oracle divergence or curator concern, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011172,
+    "tokens": 1122,
+    "summary": "Nothing in the current evidence shows a harmful cbBTC oracle divergence or curator concern, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0211248,
+    "tokens": 2293,
+    "summary": "Stay in Steakhouse USDC. The cbBTC oracle shows a tiny -0.1% gap and sits below the market price. Utilization is 85.9%, and the full $1,000 can be withdrawn right now. No alarm has fired and no incident has been reported, so nothing justifies withdrawing. Keep monitoring utilization in case it moves toward full."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0111384
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse USDC:WETH:0x8793cf",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003402,
+    "tokens": 1128,
+    "summary": "Nothing in the evidence suggests a dangerous oracle divergence or curator concern, so keep the deposit in place and continue watching."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01174122,
+    "tokens": 1128,
+    "summary": "Nothing in the evidence suggests a dangerous oracle divergence or curator concern, so keep the deposit in place and continue watching."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0205104,
+    "tokens": 2269,
+    "summary": "STAY. The WETH market looks healthy. The oracle price is within 0.2% of market and is not overstated, utilization is 85.6% with the full $1,000 withdrawable, no alarm has fired, and there is no related-token incident. Leaving for a vault with unknown APY and TVL is not justified. Re-check if utilization approaches 100% or the price gap widens."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011707200000000001
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse USDC:cbETH:0x0ca101",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000309,
+    "tokens": 1086,
+    "summary": "The cbETH market shows no oracle divergence and your full balance is withdrawable, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.010958100000000002,
+    "tokens": 1086,
+    "summary": "The cbETH market shows no oracle divergence and your full balance is withdrawable, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0199344,
+    "tokens": 2249,
+    "summary": "STAY. The cbETH oracle and market prices agree, utilization of 87% is manageable, the full $1,000 can be withdrawn, and no alarm or related incident is present. Nothing currently justifies paying the cost of leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.010927200000000001
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse USDC:wstETH:0x13c427",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000043190000000000005,
+    "tokens": 1259,
+    "summary": "The wstETH market shows only a small 0.3% oracle premium and no curator alarm, so your $1,000 remains withdrawable and does not justify leaving right now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01173119,
+    "tokens": 1259,
+    "summary": "The wstETH market shows only a small 0.3% oracle premium and no curator alarm, so your $1,000 remains withdrawable and does not justify leaving right now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020616,
+    "tokens": 2271,
+    "summary": "Stay in Steakhouse USDC. The wstETH oracle-to-market gap is small (0.3%), utilization is high but not full, and the full $1,000 can be withdrawn. No alarm or incident justifies paying to move to a candidate vault with unknown metrics. Re-check if utilization approaches 100% or the price gap widens."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011688
+   }
+  },
+  {
+   "id": "live_calm:Steakhouse USDC:cbETH:0x1c21c5",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000031990000000000004,
+    "tokens": 1099,
+    "summary": "The cbETH market shows no meaningful oracle divergence and no alarm, so staying is appropriate for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.012027190000000002,
+    "tokens": 1099,
+    "summary": "The cbETH market shows no meaningful oracle divergence and no alarm, so staying is appropriate for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.018763199999999997,
+    "tokens": 2193,
+    "summary": "STAY. The cbETH oracle and market prices match, utilization is high but below full, the $1,000 is fully withdrawable, and no alarm or incident is present. Keep an eye on utilization in case it moves toward 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011995200000000001
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbXRP:0xd4a903",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003372000000000001,
+    "tokens": 1122,
+    "summary": "Nothing in the evidence justifies leaving right now: the price gap is small and in the safe direction, and the curator has not flagged a problem."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.012079319999999998,
+    "tokens": 1122,
+    "summary": "Nothing in the evidence justifies leaving right now: the price gap is small and in the safe direction, and the curator has not flagged a problem."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0214464,
+    "tokens": 2308,
+    "summary": "Stay in the Clearstar cbAssets Vault. The cbXRP oracle is slightly below market, which is the safe direction, and the full $1,000 is withdrawable. No alarm, incident or curator red flag justifies leaving. Keep an eye on utilization (90.3%) in case it rises toward full borrowing."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.012045599999999998
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:SOL:0x7dc02f",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000037,
+    "tokens": 1168,
+    "summary": "The SOL market shows only a tiny oracle premium and no curator alarm, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011974599999999998,
+    "tokens": 1168,
+    "summary": "The SOL market shows only a tiny oracle premium and no curator alarm, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0199488,
+    "tokens": 2244,
+    "summary": "STAY. The SOL market shows a small 0.2% price gap, moderate 76.6% utilization and a fully withdrawable $1,000 position, and no alarm or incident has been reported. Nothing justifies leaving. It is worth checking again if the gap widens, utilization rises toward full, or the curator stays silent during stress."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011937599999999998
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbBTC:0x9103c3",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000349,
+    "tokens": 1138,
+    "summary": "The cbBTC market shows only a tiny 0.1% oracle discount with no curator alarm or evidence of a widening problem, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011859699999999999,
+    "tokens": 1138,
+    "summary": "The cbBTC market shows only a tiny 0.1% oracle discount with no curator alarm or evidence of a widening problem, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020337599999999997,
+    "tokens": 2261,
+    "summary": "The oracle and market prices are within 0.1% of each other, with the oracle slightly lower. Utilization is 85.9% and the full $1,000 is withdrawable. No incident or alarm is present, so nothing justifies leaving. Stay in Clearstar cbAssets Vault and recheck if utilization nears 100% or the price gap widens."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0118248
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:JitoSOL:0x092765",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004152,
+    "tokens": 1236,
+    "summary": "The JitoSOL market shows only a small 0.2% oracle premium and no alarm or lockup pressure, so staying is reasonable for now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01127352,
+    "tokens": 1236,
+    "summary": "The JitoSOL market shows only a small 0.2% oracle premium and no alarm or lockup pressure, so staying is reasonable for now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0216096,
+    "tokens": 2318,
+    "summary": "STAY. The JitoSOL market shows a negligible 0.2% oracle gap, healthy 80% utilization, and the full $1,000 is withdrawable. No alarm, incident, or adverse signal justifies paying to move into a vault with unknown yield and TVL. Re-check if the gap widens, utilization climbs sharply, or a related-token incident emerges."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011232
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbXRP:0xfdfecf",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003342,
+    "tokens": 1116,
+    "summary": "Nothing in the current evidence shows a harmful oracle divergence or curator concern, so keep the deposit in place and continue monitoring."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01295262,
+    "tokens": 1116,
+    "summary": "Nothing in the current evidence shows a harmful oracle divergence or curator concern, so keep the deposit in place and continue monitoring."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.023707199999999998,
+    "tokens": 2403,
+    "summary": "STAY. The price gap is small and runs in the safe direction (oracle below market), and the full $1,000 is withdrawable. No alarm or related-token incident is present. Utilization at 91.7% is worth re-checking if it climbs toward full or the gap reverses."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0129192
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbDOGE:0x73527d",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003141,
+    "tokens": 1089,
+    "summary": "Nothing in the current evidence justifies leaving: the price gap is tiny, the market is not fully utilized, and your full balance is still withdrawable."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00971781,
+    "tokens": 1089,
+    "summary": "Nothing in the current evidence justifies leaving: the price gap is tiny, the market is not fully utilized, and your full balance is still withdrawable."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0207072,
+    "tokens": 2278,
+    "summary": "This was an on-demand check with no alarm. The oracle-market gap is 0.3%, utilization is 84%, and the full $1,000 is withdrawable, so nothing justifies leaving. STAY, and re-check if the price gap widens, utilization climbs toward 100%, or a related-token incident appears."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0096864
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbZEC:0xe458a5",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00006819,
+    "tokens": 1611,
+    "summary": "The cbZEC oracle gap is small at 0.6% with no curator action or alarm, so I would stay and keep monitoring rather than exit now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01192419,
+    "tokens": 1611,
+    "summary": "The cbZEC oracle gap is small at 0.6% with no curator action or alarm, so I would stay and keep monitoring rather than exit now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0199008,
+    "tokens": 2242,
+    "summary": "STAY. The price gap is small (0.6%), the full $1,000 is withdrawable, and no alarm or incident has been reported. High utilization (90.5%) is worth watching on future checks, but nothing currently justifies leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011856
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbADA:0xf2a59a",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000037590000000000004,
+    "tokens": 1173,
+    "summary": "The 0.5% oracle gap is small and the position is fully withdrawable, so there is not enough evidence to justify leaving right now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.009668790000000002,
+    "tokens": 1173,
+    "summary": "The 0.5% oracle gap is small and the position is fully withdrawable, so there is not enough evidence to justify leaving right now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.020016,
+    "tokens": 2246,
+    "summary": "Stay. The cbADA market shows a small 0.5% price gap, 89% utilization with full withdrawability, and no alarm or incident. Nothing justifies leaving a $1,000 deposit today. Re-check if the gap widens or utilization approaches 100%."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.009631200000000001
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbADA:0xd7520a",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00004211000000000001,
+    "tokens": 1235,
+    "summary": "The cbADA market shows only a small 0.5% oracle premium and no curator alarm, so staying is reasonable for now while monitoring utilization and the gap."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01222451,
+    "tokens": 1235,
+    "summary": "The cbADA market shows only a small 0.5% oracle premium and no curator alarm, so staying is reasonable for now while monitoring utilization and the gap."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0211296,
+    "tokens": 2290,
+    "summary": "STAY. The price gap is small (0.5%), the $1,000 is fully withdrawable, no alarm has fired, and there is no incident or curator-silence signal yet. Utilization at 90.3% is worth monitoring on future checks, but nothing currently justifies leaving."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0121824
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbETH:0xdba352",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003516,
+    "tokens": 1140,
+    "summary": "No meaningful oracle-market gap or curator warning is present, so keep the deposit in place and continue watching."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.011792759999999998,
+    "tokens": 1140,
+    "summary": "No meaningful oracle-market gap or curator warning is present, so keep the deposit in place and continue watching."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.021532799999999998,
+    "tokens": 2310,
+    "summary": "STAY. The cbETH oracle matches the market price, no alarm has fired, and the full $1,000 is withdrawable. Utilization at 91% is worth watching. If it climbs toward 100%, or a price gap opens while the curator stays silent, reassess quickly."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.011757599999999998
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbHYPE:0x766290",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.000038010000000000004,
+    "tokens": 1185,
+    "summary": "The price gap is small and the full $1,000 is still withdrawable, so there is not enough evidence to justify leaving right now."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01124121,
+    "tokens": 1185,
+    "summary": "The price gap is small and the full $1,000 is still withdrawable, so there is not enough evidence to justify leaving right now."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0210192,
+    "tokens": 2291,
+    "summary": "Stay in Clearstar cbAssets Vault. The cbHYPE oracle gap is small (0.3%), no alarm or related incident has been reported, and the full $1,000 is withdrawable now. Utilization at 90.6% is worth watching: if it approaches 100% or the price gap widens while the curator stays silent, reassess quickly."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0112032
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbETH:0x0ca101",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0000352,
+    "tokens": 1144,
+    "summary": "Stay in the Clearstar cbAssets Vault for now: the cbETH oracle gap is 0.0%, no alarm has fired, and the curator has shown no concern."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.010768,
+    "tokens": 1144,
+    "summary": "Stay in the Clearstar cbAssets Vault for now: the cbETH oracle gap is 0.0%, no alarm has fired, and the curator has shown no concern."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.0209184,
+    "tokens": 2290,
+    "summary": "STAY: the cbETH oracle and market prices match, the full $1,000 is withdrawable, and there is no incident or alarm. Utilization at 87% is worth keeping an eye on, but nothing justifies withdrawing now."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.010732799999999999
+   }
+  },
+  {
+   "id": "live_calm:Clearstar cbAssets Vault:cbLTC:0x9125d0",
+   "group": "live_calm",
+   "truth": "NOT_LEAVE",
+   "series": null,
+   "minutesFromBreak": null,
+   "dolphin": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.00003353,
+    "tokens": 1115,
+    "summary": "The cbLTC market shows only a tiny oracle gap and no curator alarm, so staying is reasonable while keeping watch."
+   },
+   "lifeboat": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.01244633,
+    "tokens": 1115,
+    "summary": "The cbLTC market shows only a tiny oracle gap and no curator alarm, so staying is reasonable while keeping watch."
+   },
+   "frontier": {
+    "action": "STAY",
+    "decidedBy": "model",
+    "rule": null,
+    "invalid": false,
+    "modelError": null,
+    "costUsd": 0.022089599999999997,
+    "tokens": 2330,
+    "summary": "Stay in the Clearstar cbAssets Vault. The cbLTC price gap is about 0.1%, no alarm has fired, no related-token incident is reported, and all $1,000 is currently withdrawable. Watch utilization (90.3%) and the curator's continued silence, and reassess if the price gap widens or the funds stop being withdrawable."
+   },
+   "secondOpinion": {
+    "action": "STAY",
+    "applied": false,
+    "model": "claude-sonnet-5.5",
+    "costUsd": 0.0124128
+   }
+  }
+ ]
+}

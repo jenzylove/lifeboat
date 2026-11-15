@@ -125,7 +125,7 @@ export interface FinalDecision {
   action: Action;
   waitMinutes: number | null;
   targetVault: string | null;
-  decidedBy: 'model' | 'rule' | 'model_clamped';
+  decidedBy: 'model' | 'rule' | 'model_clamped' | 'serv_second_opinion';
   rule: string | null;
   model: ModelDecision | null;
   modelError: string | null;
