@@ -57,6 +57,16 @@ Everything below is free for people. Only agents calling the API pay.
 
 The demo video walks the same path in 3:28: [youtu.be/yB8HLn_9xTU](https://youtu.be/yB8HLn_9xTU).
 
+## Why this matters
+
+Your USDC earns yield in a Morpho vault. Every vault lends into markets that trust a price feed for their collateral. When that feed keeps an old price while the real market crashes, borrowers post the broken token at the stale price and drain the lenders. The people running your vault, its curators, can stop it by cutting the market.
+
+On March 22 2026 a compromised key minted about 80 million unbacked Resolv USR. Morpho markets kept pricing wstUSR at **$1.1330** for the whole incident while it traded at a fraction of that. In one market that had **$4,053** borrowed, borrowers pulled **$6,244,125** in 133 transactions and it was fully borrowed **42 minutes** after the price broke. Across the five affected markets, **$10.8M** of vault money was still stuck two days later. One curator got its vault out in 23 minutes; another took 30 hours.
+
+**Replayed through the live code on Dolphin, a $1,000 depositor in each of the 10 exposed vaults is out by 02:59 UTC, 33 minutes after the first break, with the money actually withdrawable at that moment.** In the seven RLP positions Lifeboat moves before RLP's own price feed shows anything.
+
+![The March 22 replay](docs/media/replay.png)
+
 ## Benchmark: does the cheap model make the right call?
 
 Every logged March 22 decision was LEAVE, so on its own that proves nothing: a bot that always says LEAVE would look the same. So the same evidence packs went through three arms, on 94 real cases where the right answer is known.
@@ -79,16 +89,6 @@ Every logged March 22 decision was LEAVE, so on its own that proves nothing: a b
 **It does prove:** the open model on Dolphin makes the same calls as a frontier model on real incident and live data, stays quiet on 48 calm markets, cites only real evidence, and costs about 387 times less; the contract keeps money between approved vaults and the owner (9 fork tests); the agent moves real money on Base mainnet; agents pay for checks over x402; PromptGuard blocks most planted instructions (21 of 24).
 
 **It does not prove:** that Lifeboat would have saved a large position, because withdrawals are limited by what the market still holds (the replay shows what was withdrawable at each moment); that it catches a break before any price moves (the Stream case was missed by every arm); that the guard stops every possible attack (3 of 24 got through, and the decision model itself is the next line of defence); or how it behaves on incidents unlike these two. The replays use 10 minute samples; the live watcher reads every minute.
-
-## Why this matters
-
-Your USDC earns yield in a Morpho vault. Every vault lends into markets that trust a price feed for their collateral. When that feed keeps an old price while the real market crashes, borrowers post the broken token at the stale price and drain the lenders. The people running your vault, its curators, can stop it by cutting the market.
-
-On March 22 2026 a compromised key minted about 80 million unbacked Resolv USR. Morpho markets kept pricing wstUSR at **$1.1330** for the whole incident while it traded at a fraction of that. In one market that had **$4,053** borrowed, borrowers pulled **$6,244,125** in 133 transactions and it was fully borrowed **42 minutes** after the price broke. Across the five affected markets, **$10.8M** of vault money was still stuck two days later. One curator got its vault out in 23 minutes; another took 30 hours.
-
-**Replayed through the live code on Dolphin, a $1,000 depositor in each of the 10 exposed vaults is out by 02:59 UTC, 33 minutes after the first break, with the money actually withdrawable at that moment.** In the seven RLP positions Lifeboat moves before RLP's own price feed shows anything.
-
-![The March 22 replay](docs/media/replay.png)
 
 ## How it works
 
@@ -119,9 +119,21 @@ flowchart LR
 
 **Ask Lifeboat now** runs the same decision on demand: open any Morpho vault, press the button, and (usually under a minute; a first read of a new vault can take up to two minutes) Dolphin reads it live and says STAY, WAIT or LEAVE with its reasons and evidence, explained in plain words by SERV. No transaction is sent; every check is published on `/proof`.
 
-## Why only on Dolphin
+## Why Dolphin
 
-The core act is a personalized decision to pull one person's money out of one named investment product and put it in another, unattended, every minute. [Anthropic's Usage Policy](https://www.anthropic.com/legal/aup) treats that as a high risk recommendation that a qualified person must review before it is acted on. Lifeboat runs the decision on **DeepSeek V4.1 Flash, open weights served by Dolphin**, over a standard API, so the model can move to any node that serves the same weights. It is also nearly free: the whole March 22 replay, 10 decisions and the sweeps, cost **$0.001** on Dolphin, recorded per call in [`data/replay/decisions.json`](data/replay/decisions.json).
+Lifeboat only works if a model rereads every market of every watched vault, every minute, around the clock. That has to cost almost nothing, and the call still has to be right.
+
+| | Dolphin (DeepSeek V4.1 Flash) | Frontier model (Claude Opus 5.5) |
+|---|---|---|
+| Right calls on the 94 case benchmark | 85/94 | 84/94 |
+| False alarms on 48 calm markets | 0 | 0 |
+| Cost per decision | $0.000076 | $0.029 |
+| One vault watched every minute, per day | about $0.11 | about $42 |
+| The decision inside one $0.01 paid check | about $0.0001 | about $0.03, three times what the check sells for |
+
+Same calls (they agreed on stay or leave in 91 of 94 cases), about 387 times cheaper. On a frontier model, watching a $1,000 deposit would cost more in a month than the deposit earns in a year, and the x402 check could not be sold at a cent. On Dolphin both work. The whole March 22 replay, 10 decisions and the sweeps, cost **$0.001**, recorded per call in [`data/replay/decisions.json`](data/replay/decisions.json).
+
+Dolphin also serves **open weights**, over a standard API, so the deciding model is not tied to one company: any node serving the same weights can run it. The frontier model still has a place, but only where it is rare: the SERV second opinion runs only when a real clock is open and Dolphin says stay or wait.
 
 ## Where SERV Reasoning is used
 
@@ -192,12 +204,14 @@ Environment: `DOLPHIN_API_KEY`, `SERV_API_KEY`, `KEEPER_PK` (server only), `FACT
 | [`engine/src/decide/guard.ts`](engine/src/decide/guard.ts) | SERV PromptGuard screen on every outside text before the model reads it |
 | [`engine/src/x402.ts`](engine/src/x402.ts) | x402 pay per check: verifies and settles USDC payments on Base |
 | [`engine/scripts/replay.ts`](engine/scripts/replay.ts) | replays real incidents through the live code |
-| [`app/`](app) | Next.js app: board, vault pages, replay, house boat, arm your own, proof |
+| [`engine/scripts/benchmark.ts`](engine/scripts/benchmark.ts) | the 94 case benchmark: Dolphin, Lifeboat as shipped and a frontier model on the same evidence |
+| [`engine/scripts/guard-check.ts`](engine/scripts/guard-check.ts) | the PromptGuard benchmark: 24 planted attacks and 22 honest texts |
+| [`app/`](app) | Next.js app: board, vault pages, replay, house boat, arm your own, proof, benchmark |
 | [`data/replay/`](data/replay) | Resolv (Mar 22 2026) and Stream (Nov 2025) incidents, read onchain, and the scripts that built them in [`scripts/replay`](scripts/replay) |
 
 ## Business
 
-**Live today: pay per check over x402.** Any agent, wallet or app can buy a live Lifeboat decision on any Morpho vault for **$0.01 in USDC on Base**. Call the endpoint, get a `402` with the terms, sign an EIP-3009 authorization (the payer needs no ETH), and Lifeboat settles the payment onchain itself before answering. First paid check: [`0xe4e9…e7a1`](https://basescan.org/tx/0xe4e9a3b861e66b44d07945e0295bee9a6e55cb682479765d339d04502538e7a1). Agents that hold USDC in Morpho vaults are the natural buyer: one check a minute per vault costs about $14 a day, far less than one bad incident.
+**Live today: pay per check over x402.** Any agent, wallet or app can buy a live Lifeboat decision on any Morpho vault for **$0.01 in USDC on Base**. Call the endpoint, get a `402` with the terms, sign an EIP-3009 authorization (the payer needs no ETH), and Lifeboat settles the payment onchain itself before answering. First paid check: [`0xe4e9…e7a1`](https://basescan.org/tx/0xe4e9a3b861e66b44d07945e0295bee9a6e55cb682479765d339d04502538e7a1). Agents that hold USDC in Morpho vaults are the natural buyer: one check every 10 minutes on a vault costs the buyer $1.44 a day, far less than one bad incident, while the Dolphin decisions behind it cost Lifeboat about a cent a day.
 
 ```bash
 curl -i "https://lifeboat.jdollar.site/api/x402/ask?vault=0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61&chain=8453"   # 402 with the terms
