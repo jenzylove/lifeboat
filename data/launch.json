@@ -1,0 +1,13 @@
+{
+ "factory": "0xdeb5BDF6BADaFBdE806a86B385CFf14d05dCeaDE",
+ "factoryTx": "https://basescan.org/tx/0xf66aa57fd30765993937ba14ee0cd599309b19b665eaa132a5d9cb8dc23757a0",
+ "factoryBlock": 57629562,
+ "gasTx": "https://basescan.org/tx/0x50ce80317c589e0949d14706456b329e3177649a803ea82475118612d3b25152",
+ "createTx": "https://basescan.org/tx/0x089df1a33eed6749ff502c0d9f5f5b61efbb6fba23509b99d53dde1daca8b726",
+ "fundTx": "https://basescan.org/tx/0xc6aa0507adc03860cbb1803232e88e8592300620c6794251cdf3c5ac8083ff8d",
+ "depositTx": "https://basescan.org/tx/0x21b6da54a56557e83d2e01e4f843eccffa268b5b4873691afde1d4580927773d",
+ "houseAccount": "0x22cC997126756D77a4f7BDb687867BCF3D54644b",
+ "keeper": "0xF336572d3efE34dab09730449dC53ca294c94e03",
+ "houseOwner": "0xc43ec2af577669e50171ab25d9494Ad2d4f35775",
+ "at": "2026-11-15T04:17:58.843Z"
+}
