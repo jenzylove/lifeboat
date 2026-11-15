@@ -5,6 +5,7 @@
 `LifeboatFactory` deploys accounts as minimal clones with the owner as `msg.sender`, so nobody can create an account for someone else.
 
 ```bash
+forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts
 forge test   # 9 fork tests against Base mainnet USDC and Morpho vaults
 ```
 

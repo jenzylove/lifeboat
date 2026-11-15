@@ -108,7 +108,7 @@ Launch transactions are recorded in [`data/launch.json`](data/launch.json). The 
 
 ```bash
 # contracts (Foundry), fork tests against Base mainnet
-cd contracts && forge test
+cd contracts && forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts && forge test
 
 # engine: decision policy, sweep, watcher, keeper
 cd engine && npm ci && npx vitest run
