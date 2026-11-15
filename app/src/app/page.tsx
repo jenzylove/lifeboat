@@ -110,7 +110,7 @@ export default function Home() {
 
       <section className="section" id="proof">
         <div className="wrap">
-          <Head n="07" title="Proof">Every claim on this page has something you can click.</Head>
+          <Head n="07" title="Proof">Every claim on this page has something you can click. <a href="/benchmark">See the benchmark</a>: the open model against a frontier model on 94 cases from real incidents and live markets.</Head>
           <div className="stat-row">
             <div><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">9</div></a><div className="small dim"><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer">contract tests on a Base mainnet fork</a></div></div>
             <div><a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">48</div></a><div className="small dim">engine unit tests: <a href="https://github.com/jenzylove/lifeboat/blob/master/engine/src/decide/policy.test.ts" target="_blank" rel="noreferrer">policy</a> and <a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer">engine/test</a></div></div>

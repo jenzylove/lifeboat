@@ -49,6 +49,7 @@ export function summarize(r: Rec, file: string): DecisionSummary | null {
     noticeModel: r.notice?.model ?? null,
     ask: r.ask === true || r.mode === 'ask',
     guard: guardOf(r.guard),
+    secondOpinion: r.secondOpinion && typeof r.secondOpinion === 'object' ? { firstAction: r.secondOpinion.firstAction ?? null, model: r.secondOpinion.model ?? null, provider: r.secondOpinion.provider ?? null, action: r.secondOpinion.action ?? null, summary: typeof r.secondOpinion.summary === 'string' ? r.secondOpinion.summary : null, applied: r.secondOpinion.applied === true, error: r.secondOpinion.error ? redact(r.secondOpinion.error) : null, costUsd: typeof r.secondOpinion.costUsd === 'number' ? r.secondOpinion.costUsd : null } : null,
     vaultName: r.askVault?.name ?? null,
     collateral: r.askMarket?.collateral ?? null,
     tx: r.tx ? { hash: r.tx.hash ?? null, explorer: r.tx.explorer ?? null, ok: typeof r.tx.ok === 'boolean' ? r.tx.ok : r.tx.status ? r.tx.status === 'success' : null, error: r.tx.error ? redact(r.tx.error) : null } : null,

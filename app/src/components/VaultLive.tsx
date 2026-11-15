@@ -31,7 +31,7 @@ export function VaultLive({ address, chain }: { address: string; chain: 1 | 8453
           <>
             <h1 className="display" style={{ marginTop: 18 }}>Reading vault</h1>
             <p className="mono small dim" style={{ wordBreak: 'break-all' }}>{address} on {chain === 1 ? 'Ethereum' : 'Base'}</p>
-            <Loading text="Reading every market, price feed and curator transaction onchain. A first read can take up to two minutes; after that it is cached." />
+            <Loading text="Reading every market, price feed and curator transaction onchain: usually under a minute; a first read of a new vault can take up to two minutes." />
           </>
         )}
         {err && !v && (

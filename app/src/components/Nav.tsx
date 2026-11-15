@@ -17,6 +17,7 @@ export function Nav() {
         <nav className="nav-links">
           <Link href="/#board" className="hide-s">Board</Link>
           <Link href="/replay">Replay</Link>
+          <Link href="/benchmark">Benchmark</Link>
           <Link href="/#house" className="hide-s">House boat</Link>
           <Link href="/proof" className="hide-s">Proof</Link>
           <Link href="/app" className="btn hot small">Arm yours</Link>

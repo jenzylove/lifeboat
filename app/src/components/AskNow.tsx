@@ -58,7 +58,7 @@ export function AskNow({ address, chain }: { address: string; chain: 1 | 8453 })
     <div className="ask">
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
         <button className="btn hot" onClick={ask} disabled={busy}>{busy ? 'Asking…' : a ? 'Ask again' : 'Ask Lifeboat now'}</button>
-        <span className="small dim">{busy ? <span className="mono">{stage} {Math.floor(el)} s</span> : 'A live decision by the open model on this vault, from data read right now. About 20 seconds once the vault is loaded.'}</span>
+        <span className="small dim">{busy ? <span className="mono">{stage} {Math.floor(el)} s</span> : 'A live decision by the open model on this vault, from data read right now: usually under a minute; a first read of a new vault can take up to two minutes.'}</span>
       </div>
       {err && <div className="errbox" style={{ marginTop: 16 }}>{err}</div>}
       {a && d && (

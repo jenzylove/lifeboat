@@ -394,3 +394,18 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 .flow { margin: 0 0 22px; padding-left: 22px; display: grid; gap: 10px; font-size: 17px; }
 .flow li::marker { font-family: var(--f-m); color: var(--hot-text); }
 .code { background: color-mix(in srgb, var(--fg) 5%, transparent); border-left: 3px solid var(--hot); padding: 14px 16px; overflow-x: auto; font-family: var(--f-m); font-size: 13px; line-height: 1.6; margin: 0 0 12px; white-space: pre; max-width: 100%; }
+
+/* benchmark */
+.btable .prow { grid-template-columns: minmax(0, 2.4fr) .8fr .9fr .9fr .9fr .9fr .8fr 1fr; }
+.ctable .prow { grid-template-columns: minmax(0, 2.6fr) .7fr .8fr .8fr .8fr; }
+.prow.grow { grid-template-columns: 1fr auto; }
+.txline.miss { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) 0; }
+@media (max-width: 760px) {
+  .btable .prow, .ctable .prow { grid-template-columns: 1fr 1fr; }
+  .prow.grow { grid-template-columns: 1fr auto; }
+  .prow.grow > span:first-child { grid-column: auto; }
+  .txline.miss { grid-template-columns: 1fr; }
+}
+
+.nav .btn { white-space: nowrap; }
+@media (max-width: 420px) { .brand { font-size: 21px; gap: 7px; } .brand svg { width: 21px; height: 21px; } .nav-links { gap: 10px; } .nav-links a { font-size: 13.5px; } .nav .btn.small { padding: 6px 11px; font-size: 13px; } .nav .wrap { gap: 10px; } }

@@ -83,7 +83,7 @@ export function PasteBox() {
         <label>Chain <select value={chain} onChange={(e) => setChain(e.target.value)}><option value="8453">Base</option><option value="1">Ethereum</option></select></label>
         {err && <span className="hot-t">{err}</span>}
       </div>
-      <p className="small dim" style={{ margin: '10px 0 0' }}>Paste any vault, then press Ask Lifeboat now: Dolphin decides on live data, usually within a minute.</p>
+      <p className="small dim" style={{ margin: '10px 0 0' }}>Paste any vault, then press Ask Lifeboat now: Dolphin decides on live data, usually under a minute; a first read of a new vault can take up to two minutes.</p>
     </form>
   );
 }
@@ -91,7 +91,7 @@ export function PasteBox() {
 export function BoardTable() {
   const { board, error } = useBoard();
   if (error && !board) return <div className="errbox">The live board could not be read: {error}</div>;
-  if (!board) return <Loading text="Reading every market on Base right now. The first read takes about a minute; after that it refreshes every 60 seconds." />;
+  if (!board) return <Loading text="Reading every market on Base right now. The first read can take up to two minutes; after that it refreshes every 60 seconds." />;
   return (
     <div>
       <div className="board">

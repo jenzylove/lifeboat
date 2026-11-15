@@ -67,6 +67,11 @@ export function Decisions({ limit = 50 }: { limit?: number }) {
               {r.model ? <span>{r.model.model} · {r.model.inputTokens + r.model.outputTokens} tokens · {r.model.costUsd === null ? 'cost not recorded' : `$${r.model.costUsd.toFixed(6)}`}</span> : <span>model {r.modelError ? `unavailable: ${r.modelError.slice(0, 80)}` : 'not called'}</span>}
               <span>{r.evidenceCount} evidence items</span>
             </div>
+            {r.secondOpinion && (
+              <div className="meta">
+                <span>SERV second opinion ({r.secondOpinion.model ?? 'model not recorded'}): {r.secondOpinion.error ? <span className="hot-t">unavailable, {r.secondOpinion.error.slice(0, 100)}</span> : <>{r.secondOpinion.action ?? 'no answer'}, {r.secondOpinion.applied ? <b>applied{r.secondOpinion.firstAction ? ` (first call was ${r.secondOpinion.firstAction})` : ''}</b> : 'kept the first call'}</>}</span>
+              </div>
+            )}
             <GuardLine guard={r.guard} compact />
             <div className="meta"><a href={`/api/decisions?hash=${r.hash}`} target="_blank" rel="noreferrer">hash {r.hash}</a></div>
           </div>

@@ -11,6 +11,7 @@ export function Footer() {
         </div>
         <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap' }}>
           <Link href="/replay">Replay March 22</Link>
+          <Link href="/benchmark">Benchmark</Link>
           <Link href="/app">Arm yours</Link>
           <Link href="/proof">Proof</Link>
           <a href="https://github.com/jenzylove/lifeboat" target="_blank" rel="noreferrer">GitHub</a>

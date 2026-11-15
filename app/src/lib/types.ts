@@ -99,6 +99,7 @@ export interface DecisionSummary {
   noticeModel: string | null;
   ask: boolean;
   guard: GuardSummary | null;
+  secondOpinion: { firstAction: string | null; model: string | null; provider: string | null; action: string | null; summary: string | null; applied: boolean; error: string | null; costUsd: number | null } | null;
   vaultName: string | null;
   collateral: string | null;
   tx: { hash: string | null; explorer: string | null; ok: boolean | null; error: string | null } | null;
