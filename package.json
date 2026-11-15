@@ -1,19 +1,17 @@
 {
   "name": "lifeboat",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "Your USDC gets off before the vault sinks.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node scripts/serve.mjs",
+    "test": "cd engine && npx vitest run && cd ../contracts && forge test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "license": "MIT",
   "dependencies": {
     "viem": "^2.57.19"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20"
   }
 }
