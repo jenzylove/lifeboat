@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from 'next';
-import { Big_Shoulders, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 
-const display = Big_Shoulders({ subsets: ['latin'], weight: ['800', '900'], variable: '--f-display', display: 'swap' });
-const body = Instrument_Sans({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--f-body', display: 'swap' });
-const mono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--f-mono', display: 'swap' });
+// Self hosted (latin subset, variable weight) so builds never depend on a font CDN.
+const display = localFont({ src: '../fonts/BigShoulders.woff2', weight: '100 900', variable: '--f-display', display: 'swap' });
+const body = localFont({ src: '../fonts/InstrumentSans.woff2', weight: '400 700', variable: '--f-body', display: 'swap' });
+const mono = localFont({ src: '../fonts/JetBrainsMono.woff2', weight: '100 800', variable: '--f-mono', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Lifeboat',
