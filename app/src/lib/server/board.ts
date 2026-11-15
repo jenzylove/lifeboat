@@ -151,23 +151,32 @@ export function warmBoard() {
   refresh().catch(() => {});
 }
 
-const vaultCache = new Map<string, { at: number; v: VaultView | null }>();
-const vaultInflight = new Map<string, Promise<VaultView | null>>();
-/** Live snapshot of one vault, cached 60 s. Returns null (also cached) when the Morpho API does not know the address, so unknown addresses never trigger RPC work. */
-export async function getVaultView(chainId: ChainId, address: string): Promise<VaultView | null> {
+type VaultEntry = { view: VaultView; snap: VaultSnapshot } | null;
+const vaultCache = new Map<string, { at: number; e: VaultEntry }>();
+const vaultInflight = new Map<string, Promise<VaultEntry>>();
+/** Live snapshot of one vault (raw + view), cached 60 s. Null (also cached) when the Morpho API does not know the address, so unknown addresses never trigger RPC work. */
+export async function getVaultEntry(chainId: ChainId, address: string): Promise<VaultEntry> {
   const key = chainId + ':' + address.toLowerCase();
   const c = vaultCache.get(key);
-  if (c && Date.now() - c.at < TTL_MS) return c.v;
+  if (c && Date.now() - c.at < TTL_MS) return c.e;
   let p = vaultInflight.get(key);
   if (!p) {
     p = (async () => {
       const known = await getVault(chainId, address);
-      const v = known ? toVaultView(await snapshotVault(chainId, address)) : null;
-      vaultCache.set(key, { at: Date.now(), v });
+      let e: VaultEntry = null;
+      if (known) { const snap = await snapshotVault(chainId, address); e = { snap, view: toVaultView(snap) }; }
+      vaultCache.set(key, { at: Date.now(), e });
       if (vaultCache.size > 200) vaultCache.delete(vaultCache.keys().next().value!);
-      return v;
+      return e;
     })().finally(() => vaultInflight.delete(key));
     vaultInflight.set(key, p);
   }
   return p;
+}
+export async function getVaultView(chainId: ChainId, address: string): Promise<VaultView | null> {
+  return (await getVaultEntry(chainId, address))?.view ?? null;
+}
+/** Open clocks for a vault from the cached board, if the board has been read. */
+export function boardOpenClocks(address: string): number {
+  return g.__lbBoard?.board.vaults.find((v) => v.address.toLowerCase() === address.toLowerCase())?.openClocks ?? 0;
 }

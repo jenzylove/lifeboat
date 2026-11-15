@@ -33,6 +33,9 @@ export function summarize(r: Rec, file: string): DecisionSummary | null {
     summary: d.model?.summary ?? null,
     notice: r.notice?.text ?? null,
     noticeModel: r.notice?.model ?? null,
+    ask: r.ask === true || r.mode === 'ask',
+    vaultName: r.askVault?.name ?? null,
+    collateral: r.askMarket?.collateral ?? null,
     tx: r.tx ? { hash: r.tx.hash ?? null, explorer: r.tx.explorer ?? null, ok: typeof r.tx.ok === 'boolean' ? r.tx.ok : r.tx.status ? r.tx.status === 'success' : null, error: r.tx.error ? redact(r.tx.error) : null } : null,
     evidenceCount: Array.isArray(r.evidence) ? r.evidence.length : 0,
   };

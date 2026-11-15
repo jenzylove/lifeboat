@@ -94,6 +94,9 @@ export interface DecisionSummary {
   summary: string | null;
   notice: string | null;
   noticeModel: string | null;
+  ask: boolean;
+  vaultName: string | null;
+  collateral: string | null;
   tx: { hash: string | null; explorer: string | null; ok: boolean | null; error: string | null } | null;
   evidenceCount: number;
 }

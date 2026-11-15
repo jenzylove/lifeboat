@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "mode": "ask",
+  "at": 1794720988,
+  "vault": "0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61",
+  "marketId": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+  "clock": {
+    "marketId": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+    "divergentReads": 1,
+    "openedAt": 1794720988,
+    "kind": "gap"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "Clock opened 0 min ago on market 0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836 (cbBTC collateral). User position in vault Gauntlet USDC Prime: $1000.00, withdrawable now $1000.00.",
+      "source": "lifeboat"
+    },
+    {
+      "id": "E2",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "ON DEMAND CHECK: a person asked Lifeboat to assess this vault right now. No alarm has fired; the market shown is simply the riskiest one this vault lends into. Decide what you would do for a $1,000 depositor today: STAY if nothing justifies leaving.",
+      "source": "lifeboat"
+    },
+    {
+      "id": "E3",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "Other market in this vault: cbETH collateral, oracle 2067.0667 vs market 2070.9999 (gap -0.19%), 87% borrowed, vault exposure $3649183",
+      "source": "snapshotVault onchain"
+    },
+    {
+      "id": "E4",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "Other market in this vault: cbETH collateral, oracle 2066.0891 vs market 2070.9999 (gap -0.24%), 87% borrowed, vault exposure $212335",
+      "source": "snapshotVault onchain"
+    },
+    {
+      "id": "E5",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "Other market in this vault: cbETH collateral, oracle 2066.3499 vs market 2070.9999 (gap -0.22%), 79% borrowed, vault exposure $153355",
+      "source": "snapshotVault onchain"
+    },
+    {
+      "id": "E6",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "Other market in this vault: wstETH collateral, oracle 2255.6137 vs market 2259.6122 (gap -0.18%), 86% borrowed, vault exposure $522654",
+      "source": "snapshotVault onchain"
+    },
+    {
+      "id": "E7",
+      "kind": "context",
+      "ts": 1794720988,
+      "text": "Other market in this vault: WETH collateral, oracle 1806.1990 vs market 1806.4809 (gap -0.02%), 86% borrowed, vault exposure $20292192",
+      "source": "snapshotVault onchain"
+    },
+    {
+      "id": "E8",
+      "kind": "market_read",
+      "ts": 1794720988,
+      "text": "2026-11-15T05:36:28Z oracle 64767.3520 vs market 64755.8917 (gap 0.0%), utilization 85.8%, vault exposure $373686634",
+      "source": "live snapshot: oracle price() onchain, market price defillama, Morpho Blue market() onchain"
+    },
+    {
+      "id": "E9",
+      "kind": "curator_action",
+      "ts": 1794680515,
+      "text": "2026-11-14T18:21:55Z curator action reallocate_into on 0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836: ReallocateSupply (tx 0xd18e984991eb0ebecce6395ae977234763ea1736a13d1760d28fb847628ed44d)",
+      "source": "onchain logs"
+    },
+    {
+      "id": "E10",
+      "kind": "curator_action",
+      "ts": 1794680515,
+      "text": "2026-11-14T18:21:55Z curator action reallocate_into on 0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836: ReallocateSupply (tx 0xd18e984991eb0ebecce6395ae977234763ea1736a13d1760d28fb847628ed44d)",
+      "source": "onchain logs"
+    },
+    {
+      "id": "E11",
+      "kind": "curator_action",
+      "ts": 1794702767,
+      "text": "2026-11-15T00:32:47Z curator action reallocate_into on 0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836: ReallocateSupply (tx 0x9690b30b68108ab800a7ccc76e403221689444c235b7d49d5d3b0e0383924156)",
+      "source": "onchain logs"
+    },
+    {
+      "id": "E12",
+      "kind": "curator_action",
+      "ts": 1794702767,
+      "text": "2026-11-15T00:32:47Z curator action reallocate_into on 0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836: ReallocateSupply (tx 0x9690b30b68108ab800a7ccc76e403221689444c235b7d49d5d3b0e0383924156)",
+      "source": "onchain logs"
+    },
+    {
+      "id": "E13",
+      "kind": "curator_action",
+      "ts": 1794708113,
+      "text": "2026-11-15T02:01:53Z curator action reallocate_away on 0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836: ReallocateWithdraw (tx 0x5791d8051868bb27cfda9bc9bd4d79da8c1d61714bd5a76f10f470d28d304d72)",
+      "source": "onchain logs"
+    },
+    {
+      "id": "E14",
+      "kind": "vault_candidate",
+      "ts": null,
+      "text": "Candidate vault 0xbeeF010f9cb27031ad51e3333f9aF9C6B1228183 \"Steakhouse USDC\" curated by : APY unknown, TVL unknown, open clocks 0",
+      "source": "morpho api"
+    }
+  ],
+  "model": {
+    "provider": "dolphin",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "inputTokens": 1538,
+    "outputTokens": 462,
+    "ms": 2735,
+    "costUsd": 0.000047720000000000004,
+    "raw": "{\"action\":\"STAY\",\"wait_minutes\":null,\"target_vault\":null,\"confidence\":0.9,\"reasons\":[{\"claim\":\"The cbBTC market's oracle price is effectively equal to the market price, with a 0.0% gap, so there is no visible stale-price divergence to justify leaving.\",\"evidence_ids\":[\"E8\"]},{\"claim\":\"Utilization is elevated at 85.8% but not at a level that by itself implies imminent lender lockout, and the evidence shows no rapid rise.\",\"evidence_ids\":[\"E8\"]},{\"claim\":\"The curator has recently been active in this market, including reallocating into it and later reallocating away, which is not the silence danger signal.\",\"evidence_ids\":[\"E9\",\"E11\",\"E13\"]},{\"claim\":\"The user's full $1,000 is currently withdrawable, so there is no immediate withdrawal constraint.\",\"evidence_ids\":[\"E1\"]},{\"claim\":\"This is an on-demand check with no alarm fired, and the market is simply the riskiest one in the vault rather than one showing a confirmed problem.\",\"evidence_ids\":[\"E2\"]}],\"summary\":\"No actionable divergence is visible in the cbBTC market, and the curator is active, so staying is reasonable for now.\"}"
+  },
+  "decision": {
+    "model": {
+      "action": "STAY",
+      "wait_minutes": null,
+      "target_vault": null,
+      "confidence": 0.9,
+      "reasons": [
+        {
+          "claim": "The cbBTC market's oracle price is effectively equal to the market price, with a 0.0% gap, so there is no visible stale-price divergence to justify leaving.",
+          "evidence_ids": [
+            "E8"
+          ]
+        },
+        {
+          "claim": "Utilization is elevated at 85.8% but not at a level that by itself implies imminent lender lockout, and the evidence shows no rapid rise.",
+          "evidence_ids": [
+            "E8"
+          ]
+        },
+        {
+          "claim": "The curator has recently been active in this market, including reallocating into it and later reallocating away, which is not the silence danger signal.",
+          "evidence_ids": [
+            "E9",
+            "E11",
+            "E13"
+          ]
+        },
+        {
+          "claim": "The user's full $1,000 is currently withdrawable, so there is no immediate withdrawal constraint.",
+          "evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "claim": "This is an on-demand check with no alarm fired, and the market is simply the riskiest one in the vault rather than one showing a confirmed problem.",
+          "evidence_ids": [
+            "E2"
+          ]
+        }
+      ],
+      "summary": "No actionable divergence is visible in the cbBTC market, and the curator is active, so staying is reasonable for now."
+    },
+    "modelError": null,
+    "action": "STAY",
+    "waitMinutes": null,
+    "targetVault": null,
+    "decidedBy": "model",
+    "rule": null
+  },
+  "notice": {
+    "text": "Lifeboat would keep a depositor in Gauntlet USDC Prime right now. The oracle price and market price for cbBTC match closely right now, so there's no sign the price data is stale or unreliable. Utilization is high at 85.8% but stable, and your full deposit remains withdrawable with no lockout risk. The curator is actively managing this market and you're simply holding the vault's riskiest position rather than facing a concrete problem.",
+    "provider": "serv",
+    "model": "claude-haiku-4-5-20251001"
+  },
+  "hash": "0x2ed9e997f8d937928840dbcd0327f082e11239bdfc5f5d07e47c004810b4fd60",
+  "ask": true,
+  "explanation": {
+    "text": "Lifeboat would keep a depositor in Gauntlet USDC Prime right now. The oracle price and market price for cbBTC match closely right now, so there's no sign the price data is stale or unreliable. Utilization is high at 85.8% but stable, and your full deposit remains withdrawable with no lockout risk. The curator is actively managing this market and you're simply holding the vault's riskiest position rather than facing a concrete problem.",
+    "provider": "serv",
+    "model": "claude-haiku-4-5-20251001"
+  },
+  "askVault": {
+    "address": "0xeE8F4eC5672F09119b96Ab6fB59C27E1b7e44b61",
+    "name": "Gauntlet USDC Prime",
+    "curator": "Gauntlet",
+    "chainId": 8453
+  },
+  "askMarket": {
+    "id": "0x9103c3b4e834476c9a62ea009ba2c884ee42e94e6e314a26f04d312434191836",
+    "collateral": "cbBTC",
+    "gapPct": 0.017697669109906552,
+    "utilization": 0.857939,
+    "allocationUsd": 373686634.0647792
+  }
+}

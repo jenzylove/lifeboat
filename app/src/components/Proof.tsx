@@ -52,6 +52,7 @@ export function Decisions({ limit = 50 }: { limit?: number }) {
         <div className="rec" key={r.hash + r.file}>
           <div>
             <div className={`act ${r.action}`}>{r.action}</div>
+            {r.ask && <div className="chip" style={{ display: 'inline-block', margin: '6px 0' }}>On demand check</div>}
             <div className="tiny faint mono"><Who decidedBy={r.decidedBy} model={r.model?.model} provider={r.model?.provider} rule={r.rule} /></div>
           </div>
           <div>
@@ -61,7 +62,7 @@ export function Decisions({ limit = 50 }: { limit?: number }) {
             <div className="meta">
               <span>{utcDate(r.at)} ({ago(r.at)})</span>
               <span>{r.mode}</span>
-              <span>vault {short(r.vault)}</span>
+              <span>{r.vaultName ? `${r.vaultName}${r.collateral ? `, ${r.collateral} market` : ''}` : `vault ${short(r.vault)}`}</span>
               {r.model ? <span>{r.model.model} · {r.model.inputTokens + r.model.outputTokens} tokens · {r.model.costUsd === null ? 'cost not recorded' : `$${r.model.costUsd.toFixed(6)}`}</span> : <span>model {r.modelError ? `unavailable: ${r.modelError.slice(0, 80)}` : 'not called'}</span>}
               <span>{r.evidenceCount} evidence items</span>
             </div>

@@ -6,6 +6,7 @@ import { ago, explorerFor, pct, short, usd, utcDate } from '@/lib/format';
 import { MarketRow, Sources } from './MarketRow';
 import { Loading, PasteBox } from './Board';
 import { ClockBadge } from './FeedLine';
+import { AskNow } from './AskNow';
 
 export function VaultLive({ address, chain }: { address: string; chain: 1 | 8453 }) {
   const [v, setV] = useState<VaultView | null>(null);
@@ -45,7 +46,8 @@ export function VaultLive({ address, chain }: { address: string; chain: 1 | 8453
           <>
             <div className="eyebrow" style={{ marginTop: 18 }}>{chain === 1 ? 'Ethereum' : 'Base'} · Morpho vault {v.version}</div>
             <h1 className="display" style={{ margin: '10px 0 18px' }}>{v.name}</h1>
-            <div className="chips" style={{ marginBottom: 22 }}>
+            <AskNow address={v.address} chain={chain} />
+            <div className="chips" style={{ margin: '22px 0' }}>
               {v.openClocks > 0 ? <ClockBadge label={`${v.openClocks} clock${v.openClocks > 1 ? 's' : ''} open`} /> : <span className="chip calm">no clock open</span>}
             </div>
             <dl className="kv">

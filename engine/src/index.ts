@@ -8,3 +8,4 @@ export * from "./curatorEvents.js";
 export * from "./snapshot.js";
 export * from "./keeper.js";
 export * from "./watcher.js";
+export * from "./assess.js";

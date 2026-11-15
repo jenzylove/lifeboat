@@ -4,7 +4,7 @@ import { ago, utcDate } from '@/lib/format';
 import { Who } from './Who';
 
 type J = any;
-interface Status { configured: boolean; heartbeat: J; totals: J; latestSweep: J; sweeps: J[]; now: number }
+interface Status { askChecks?: number; configured: boolean; heartbeat: J; totals: J; latestSweep: J; sweeps: J[]; now: number }
 
 const tsOf = (v: unknown): number | null => {
   if (typeof v === 'number') return v > 1e12 ? Math.floor(v / 1000) : v;
@@ -34,7 +34,7 @@ export function WatcherLine() {
   useEffect(() => { const t = setInterval(() => setNow(Date.now() / 1000), 1000); return () => clearInterval(t); }, []);
   if (err) return null;
   if (!s) return <div className="live-strip watcher"><span className="live-dot" />Reading the watcher…</div>;
-  if (!s.configured || !s.heartbeat) return <div className="live-strip watcher"><span className="live-dot" style={{ background: 'var(--fg3)', animation: 'none' }} />The minute watcher has not reported yet. Its heartbeat shows here once it runs.</div>;
+  if (!s.configured || !s.heartbeat) return <div className="live-strip watcher"><span className="live-dot" style={{ background: 'var(--fg3)', animation: 'none' }} />The minute watcher has not reported yet. Its heartbeat shows here once it runs.{s.askChecks ? <> · <b>{s.askChecks}</b> live check{s.askChecks === 1 ? '' : 's'} by Dolphin</> : null}</div>;
   const h = s.heartbeat;
   const at = tsOf(h.at);
   const late = at !== null && now - at > 180;
@@ -43,7 +43,7 @@ export function WatcherLine() {
     <div className="live-strip watcher">
       <span className={`live-dot${clocks ? ' hot' : ''}`} style={late ? { background: 'var(--fg3)', animation: 'none' } : undefined} />
       <span>
-        Watcher last ran <b>{at ? ago(at, now) : 'at an unknown time'}</b> · <b>{count(h.markets) ?? 'unknown'}</b> markets guarded · <span className={clocks ? 'k' : ''}>{clocks} clock{clocks === 1 ? '' : 's'} open</span> · <b>{money(n(s.totals?.costUsd))}</b> spent on the model so far
+        Watcher last ran <b>{at ? ago(at, now) : 'at an unknown time'}</b> · <b>{count(h.markets) ?? 'unknown'}</b> markets guarded · <span className={clocks ? 'k' : ''}>{clocks} clock{clocks === 1 ? '' : 's'} open</span> · <b>{money(n(s.totals?.costUsd))}</b> spent on the model so far{s.askChecks ? <> · <b>{s.askChecks}</b> live check{s.askChecks === 1 ? '' : 's'} by Dolphin</> : null}
       </span>
     </div>
   );

@@ -371,3 +371,17 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
 }
 .live-strip.watcher { margin-top: 0; border-top: 0; padding-top: 8px; }
 .chip.standin { margin-left: 8px; border-color: var(--hot); color: var(--hot-text); border-style: dashed; font-weight: 700; }
+
+/* ask lifeboat now */
+.ask { margin: 26px 0 8px; padding: 22px 0 0; border-top: 1px solid var(--rule2); }
+.ask-res { margin-top: 26px; }
+.ask-top { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
+@media (max-width: 760px) { .ask-top { grid-template-columns: 1fr; } }
+.ask-act { font-family: var(--f-d); font-weight: 900; font-size: clamp(72px, 12vw, 150px); line-height: .85; margin: 6px 0 8px; color: var(--fg); }
+.ask-act.LEAVE { color: var(--hot); }
+.ask-act.STAY { color: var(--sea); }
+.ask-wait { font-size: .35em; color: var(--fg2); }
+.ask-reason { padding: 10px 0; border-top: 1px dashed var(--rule); font-size: 15px; }
+.evid { font-family: var(--f-m); font-size: 11px; background: none; color: var(--hot-text); border: 1px solid var(--rule2); border-radius: 999px; padding: 1px 8px; margin: 0 4px 0 0; cursor: pointer; }
+.evid.on { border-color: var(--hot); background: var(--hot-soft); }
+.evtext { margin-top: 8px; padding: 8px 12px; border-left: 2px solid var(--hot); font-size: 14px; color: var(--fg2); word-break: break-word; }

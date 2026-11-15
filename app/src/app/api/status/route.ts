@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { DATA_DIR } from '@/lib/server/config';
 import { redact } from '@/lib/server/redact';
+import { listDecisions } from '@/lib/server/data';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -31,6 +32,7 @@ export async function GET(req: Request) {
     totals: state?.totals ?? null,
     latestSweep: clean(sweeps[0]) ?? null,
     sweeps: sweeps.map(clean),
+    askChecks: (await listDecisions(100000)).decisions.filter((d) => d.ask).length,
     now: Math.floor(Date.now() / 1000),
   });
 }

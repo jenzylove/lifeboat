@@ -6,7 +6,7 @@ import { dolphin, extractJson, serv, type LlmResult } from './llm.js';
 
 export interface DecisionRecord {
   version: 1;
-  mode: 'live' | 'replay' | 'drill';
+  mode: 'live' | 'replay' | 'drill' | 'ask';
   at: number;
   vault: string;
   marketId: string;
