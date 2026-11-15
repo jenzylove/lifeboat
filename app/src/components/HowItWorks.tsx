@@ -47,7 +47,7 @@ export function HowItWorks() {
           <line className="line" x1="292" y1="256" x2="372" y2="256" />
           <Clock cx={410} cy={256} r={32} />
           <text x="330" y="36" className="t-big">2  The clock opens</text>
-          <Lines x={330} y={64} lines={['Oracle 5% or more above the', 'market for 3 reads in a row.']} />
+          <Lines x={330} y={64} lines={['Oracle 5% or more above the', 'market, a gap that holds for two minutes.']} />
           <text x="330" y="118" className="t-who who-code">Code opens it</text>
         </g>
         {/* fork */}
@@ -100,7 +100,7 @@ export function HowItWorks() {
         <g className="s2">
           <Clock cx={34} cy={300} r={26} />
           <text x="78" y="294" className="t-big">2  The clock opens</text>
-          <Lines x={78} y={318} lines={['Oracle 5% or more above the', 'market for 3 reads in a row.']} />
+          <Lines x={78} y={318} lines={['Oracle 5% or more above the', 'market, a gap that holds for two minutes.']} />
           <text x="78" y="360" className="t-who who-code">Code opens it</text>
         </g>
         <g className="s3">

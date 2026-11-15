@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { DecisionSummary, PublicConfig } from '@/lib/types';
 import { ago, short, utcDate } from '@/lib/format';
 import { Loading } from './Board';
+import { Who } from './Who';
 
 export function useConfig() {
   const [c, setC] = useState<PublicConfig | null>(null);
@@ -51,15 +52,17 @@ export function Decisions({ limit = 50 }: { limit?: number }) {
         <div className="rec" key={r.hash + r.file}>
           <div>
             <div className={`act ${r.action}`}>{r.action}</div>
-            <div className="tiny faint mono">{r.decidedBy === 'rule' ? 'rule decided' : r.decidedBy === 'model_clamped' ? 'model, clamped by code' : 'Dolphin model decided'}</div>
+            <div className="tiny faint mono"><Who decidedBy={r.decidedBy} model={r.model?.model} provider={r.model?.provider} rule={r.rule} /></div>
           </div>
           <div>
-            <div>{r.notice ?? r.summary ?? (r.rule ? `Rule: ${r.rule}` : 'No summary in the record.')}</div>
+            <div>{r.summary ?? (r.rule ? `Rule: ${r.rule.replace(/_/g, ' ')}` : 'No summary in the record.')}</div>
+            {r.notice && <div className="notice"><div className="tiny faint mono" style={{ marginBottom: 4 }}>Notice written by SERV Reasoning ({r.noticeModel ?? 'model not recorded'})</div>{r.notice}</div>}
+            {r.tx && <div className="meta">{r.tx.explorer ? <a href={r.tx.explorer} target="_blank" rel="noreferrer">transaction {r.tx.hash ? short(r.tx.hash, 6) : ''}</a> : null}{r.tx.ok === false && <span className="hot-t">transaction failed{r.tx.error ? `: ${r.tx.error}` : ''}</span>}</div>}
             <div className="meta">
               <span>{utcDate(r.at)} ({ago(r.at)})</span>
               <span>{r.mode}</span>
               <span>vault {short(r.vault)}</span>
-              {r.model ? <span>{r.model.model} · {r.model.inputTokens + r.model.outputTokens} tokens · {r.model.costUsd === null ? 'cost unavailable' : `$${r.model.costUsd.toFixed(6)}`}</span> : <span>model {r.modelError ? `unavailable: ${r.modelError.slice(0, 80)}` : 'not called'}</span>}
+              {r.model ? <span>{r.model.model} · {r.model.inputTokens + r.model.outputTokens} tokens · {r.model.costUsd === null ? 'cost not recorded' : `$${r.model.costUsd.toFixed(6)}`}</span> : <span>model {r.modelError ? `unavailable: ${r.modelError.slice(0, 80)}` : 'not called'}</span>}
               <span>{r.evidenceCount} evidence items</span>
             </div>
             <div className="meta"><a href={`/api/decisions?hash=${r.hash}`} target="_blank" rel="noreferrer">hash {r.hash}</a></div>

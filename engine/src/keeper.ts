@@ -101,7 +101,42 @@ export interface TxResult {
   explorer: string;
 }
 
+/**
+ * One signer at a time across processes (the web drill and the watcher share the keeper key).
+ * A directory lock under DATA_DIR; a lock older than 180 s is treated as stale.
+ */
+export async function withKeeperLock<T>(fn: () => Promise<T>, waitMs = 120_000): Promise<T> {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const dir = path.join(process.env.DATA_DIR ?? path.resolve(process.cwd(), '../data'), 'locks', 'keeper');
+  fs.mkdirSync(path.dirname(dir), { recursive: true });
+  const t0 = Date.now();
+  for (;;) {
+    try {
+      fs.mkdirSync(dir);
+      break;
+    } catch {
+      try {
+        if (Date.now() - fs.statSync(dir).mtimeMs > 180_000) fs.rmSync(dir, { recursive: true, force: true });
+      } catch {
+        /* raced with another remover */
+      }
+      if (Date.now() - t0 > waitMs) throw new Error('keeper busy, try again shortly');
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+  try {
+    return await fn();
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 async function send(fn: 'move' | 'exit' | 'deposit', account: Address, args: readonly unknown[]): Promise<TxResult> {
+  return withKeeperLock(() => sendUnlocked(fn, account, args));
+}
+
+async function sendUnlocked(fn: 'move' | 'exit' | 'deposit', account: Address, args: readonly unknown[]): Promise<TxResult> {
   const w = keeperWallet();
   const { request } = await publicClient.simulateContract({ account: w.account, address: account, abi: ACCOUNT_ABI, functionName: fn, args: args as never });
   const hash = await w.writeContract(request);

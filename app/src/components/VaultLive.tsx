@@ -20,6 +20,7 @@ export function VaultLive({ address, chain }: { address: string; chain: 1 | 8453
     return () => { alive = false; clearInterval(t); };
   }, [address, chain]);
   const ex = explorerFor(chain);
+  useEffect(() => { document.title = v ? `${v.name} · Lifeboat` : 'Vault · Lifeboat'; }, [v]);
 
   return (
     <main className="wrap">

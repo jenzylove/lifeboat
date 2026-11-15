@@ -59,3 +59,11 @@ export const explorerFor = (chainId: number) => (chainId === 1 ? 'https://ethers
 
 export const utcTime = (ts: number) => new Date(ts * 1000).toISOString().slice(11, 16) + ' UTC';
 export const utcDate = (ts: number) => new Date(ts * 1000).toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+
+/** Who made a call, read from the record only. Never assumes Dolphin. */
+export function whoDecided(decidedBy: string | null | undefined, model: string | null | undefined, provider: string | null | undefined, rule?: string | null): { text: string; standIn: boolean } {
+  const standIn = provider === 'stand-in';
+  if (decidedBy === 'rule') return { text: rule ? `rule (${rule.replace(/_/g, ' ')})` : 'rule', standIn: false };
+  const m = model ? (provider && !standIn ? `${model} via ${provider}` : model) : provider ? `${provider} model` : 'model (name not recorded)';
+  return { text: decidedBy === 'model_clamped' ? `${m}, clamped by code` : m, standIn };
+}

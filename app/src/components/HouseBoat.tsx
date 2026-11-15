@@ -11,7 +11,7 @@ interface House {
   status?: Status; events?: Ev[]; eventsError?: string;
   drill?: { allowed: boolean; nextAt: number; running: boolean; reason: string | null };
 }
-interface DrillResult { recordHash: string; tx: { hash: string; status: string; block: number; explorer: string }; from: string; to: string; before: Status; after: Status }
+interface DrillResult { notice: { text: string; provider: string; model: string } | null; recordHash: string; tx: { hash: string; status: string; block: number; explorer: string }; from: string; to: string; before: Status; after: Status }
 
 function Positions({ s, title }: { s: Status; title: string }) {
   return (
@@ -88,6 +88,12 @@ export function HouseBoat() {
               The keeper exited {res.before.positions.find((p) => p.vault === res.from)?.name ?? short(res.from)} and parked everything in {res.after.positions.find((p) => p.vault === res.to)?.name ?? short(res.to)}.{' '}
               <a href={res.tx.explorer} target="_blank" rel="noreferrer">See the transaction on Basescan</a>
             </p>
+            {res.notice && (
+              <div className="notice">
+                <div className="tiny faint mono" style={{ marginBottom: 4 }}>Notice written by SERV Reasoning ({res.notice.model})</div>
+                {res.notice.text}
+              </div>
+            )}
             <p className="tiny faint mono" style={{ wordBreak: 'break-all' }}>record hash {res.recordHash} · block {res.tx.block} · {res.tx.status}</p>
             <Positions s={res.before} title="Before" />
             <div style={{ height: 18 }} />

@@ -21,10 +21,10 @@ function Head({ n, title, children }: { n: string; title: React.ReactNode; child
 
 const FAQ: [string, string][] = [
   ['Can Lifeboat take my money?', 'No. Your money sits in your own Lifeboat account, a small contract only you own. The agent key can do two things: pull money out of a vault into your account, and put it into another vault you approved. The contract has no function that lets the agent send money anywhere else. You can withdraw everything to your wallet at any time, and you can pause the agent with one click.'],
-  ['What if the model gets it wrong?', 'Hard rules sit above the model. If the oracle sits more than 25% above the market and the curator has been silent for 30 minutes, Lifeboat leaves whatever the model says. If the curator has already cut the market to zero and moved money away, it stays. If the model is down or answers in a broken format, the rules decide. Every decision is published with the evidence it used and a hash that is written onchain with the move.'],
+  ['What if the model gets it wrong?', 'Hard rules sit above the model. If the oracle sits more than 25% above the market and the curator has been silent for 30 minutes, Lifeboat leaves whatever the model says. If the curator has already cut the market to zero and moved money away, it stays. If the model answers in a broken format, the rules decide that call, and if the model is unavailable for 10 minutes while a clock is open, Lifeboat leaves by rule. Every decision is published with the evidence it used and a hash that is written onchain with the move.'],
   ['What if the market is already fully borrowed?', 'Then nobody can get out, including Lifeboat. A lender can only withdraw the cash that borrowers have not taken. That is why minutes matter, and why the replay shows exactly how much was still withdrawable at the minute Lifeboat would have left, instead of pretending the whole deposit was saved. It is also why Lifeboat opens a second kind of clock when a market sits near fully borrowed, before any price moves: in the Stream collapse of November 2025, lenders were locked in 13 hours before the price broke.'],
-  ['What does it cost?', 'Nothing to arm during the hackathon. The plan is 10% of the yield earned while armed, taken only when you withdraw. Running the model is cheap: reading the full evidence for one watched vault costs pennies a day on Dolphin, and the exact token counts and cost of every decision are on the proof page.'],
-  ['Which chains does it work on?', 'Live accounts run on Base with USDC in Morpho vaults. The board and vault pages read Base and Ethereum. The March 22 replay uses Ethereum mainnet data, because that is where the Resolv incident happened.'],
+  ['What does it cost?', 'Planned: 10% of the yield earned while armed, taken when you withdraw. Not charged during the hackathon. Running the model is cheap: reading the full evidence for one watched vault costs pennies a day on Dolphin, and the exact token counts and cost of every decision are on the proof page.'],
+  ['Which chains does it work on?', 'Live accounts run on Base with USDC in Morpho vaults. The board and vault pages read Base and Ethereum. The replays use Ethereum and Base mainnet data from the incidents themselves (the Stream replay reads Arbitrum, where that market lived).'],
   ['What is SERV Reasoning used for?', 'After every action, SERV Reasoning writes the plain words notice you read: what happened, why, and where your money is now. Code states the facts (amounts, vaults, transaction) so the notice can never misstate where money went; SERV explains them.'],
   ['What does the curator have to do with it?', 'Curators run Morpho vaults and choose which markets your money lends into. When a price feed breaks, a good curator cuts the cap or moves money away within minutes. Lifeboat watches for those onchain moves. If the curator acts, you stay and keep earning. Lifeboat only steps in when the curator is silent.'],
   ['What is an oracle, and why does a stale one matter?', 'An oracle is the price feed a lending market trusts. If it keeps saying a token is worth $1.13 while it trades far lower, borrowers can post that token and borrow your USDC against a price that is not real. Lenders end up holding the loss. That is what happened on March 22 2026.'],
@@ -51,7 +51,7 @@ export default function Home() {
 
       <section className="section" id="board">
         <div className="wrap">
-          <Head n="01" title="The board">The biggest USDC vaults on Base, every market inside them, read live. The orange dashed line is the price the market trusts. The light line is what the token really trades at. When they split and stay split, a clock opens.</Head>
+          <Head n="01" title="The board">The biggest USDC vaults on Base, every market inside them, read live. Open any vault to see each market as two lines: the orange dashed line is the price the market trusts, the light line is what the token really trades at. When they split and stay split, a clock opens.</Head>
           <BoardTable />
           <PasteBox />
         </div>
@@ -90,8 +90,8 @@ export default function Home() {
         <div className="wrap">
           <Head n="06" title="Proof">Every claim on this page has something you can click.</Head>
           <div className="stat-row">
-            <div><div className="bignum">9</div><div className="small dim">contract tests on a Base mainnet fork</div></div>
-            <div><div className="bignum">43</div><div className="small dim">engine unit tests</div></div>
+            <div><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">9</div></a><div className="small dim"><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer">contract tests on a Base mainnet fork</a></div></div>
+            <div><a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">43</div></a><div className="small dim">engine unit tests: <a href="https://github.com/jenzylove/lifeboat/blob/master/engine/src/decide/policy.test.ts" target="_blank" rel="noreferrer">policy</a> and <a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer">engine/test</a></div></div>
           </div>
           <Contracts />
           <h3 className="display" style={{ margin: '56px 0 8px' }}>Latest decisions</h3>
@@ -104,8 +104,8 @@ export default function Home() {
         <div className="wrap">
           <Head n="07" title="Why Dolphin" />
           <div className="why">
-            <p>The core act here is a personal decision to move one person&apos;s money between named investment products. Anthropic&apos;s usage policy, effective November 12 2026, requires a qualified person to review that kind of decision before it is acted on, so an agent that runs alone at 3 a.m. cannot run it on Claude. Open weights on Dolphin can: Lifeboat uses DeepSeek V4.1 Flash served by Dolphin to make the stay or leave call, and reading the full evidence for one watched vault costs pennies a day.</p>
-            <p className="dim small">Honest note: Dolphin serves the model from its own hardware today. We call it an open model on a different stack, not a fully decentralized one.</p>
+            <p>The core act here is a personal decision to move one person&apos;s money between named investment products. <a href="https://www.anthropic.com/legal/aup" target="_blank" rel="noreferrer">Anthropic&apos;s usage policy</a>, effective November 12 2026, requires a qualified person to review that kind of decision before it is acted on, so an agent that runs alone at 3 a.m. cannot run it on Claude. Open weights on Dolphin can: Lifeboat uses DeepSeek V4.1 Flash served by Dolphin to make the stay or leave call, and reading the full evidence for one watched vault costs pennies a day.</p>
+            <p className="dim small">Dolphin serves open weights (DeepSeek V4.1 Flash) on its own network today; Lifeboat calls it over a standard API, so the model can move to any node that serves the same weights.</p>
           </div>
         </div>
       </section>

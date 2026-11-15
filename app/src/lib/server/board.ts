@@ -2,7 +2,8 @@ import 'server-only';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { DATA_DIR } from './config';
-import { listVaults } from '@engine/morphoApi.js';
+import { redact, redactMap } from './redact';
+import { getVault, listVaults } from '@engine/morphoApi.js';
 import { snapshotVault, type VaultSnapshot } from '@engine/snapshot.js';
 import type { ChainId } from '@engine/types.js';
 import type { Board, BoardVault, VaultView } from '@/lib/types';
@@ -11,7 +12,7 @@ import { marketStatus, explorerFor } from '@/lib/format';
 const TTL_MS = 60_000;
 const TOP_N = Number(process.env.BOARD_TOP_N ?? 8);
 
-const errMsg = (e: unknown) => (e instanceof Error ? e.message : String(e)).split('\n')[0]!.slice(0, 300);
+const errMsg = (e: unknown) => redact(e);
 
 export function toBoardVault(s: VaultSnapshot): BoardVault {
   const markets = s.markets.map((m) => ({
@@ -30,7 +31,7 @@ export function toBoardVault(s: VaultSnapshot): BoardVault {
     lltv: m.lltv,
     status: marketStatus(m.gapPct),
     sources: m.sources,
-    errors: m.errors,
+    errors: redactMap(m.errors),
   }));
   markets.sort((a, b) => (b.allocationUsd ?? 0) - (a.allocationUsd ?? 0));
   return {
@@ -51,7 +52,7 @@ export function toBoardVault(s: VaultSnapshot): BoardVault {
     openClocks: markets.filter((m) => m.status === 'clock').length,
     error: null,
     sources: s.sources,
-    errors: s.errors,
+    errors: redactMap(s.errors),
   };
 }
 
@@ -150,13 +151,23 @@ export function warmBoard() {
   refresh().catch(() => {});
 }
 
-const vaultCache = new Map<string, { at: number; v: VaultView }>();
-export async function getVaultView(chainId: ChainId, address: string): Promise<VaultView> {
-  const key = `${chainId}:${address.toLowerCase()}`;
+const vaultCache = new Map<string, { at: number; v: VaultView | null }>();
+const vaultInflight = new Map<string, Promise<VaultView | null>>();
+/** Live snapshot of one vault, cached 60 s. Returns null (also cached) when the Morpho API does not know the address, so unknown addresses never trigger RPC work. */
+export async function getVaultView(chainId: ChainId, address: string): Promise<VaultView | null> {
+  const key = chainId + ':' + address.toLowerCase();
   const c = vaultCache.get(key);
   if (c && Date.now() - c.at < TTL_MS) return c.v;
-  const v = toVaultView(await snapshotVault(chainId, address));
-  vaultCache.set(key, { at: Date.now(), v });
-  if (vaultCache.size > 100) vaultCache.delete(vaultCache.keys().next().value!);
-  return v;
+  let p = vaultInflight.get(key);
+  if (!p) {
+    p = (async () => {
+      const known = await getVault(chainId, address);
+      const v = known ? toVaultView(await snapshotVault(chainId, address)) : null;
+      vaultCache.set(key, { at: Date.now(), v });
+      if (vaultCache.size > 200) vaultCache.delete(vaultCache.keys().next().value!);
+      return v;
+    })().finally(() => vaultInflight.delete(key));
+    vaultInflight.set(key, p);
+  }
+  return p;
 }

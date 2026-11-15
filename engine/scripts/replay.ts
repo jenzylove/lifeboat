@@ -6,7 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { stepClock, openRelated, type ClockState, type CuratorAction, type CuratorActionType, type MarketRead } from '../src/decide/policy.js';
-import { decide, type DecisionRecord } from '../src/decide/decide.js';
+import { decide, noticeAfterTx, type DecisionRecord } from '../src/decide/decide.js';
 import { sweep, type Break, type GuardedMarket } from '../src/decide/sweep.js';
 
 const DIR = path.resolve(process.cwd(), '../data/replay');
@@ -131,7 +131,11 @@ for (let now = START; now <= END && calls < MAX_CALLS; now += 600) {
     if (d.action === 'LEAVE') {
       // The exit fills at the first real sample at or after the decision where the market can pay the position out (the keeper retries every minute live).
       const fill = p.market.timeline.find((x: any) => t(x.ts) >= now && (x.withdrawable ?? 0) >= POSITION_USD);
-      p.leave = { ts: iso(now), block: s.block, decidedBy: d.decidedBy, rule: d.rule, clockKind: p.clock.kind, exitFilledAt: fill?.ts ?? null, exitFillBlock: fill?.block ?? null, marketWithdrawableAtFill: fill?.withdrawable ?? null };
+      const notice = await noticeAfterTx(
+        { action: 'LEAVE', fromName: p.vault.name.trim(), toName: 'Steakhouse USDC', tx: { ok: true }, mode: 'replay' },
+        [...(d.rule ? [`Safety rule: ${d.rule.replace(/_/g, ' ')}`] : []), ...(d.model?.reasons ?? []).map(r => r.claim)],
+      );
+      p.leave = { ts: iso(now), block: s.block, decidedBy: d.decidedBy, rule: d.rule, clockKind: p.clock.kind, exitFilledAt: fill?.ts ?? null, exitFillBlock: fill?.block ?? null, marketWithdrawableAtFill: fill?.withdrawable ?? null, notice };
     }
     if (d.action === 'STAY' && p.clock.kind === 'related') p.clock = { marketId: p.em.marketId, divergentReads: 0, openedAt: null };
   }

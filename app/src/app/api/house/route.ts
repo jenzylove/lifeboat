@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { houseAccount } from '@/lib/server/config';
 import { houseSnapshot } from '@/lib/server/house';
 import { drillGate } from '@/lib/server/drill';
+import { redact } from '@/lib/server/redact';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,6 @@ export async function GET() {
     const [snap, gate] = await Promise.all([houseSnapshot(account), drillGate(account)]);
     return NextResponse.json({ configured: true, account, explorer: `https://basescan.org/address/${account}`, ...snap, drill: gate });
   } catch (e) {
-    return NextResponse.json({ configured: true, account, error: (e as Error).message.split('\n')[0] }, { status: 502 });
+    return NextResponse.json({ configured: true, account, error: redact(e) }, { status: 502 });
   }
 }

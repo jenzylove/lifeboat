@@ -369,3 +369,4 @@ h3.display { font-size: clamp(26px, 3vw, 38px); font-weight: 800; line-height: 1
   .plabel { display: block; font-family: var(--f-m); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg3); }
 }
 .live-strip.watcher { margin-top: 0; border-top: 0; padding-top: 8px; }
+.chip.standin { margin-left: 8px; border-color: var(--hot); color: var(--hot-text); border-style: dashed; font-weight: 700; }

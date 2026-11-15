@@ -1,6 +1,7 @@
 import { VaultLive } from '@/components/VaultLive';
 
 export const dynamic = 'force-dynamic';
+export const metadata = { title: 'Vault · Lifeboat' };
 
 export default async function VaultPage({ params, searchParams }: { params: Promise<{ address: string }>; searchParams: Promise<{ chain?: string }> }) {
   const { address } = await params;

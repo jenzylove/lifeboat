@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { createPublicClient, createWalletClient, custom, http, maxUint256, parseUnits, zeroAddress, zeroHash, type Address, type Hash } from 'viem';
+import { createPublicClient, createWalletClient, custom, maxUint256, parseUnits, zeroAddress, zeroHash, type Address, type Hash } from 'viem';
 import { base } from 'viem/chains';
 import { ACCOUNT_ABI, ERC20_ABI, FACTORY_ABI, VAULT_ABI } from '@/lib/abi';
 import { useConfig } from './Proof';
@@ -10,7 +10,6 @@ import { Loading } from './Board';
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown>; on?: (e: string, f: (...a: any[]) => void) => void; removeListener?: (e: string, f: (...a: any[]) => void) => void };
 declare global { interface Window { ethereum?: Eth } }
 
-const pub = createPublicClient({ chain: base, transport: http('https://mainnet.base.org') });
 
 interface Pos { vault: Address; name: string; allowed: boolean; assets: number; withdrawable: number }
 interface Acct { address: Address; exists: boolean; paused: boolean; idle: number; positions: Pos[] }
@@ -37,9 +36,11 @@ export function ArmApp() {
   }, [cfg]);
 
   const wallet = useMemo(() => (eth && me ? createWalletClient({ account: me, chain: base, transport: custom(eth) }) : null), [eth, me]);
+  // Reads go through the connected wallet's own provider (no public RPC from the browser). Before connect, only /api/config is used.
+  const pub = useMemo(() => (eth && me && chainId === 8453 ? createPublicClient({ chain: base, transport: custom(eth) }) : null), [eth, me, chainId]);
 
   const refresh = useCallback(async () => {
-    if (!me || !cfg?.factory) return;
+    if (!me || !cfg?.factory || !pub) return;
     const factory = cfg.factory as Address;
     const [existing, predicted, b] = await Promise.all([
       pub.readContract({ address: factory, abi: FACTORY_ABI, functionName: 'accountOf', args: [me] }),
@@ -64,7 +65,7 @@ export function ArmApp() {
     setAcct({ address: existing, exists: true, paused, idle: Number(idle) / 1e6, positions });
     const firstAllowed = positions.find((p) => p.allowed);
     if (firstAllowed) setTarget((t) => (positions.some((p) => p.vault === t && p.allowed) ? t : firstAllowed.vault));
-  }, [me, cfg]);
+  }, [me, cfg, pub]);
 
   useEffect(() => { refresh().catch((e: Error) => setErr(e.message.split('\n')[0]!)); }, [refresh]);
 
@@ -103,6 +104,7 @@ export function ArmApp() {
     try {
       const hash = await fn();
       setLastTx({ label, hash });
+      if (!pub) throw new Error('Switch your wallet to Base to continue.');
       const r = await pub.waitForTransactionReceipt({ hash, timeout: 120_000 });
       if (r.status !== 'success') throw new Error(`${label} reverted onchain`);
       await refresh();
@@ -156,6 +158,7 @@ export function ArmApp() {
           {acct && !acct.exists && onBase && (
             <>
               <p>Tick the vaults Lifeboat may use. It can only ever move your money between these.</p>
+              <p className="small dim">The keeper that watches for you is <a className="mono" href={`https://basescan.org/address/${cfg.keeper}`} target="_blank" rel="noreferrer">{cfg.keeper ? short(cfg.keeper) : 'not set'}</a>. It can only call exit and move between the vaults below; it can never send money anywhere else.</p>
               {cfg.approvedVaults.map((v) => (
                 <label className="check" key={v.address}>
                   <input type="checkbox" checked={!!pick[v.address]} onChange={(e) => setPick({ ...pick, [v.address]: e.target.checked })} />

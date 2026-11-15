@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ago, utcDate } from '@/lib/format';
+import { Who } from './Who';
 
 type J = any;
 interface Status { configured: boolean; heartbeat: J; totals: J; latestSweep: J; sweeps: J[]; now: number }
@@ -74,7 +75,7 @@ export function WatcherProof() {
         const flags: J[] = Array.isArray(w.flags) ? w.flags : [];
         return (
           <div className="rec" key={k}>
-            <div><div className="act" style={{ fontSize: 26 }}>{flags.length} flag{flags.length === 1 ? '' : 's'}</div><div className="tiny faint mono">{w.model?.model ?? 'model unknown'}</div></div>
+            <div><div className="act" style={{ fontSize: 26 }}>{flags.length} flag{flags.length === 1 ? '' : 's'}</div><div className="tiny faint mono"><Who decidedBy="model" model={w.model?.model ?? null} provider={w.model?.provider ?? null} /></div></div>
             <div>
               <div>Breaks: {Array.isArray(w.breaks) && w.breaks.length ? w.breaks.join(', ') : 'none'}</div>
               {flags.map((f: J, j: number) => <div key={j} className="small dim">Linked {Array.isArray(f.related_to) ? f.related_to.join(', ') : ''}: {f.reason}</div>)}

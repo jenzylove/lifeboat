@@ -19,6 +19,8 @@ export const POLICY = {
   LIQ_OPEN_UTIL: 0.98,
   /** a liquidity clock still pinned after this long forces an exit of whatever can be withdrawn */
   LIQ_HARD_SEC: 6 * 3600,
+  /** model unavailable this long while a clock is open: leave by rule */
+  MODEL_DOWN_SEC: 10 * 60,
 } as const;
 
 export type CuratorActionType =
@@ -59,6 +61,8 @@ export interface ClockState {
   kind?: 'gap' | 'liquidity' | 'related';
   /** for related clocks: what the sweep linked this market to */
   relatedTo?: string[];
+  /** first cycle in the current run where the model was unavailable or invalid */
+  modelFailSince?: number | null;
 }
 
 /** Open a clock because the sweep linked this market to a live break elsewhere. Never closes or downgrades an open clock. */
@@ -136,6 +140,10 @@ export interface ClampInput {
   model: ModelDecision | null;
   modelError?: string | null;
   evidenceIds: Set<string>;
+  /** the curator history could not be read this cycle: unknown is never counted as silence */
+  curatorUnknown?: boolean;
+  /** the model asked to wait and the wait has not elapsed: apply hard rules only, do not consult the model */
+  skipModel?: boolean;
 }
 
 /** Validate the model output shape and that every cited evidence id exists. Returns an error string or null. */
@@ -149,6 +157,9 @@ export function validateModel(m: unknown, evidenceIds: Set<string>): string | nu
     for (const id of r.evidence_ids) if (!evidenceIds.has(id)) return `cites unknown evidence ${id}`;
   }
   if (typeof d.summary !== 'string') return 'no summary';
+  if (d.wait_minutes != null && (typeof d.wait_minutes !== 'number' || !Number.isFinite(d.wait_minutes))) return 'bad wait_minutes';
+  if (d.confidence != null && (typeof d.confidence !== 'number' || !Number.isFinite(d.confidence))) return 'bad confidence';
+  if (d.target_vault != null && typeof d.target_vault !== 'string') return 'bad target_vault';
   return null;
 }
 
@@ -166,10 +177,11 @@ export function clamp(i: ClampInput): FinalDecision {
 
   const g = gap(i.latest.oraclePrice, i.latest.marketPrice) ?? 0;
   const silent = curatorSilentFor(i.curatorActions, i.clock.marketId, i.clock.openedAt, i.now);
-  const hardGap = g >= POLICY.HARD_GAP && silent >= POLICY.HARD_SILENCE_SEC && !prot;
+  // Silence only counts when the curator history was actually read.
+  const hardGap = !i.curatorUnknown && g >= POLICY.HARD_GAP && silent >= POLICY.HARD_SILENCE_SEC && !prot;
   const isGap = (i.clock.kind ?? 'gap') === 'gap';
   const hardUtil = isGap && (i.latest.utilization ?? 0) >= POLICY.HARD_UTILIZATION;
-  const hardLiq = !isGap && i.now - i.clock.openedAt >= POLICY.LIQ_HARD_SEC;
+  const hardLiq = i.clock.kind === 'liquidity' && i.now - i.clock.openedAt >= POLICY.LIQ_HARD_SEC;
   if (hardGap || hardUtil || hardLiq) {
     return {
       ...base,
@@ -181,10 +193,18 @@ export function clamp(i: ClampInput): FinalDecision {
     };
   }
 
+  if (i.skipModel) {
+    return { ...base, action: 'WAIT', waitMinutes: 1, targetVault: null, decidedBy: 'rule', rule: 'model_wait_in_progress' };
+  }
+
   const invalid = i.model ? validateModel(i.model, i.evidenceIds) : 'no model output';
   if (!i.model || invalid) {
-    // Model down or invalid: the clock keeps running and the hard rules above will fire on time.
-    return { ...base, modelError: i.modelError ?? invalid, action: 'WAIT', waitMinutes: 1, targetVault: null, decidedBy: 'rule', rule: 'model_unavailable_wait_for_hard_rule' };
+    // Model down or invalid. If it has been down long enough while the clock runs, leave by rule; otherwise check again next cycle.
+    const downSince = i.clock.modelFailSince ?? i.now;
+    if (i.now - downSince >= POLICY.MODEL_DOWN_SEC) {
+      return { ...base, modelError: i.modelError ?? invalid, action: 'LEAVE', waitMinutes: null, targetVault: pickTarget(null), decidedBy: 'rule', rule: 'model_unavailable_fallback' };
+    }
+    return { ...base, modelError: i.modelError ?? invalid, action: 'WAIT', waitMinutes: 1, targetVault: null, decidedBy: 'rule', rule: 'model_unavailable_retry' };
   }
 
   const m = i.model;

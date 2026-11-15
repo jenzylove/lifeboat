@@ -26,7 +26,7 @@ export async function decide(
   pack: PackInput,
   clock: ClockState,
   mode: DecisionRecord['mode'],
-  opts: { withNotice?: boolean } = {},
+  opts: { withNotice?: boolean; skipModel?: boolean; curatorUnknown?: boolean } = {},
 ): Promise<DecisionRecord> {
   const { items, ids } = buildPack(pack);
   let llm: LlmResult | null = null;
@@ -37,6 +37,7 @@ export async function decide(
     { role: 'user' as const, content: packToUserMessage(items) },
   ];
   try {
+    if (opts.skipModel) throw new Error('model wait in progress');
     llm = await dolphin(messages, { json: true });
     parsed = extractJson(llm.text) as ModelDecision;
     const bad = validateModel(parsed, ids);
@@ -66,8 +67,10 @@ export async function decide(
     curatorActions: pack.curatorActions,
     candidates: pack.candidates.filter(c => c.openClocks === 0).map(c => c.address),
     model: parsed,
-    modelError,
+    modelError: opts.skipModel ? null : modelError,
     evidenceIds: ids,
+    skipModel: opts.skipModel,
+    curatorUnknown: opts.curatorUnknown,
   });
   const body = {
     version: 1 as const,
@@ -99,6 +102,47 @@ export function noticeHeadline(d: FinalDecision, vaultName: string, targetName: 
   if (d.action === 'LEAVE') return `Lifeboat moved your USDC out of ${vaultName}${targetName ? ` and into ${targetName}` : ' and is holding it in your account'}.`;
   if (d.action === 'STAY') return `Lifeboat kept your USDC in ${vaultName}.`;
   return `Lifeboat is watching ${vaultName} closely and will check again in ${d.waitMinutes} minutes.`;
+}
+
+export interface TxOutcome {
+  ok: boolean;
+  explorer?: string;
+  error?: string;
+}
+
+/**
+ * The notice a person reads after an action. Code writes the headline from the transaction outcome;
+ * SERV Reasoning explains why. mode 'replay' says what Lifeboat would have done.
+ */
+export async function noticeAfterTx(
+  o: { action: 'LEAVE' | 'EXIT'; fromName: string; toName: string | null; tx: TxOutcome; mode?: 'live' | 'replay' | 'drill' },
+  reasons: string[],
+  evidence = '',
+): Promise<{ text: string; provider: string; model: string } | null> {
+  if (!process.env.SERV_API_KEY) return null;
+  const dest = o.toName ? `into ${o.toName}` : 'into your Lifeboat account, where only you can withdraw it';
+  const headline =
+    o.mode === 'replay'
+      ? `In this replay, Lifeboat moves the USDC out of ${o.fromName} and ${dest}.`
+      : o.tx.ok
+        ? `Lifeboat moved your USDC out of ${o.fromName} and ${dest}.${o.tx.explorer ? ` Transaction: ${o.tx.explorer}` : ''}`
+        : `Lifeboat tried to move your USDC out of ${o.fromName} but the transaction did not go through; it will try again next minute.`;
+  try {
+    const r = await serv(
+      [
+        {
+          role: 'system',
+          content:
+            'You explain an action that already happened. Write two or three short sentences, plain words, no jargon, no dashes, that tell a person why it was done, using only the reasons given. Do not restate the action, do not add facts, do not give advice.',
+        },
+        { role: 'user', content: [`Action: ${headline}`, 'Reasons:', ...reasons.map(w => `- ${w}`), ...(evidence ? ['Facts available:', evidence] : [])].join('\n') },
+      ],
+      { maxTokens: 2000 },
+    );
+    return { text: `${headline} ${r.text.trim()}`, provider: r.provider, model: r.model };
+  } catch {
+    return null;
+  }
 }
 
 export async function writeNotice(d: FinalDecision, evidence: string, vaultName: string, targetName: string | null = null) {

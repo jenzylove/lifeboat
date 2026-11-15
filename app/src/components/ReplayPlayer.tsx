@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { DecisionPoint, DecisionsView, Incident, PositionView, ReplayMarket, ReplayPayload, SweepView } from '@/lib/replayView';
-import { price, pct, ratioPct, usd, short } from '@/lib/format';
+import { price, pct, ratioPct, usd, short, whoDecided } from '@/lib/format';
+import { Who } from './Who';
 import { Loading } from './Board';
 
 const W = 1000, H = 400, PL = 52, PR = 16, PT = 22, PRICE_B = 236, UT = 286, UB = 362;
@@ -17,8 +18,7 @@ const after = (a: number | null, b: number, what = 'the clock') => {
   const m = Math.round((b - a) / 60);
   return m === 0 ? `as ${what} opened` : `${span(m)} ${m > 0 ? 'after' : 'before'} ${what}`;
 };
-const byWho = (d: { decidedBy: string; model: string | null; rule?: string | null }) =>
-  d.decidedBy === 'rule' ? `rule${d.rule ? ` (${d.rule})` : ''}` : d.decidedBy === 'model_clamped' ? `${d.model ?? 'model'}, clamped by code` : d.model ?? 'model';
+const byWho = (d: { decidedBy: string; model: string | null; provider?: string | null; rule?: string | null }) => { const w = whoDecided(d.decidedBy, d.model, d.provider, d.rule); return w.standIn ? `${w.text} (stand-in model, not Dolphin)` : w.text; };
 
 type Zoom = 'break' | 'all';
 interface Marker { ts: number; action: string; clockKind: string | null; vaults: string[]; d: DecisionPoint }
@@ -189,7 +189,7 @@ function DecisionNote({ mk }: { mk: Marker }) {
   const d = mk.d;
   return (
     <div className={`notice${d.action === 'LEAVE' ? ' hot' : ''}`}>
-      <span className="mono small">{hm(d.ts)} UTC · {byWho(d)} · {d.clockKind ? `${d.clockKind} clock` : 'clock'}:</span> <b>{d.action}</b>{d.summary ? `. ${d.summary}` : ''}
+      <span className="mono small">{hm(d.ts)} UTC · <Who decidedBy={d.decidedBy} model={d.model} provider={d.provider} rule={d.rule} /> · {d.clockKind ? `${d.clockKind} clock` : 'clock'}:</span> <b>{d.action}</b>{d.summary ? `. ${d.summary}` : ''}
       {d.reasons.length > 0 && <ul className="small dim" style={{ margin: '8px 0 0', paddingLeft: 18 }}>{d.reasons.map((r, k) => <li key={k}>{r.claim} <span className="faint mono tiny">{r.evidence_ids.join(' ')}</span></li>)}</ul>}
       <div className="tiny faint mono" style={{ marginTop: 6, wordBreak: 'break-all' }}>
         {mk.vaults.length} position{mk.vaults.length === 1 ? '' : 's'}: {mk.vaults.join(', ')}
@@ -257,7 +257,7 @@ export function ReplayPlayer({ compact = false }: { compact?: boolean }) {
         <div className="callout">
           <div className="eyebrow hot-t">The sweep</div>
           <p className="callout-h">Sweep, {hmShort(sweep.s.ts)}: {m.collateral} linked to {sweep.relatedTo.join(' and ') || sweep.s.breaks.join(' and ')}. {m.collateral}&apos;s own feed showed nothing until {hmShort(m.clockOpenAt)}.</p>
-          {sweep.reason && <p className="small dim" style={{ margin: 0 }}>&ldquo;{sweep.reason}&rdquo; <span className="mono tiny faint">{sweep.s.model ?? 'model unknown'}{sweep.s.provider ? ` via ${sweep.s.provider}` : ''}</span></p>}
+          {sweep.reason && <p className="small dim" style={{ margin: 0 }}>&ldquo;{sweep.reason}&rdquo; <span className="mono tiny faint"><Who decidedBy="model" model={sweep.s.model} provider={sweep.s.provider} /></span></p>}
         </div>
       )}
       {m.fullUtilBeforeBreak && m.fullUtilAt && m.clockOpenAt && (
@@ -308,8 +308,14 @@ function MarketSummary({ I, m, dec, decisionsMissing, compact }: { I: Incident; 
               <>
                 <div className="bignum hot-t">{hmShort(left.ts)}</div>
                 <p className="dim" style={{ marginTop: 6 }}>
-                  Lifeboat decided at <b className="mono">{hmShort(left.ts)}</b> ({byWho(left)}, {left.clockKind ?? 'gap'} clock){left.exitFilledAt ? <>, exit filled at <b className="mono">{hmShort(left.exitFilledAt)}</b> with <b>{usd(left.withdrawableAtFill)}</b> withdrawable in the market</> : ', exit not filled in the window'}.
+                  Lifeboat decided at <b className="mono">{hmShort(left.ts)}</b> (<Who decidedBy={left.decidedBy} model={left.model} provider={left.provider} rule={left.rule} />, {left.clockKind ?? 'gap'} clock){left.exitFilledAt ? <>, exit filled at <b className="mono">{hmShort(left.exitFilledAt)}</b> with <b>{usd(left.withdrawableAtFill)}</b> withdrawable in the market</> : ', exit not filled in the window'}.
                 </p>
+                {left.notice && (
+                  <div className="notice">
+                    <div className="tiny faint mono" style={{ marginBottom: 4 }}>Notice written by SERV Reasoning ({left.notice.model ?? 'model not recorded'})</div>
+                    {left.notice.text}
+                  </div>
+                )}
                 <p className="small">{curFirst ? <>The first curator move on this market came at <b className="mono">{hmShort(curFirst.ts)}</b>{left.exitFilledAt ? `, ${span((curFirst.ts - left.exitFilledAt) / 60)} ${curFirst.ts >= left.exitFilledAt ? 'after' : 'before'} Lifeboat was out` : ''}.</> : 'No curator moved on this market in the window.'}</p>
               </>
             ) : (
@@ -353,7 +359,7 @@ function Positions({ dec, compact }: { dec: DecisionsView | null; compact: boole
     <div style={{ marginTop: 48 }}>
       <h3 className="display" style={{ marginBottom: 6 }}>Every exposed position</h3>
       <p className="small dim" style={{ margin: '0 0 6px', maxWidth: '72ch' }}>A $1,000 depositor in each vault (illustrative); withdrawable amounts are onchain. Minutes count from the first price break at {dec.firstBreak ? `${hmShort(dec.firstBreak)} UTC` : 'the first break'}.</p>
-      <p className="tiny faint mono" style={{ margin: '0 0 14px' }}>Calls made by {dec.models.length ? dec.models.join(', ') : 'rules only'}{dec.modelCalls !== null ? ` · ${dec.modelCalls} model calls` : ''}{dec.cadence ? ` · ${dec.cadence}` : ''}</p>
+      <p className="tiny faint mono" style={{ margin: '0 0 14px' }}>Calls made by {dec.models.length ? dec.models.join(', ') : 'rules only'}{dec.providers.length ? ` (${dec.providers.join(', ')})` : ''}{dec.providers.includes('stand-in') && <span className="chip standin">stand-in model (not Dolphin)</span>}{dec.modelCalls !== null ? ` · ${dec.modelCalls} model calls` : ''}{dec.cadence ? ` · ${dec.cadence}` : ''}</p>
       <div className="ptable">
         <div className="prow phead2"><span>Vault</span><span>Collateral</span><span>Lifeboat out</span><span>Curator first move</span><span>Vault money stuck at the end</span></div>
         {rows.slice(0, compact ? 10 : rows.length).map((p) => (
@@ -362,7 +368,7 @@ function Positions({ dec, compact }: { dec: DecisionsView | null; compact: boole
             <span className="mono">{p.collateral}{p.left?.clockKind === 'related' && <span className="tiny hot-t"> sweep</span>}</span>
             <span className="mono">
               <span className="plabel">Lifeboat out </span>
-              {p.left ? <>{p.minFilled !== null ? `+${p.minFilled} min` : p.minDecision !== null ? `decided +${p.minDecision} min` : hmShort(p.left.ts)}<span className="tiny faint"> {p.left.exitFilledAt ? hmShort(p.left.exitFilledAt) : 'not filled'} · {byWho(p.left)}</span></> : 'stayed'}
+              {p.left ? <>{p.minFilled !== null ? `+${p.minFilled} min` : p.minDecision !== null ? `decided +${p.minDecision} min` : hmShort(p.left.ts)}<span className="tiny faint"> {p.left.exitFilledAt ? hmShort(p.left.exitFilledAt) : 'not filled'} · <Who decidedBy={p.left.decidedBy} model={p.left.model} provider={p.left.provider} rule={p.left.rule} /></span></> : 'stayed'}
             </span>
             <span className="mono">
               <span className="plabel">Curator first move </span>

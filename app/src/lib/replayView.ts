@@ -39,7 +39,7 @@ export interface PositionView {
   marketId: string; collateral: string; collateralName: string | null;
   priceBreakAt: number | null;
   sweepFlag: { ts: number; reason: string | null; relatedTo: string[] } | null;
-  left: { ts: number; decidedBy: string; rule: string | null; clockKind: string | null; exitFilledAt: number | null; withdrawableAtFill: number | null; model: string | null } | null;
+  left: { ts: number; decidedBy: string; rule: string | null; clockKind: string | null; exitFilledAt: number | null; withdrawableAtFill: number | null; model: string | null; provider: string | null; notice: { text: string; provider: string | null; model: string | null } | null } | null;
   minDecision: number | null; minFilled: number | null;
   curatorFirst: TxRef | null; curatorMin: number | null;
   inflowStop: TxRef | null; inflowStopMin: number | null;
@@ -53,7 +53,7 @@ export interface SweepView {
 }
 export interface DecisionsView {
   generatedAt: string | null; cadence: string | null; firstBreak: number | null; note: string | null;
-  sweeps: SweepView[]; positions: PositionView[]; modelCalls: number | null; models: string[];
+  sweeps: SweepView[]; positions: PositionView[]; modelCalls: number | null; models: string[]; providers: string[];
 }
 
 type J = any;
@@ -143,8 +143,9 @@ const modelOf = (m: J) => (m && typeof m.model === 'string' ? m.model : null);
 export function buildDecisions(raw: J): DecisionsView | null {
   if (!raw || typeof raw !== 'object' || !Array.isArray(raw.positions)) return null;
   const models = new Set<string>();
+  const providers = new Set<string>();
   const sweeps: SweepView[] = (Array.isArray(raw.sweeps) ? raw.sweeps : []).map((s: J) => {
-    const mm = modelOf(s.model); if (mm) models.add(mm);
+    const mm = modelOf(s.model); if (mm) models.add(mm); if (s.model?.provider) providers.add(String(s.model.provider));
     return {
       ts: ts(s.ts) ?? 0, breaks: Array.isArray(s.breaks) ? s.breaks.map(String) : [],
       flags: (Array.isArray(s.flags) ? s.flags : []).map((f: J) => ({ marketId: String(f.marketId ?? ''), relatedTo: Array.isArray(f.related_to) ? f.related_to.map(String) : [], reason: typeof f.reason === 'string' ? f.reason : null })),
@@ -155,7 +156,7 @@ export function buildDecisions(raw: J): DecisionsView | null {
   const positions: PositionView[] = (raw.positions as J[]).map((p) => {
     const chainId = chainIdByName(p.vault?.chain);
     const decisions: DecisionPoint[] = (Array.isArray(p.decisions) ? p.decisions : []).map((d: J) => {
-      const mm = modelOf(d.model); if (mm && d.decidedBy !== 'rule') models.add(mm);
+      const mm = modelOf(d.model); if (mm && d.decidedBy !== 'rule') models.add(mm); if (d.model?.provider && d.decidedBy !== 'rule') providers.add(String(d.model.provider));
       return {
         ts: ts(d.ts) ?? 0, action: String(d.action ?? ''), decidedBy: String(d.decidedBy ?? ''), rule: d.rule ?? null, clockKind: d.clockKind ?? null,
         summary: typeof d.summary === 'string' ? d.summary : null,
@@ -175,6 +176,8 @@ export function buildDecisions(raw: J): DecisionsView | null {
         ts: ts(L.ts) ?? 0, decidedBy: String(L.decidedBy ?? ''), rule: L.rule ?? null, clockKind: L.clockKind ?? null,
         exitFilledAt: ts(L.exitFilledAt), withdrawableAtFill: num(L.marketWithdrawableAtFill),
         model: L.decidedBy === 'rule' ? null : leaveDec?.model ?? null,
+        provider: L.decidedBy === 'rule' ? null : leaveDec?.provider ?? null,
+        notice: L.notice && typeof L.notice.text === 'string' && L.notice.text.trim() ? { text: L.notice.text, provider: L.notice.provider ?? null, model: L.notice.model ?? null } : null,
       } : null,
       minDecision: num(p.minutesFromFirstBreakToDecision), minFilled: num(p.minutesFromFirstBreakToExitFilled),
       curatorFirst: txRef(p.curator?.firstProtectiveAction, chainId), curatorMin: num(p.curator?.minutesFromBreak),
@@ -185,7 +188,7 @@ export function buildDecisions(raw: J): DecisionsView | null {
   });
   return {
     generatedAt: raw.generatedAt ?? null, cadence: raw.cadence ?? null, firstBreak: ts(raw.firstBreak), note: raw.note ?? null,
-    sweeps, positions, modelCalls: num(raw.totals?.modelCalls), models: [...models],
+    sweeps, positions, modelCalls: num(raw.totals?.modelCalls), models: [...models], providers: [...providers],
   };
 }
 

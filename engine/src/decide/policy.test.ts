@@ -91,7 +91,7 @@ describe('clamp', () => {
   });
   it('model citing evidence that does not exist is rejected', () => {
     const d = clamp({ ...base, model: model({ action: 'LEAVE', reasons: [{ claim: 'made up', evidence_ids: ['E99'] }] }) });
-    expect(d).toMatchObject({ action: 'WAIT', rule: 'model_unavailable_wait_for_hard_rule' });
+    expect(d).toMatchObject({ action: 'WAIT', rule: 'model_unavailable_retry' });
     expect(d.modelError).toContain('E99');
   });
   it('liquidity clock: model decides, no instant utilization exit; forced after the hard window', () => {
@@ -104,6 +104,27 @@ describe('clamp', () => {
   it('public allocator money flowing in does not count as the curator speaking', () => {
     const d = clamp({ ...base, now: 1000 + POLICY.HARD_SILENCE_SEC + 1, latest: read(0, 1.13, 0.63, 0.5), curatorActions: [{ ts: 1500, type: 'reallocate_into', marketId: M, tx: '0x3' }], model: model({ action: 'WAIT', wait_minutes: 5 }) });
     expect(d.rule).toBe('gap_and_silence_hard_limit');
+  });
+  it('model down for the fallback window: leave by rule', () => {
+    const d = clamp({ ...base, clock: { ...open(), modelFailSince: base.now - POLICY.MODEL_DOWN_SEC }, model: null, modelError: 'timeout' });
+    expect(d).toMatchObject({ action: 'LEAVE', rule: 'model_unavailable_fallback', targetVault: 'vB' });
+  });
+  it('unreadable curator history never counts as silence', () => {
+    const d = clamp({ ...base, now: 1000 + POLICY.HARD_SILENCE_SEC + 1, latest: read(0, 1.13, 0.63, 0.5), curatorUnknown: true, model: model({ action: 'WAIT', wait_minutes: 3 }) });
+    expect(d).toMatchObject({ action: 'WAIT', decidedBy: 'model' });
+  });
+  it('while the model waits, hard rules still fire', () => {
+    const d = clamp({ ...base, latest: read(0, 1.13, 1.0, 0.97), model: null, skipModel: true });
+    expect(d.rule).toBe('utilization_hard_limit');
+    expect(clamp({ ...base, model: null, skipModel: true }).rule).toBe('model_wait_in_progress');
+  });
+  it('a related clock is never forced out by the liquidity time limit', () => {
+    const d = clamp({ ...base, clock: { ...open(), kind: 'related' }, now: 1000 + POLICY.LIQ_HARD_SEC + 10, model: model({ action: 'STAY' }) });
+    expect(d).toMatchObject({ action: 'STAY', decidedBy: 'model' });
+  });
+  it('rejects a non numeric wait', () => {
+    const d = clamp({ ...base, model: model({ action: 'WAIT', wait_minutes: 'soon' as unknown as number }) });
+    expect(d.rule).toBe('model_unavailable_retry');
   });
   it('model down: wait for hard rule', () => {
     const d = clamp({ ...base, model: null, modelError: 'timeout' });

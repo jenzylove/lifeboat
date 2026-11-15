@@ -12,8 +12,8 @@ export default function ProofPage() {
         <p className="lede">The contracts that hold the money, the tests behind them, and every decision Lifeboat has made, with the model, the tokens it read, what it cost, and whether the model or a hard rule made the call.</p>
       </div>
       <div className="stat-row">
-        <div><div className="bignum">9</div><div className="small dim">contract tests on a Base mainnet fork</div></div>
-        <div><div className="bignum">43</div><div className="small dim">engine unit tests</div></div>
+        <div><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">9</div></a><div className="small dim"><a href="https://github.com/jenzylove/lifeboat/tree/master/contracts/test" target="_blank" rel="noreferrer">contract tests on a Base mainnet fork</a></div></div>
+        <div><a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}><div className="bignum">43</div></a><div className="small dim">engine unit tests: <a href="https://github.com/jenzylove/lifeboat/blob/master/engine/src/decide/policy.test.ts" target="_blank" rel="noreferrer">policy</a> and <a href="https://github.com/jenzylove/lifeboat/tree/master/engine/test" target="_blank" rel="noreferrer">engine/test</a></div></div>
       </div>
       <section className="section" style={{ paddingTop: 40 }}>
         <h2 className="display" style={{ fontSize: 'clamp(36px,5vw,64px)', marginBottom: 20 }}>Contracts</h2>

@@ -27,7 +27,15 @@ const out = {};
 let factory = env.FACTORY;
 if (!factory) {
   const cmd = `forge create src/LifeboatFactory.sol:LifeboatFactory --rpc-url ${RPC} --private-key ${env.KEEPER_PK} --broadcast --json --constructor-args ${keeper.account.address} ${USDC}`;
-  const res = JSON.parse(execSync(cmd, { cwd: new URL('../contracts', import.meta.url), encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
+  let res;
+  try {
+    res = JSON.parse(execSync(cmd, { cwd: new URL('../contracts', import.meta.url), encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
+  } catch (e) {
+    // Never echo the command: it carries the private key.
+    const msg = String(e.stderr ?? e.message ?? e).split(env.KEEPER_PK).join('[redacted]').split(/\r?\n/).filter(l => !l.includes('--private-key')).slice(0, 5).join(' | ');
+    console.error('forge create failed:', msg);
+    process.exit(1);
+  }
   factory = res.deployedTo;
   const r = await pub.getTransactionReceipt({ hash: res.transactionHash });
   out.factory = factory; out.factoryTx = link(res.transactionHash); out.factoryBlock = Number(r.blockNumber);

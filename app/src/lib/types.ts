@@ -93,5 +93,7 @@ export interface DecisionSummary {
   modelError: string | null;
   summary: string | null;
   notice: string | null;
+  noticeModel: string | null;
+  tx: { hash: string | null; explorer: string | null; ok: boolean | null; error: string | null } | null;
   evidenceCount: number;
 }

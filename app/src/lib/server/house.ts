@@ -1,6 +1,7 @@
 import 'server-only';
 import { parseAbiItem, type Address } from 'viem';
 import { accountStatus, publicClient } from '@engine/keeper.js';
+import { redact } from './redact';
 
 const EXITED = parseAbiItem('event Exited(address indexed vault, uint256 assets, uint256 shares, address indexed by, bytes32 decisionHash, string reason)');
 const DEPOSITED = parseAbiItem('event Deposited(address indexed vault, uint256 assets, uint256 shares, address indexed by)');
@@ -50,7 +51,7 @@ export async function houseEvents(account: Address): Promise<{ events: HouseEven
 export async function houseSnapshot(account: Address) {
   const [status, ev] = await Promise.all([
     accountStatus(account),
-    houseEvents(account).catch((e: Error) => ({ error: e.message.split('\n')[0] })),
+    houseEvents(account).catch((e: Error) => ({ error: redact(e) })),
   ]);
   return { status, ...('error' in ev ? { events: [], eventsError: ev.error } : ev) };
 }

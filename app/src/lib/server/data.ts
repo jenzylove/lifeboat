@@ -2,6 +2,7 @@ import 'server-only';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { DATA_DIR, REPLAY_DIR } from './config';
+import { redact } from './redact';
 import type { DecisionSummary } from '@/lib/types';
 import { buildDecisions, buildIncident, type Incident, type ReplayPayload } from '@/lib/replayView';
 
@@ -28,9 +29,11 @@ export function summarize(r: Rec, file: string): DecisionSummary | null {
     model: r.model
       ? { provider: r.model.provider, model: r.model.model, inputTokens: r.model.inputTokens, outputTokens: r.model.outputTokens, costUsd: r.model.costUsd ?? null, ms: r.model.ms }
       : null,
-    modelError: d.modelError ?? null,
+    modelError: d.modelError ? redact(d.modelError) : null,
     summary: d.model?.summary ?? null,
     notice: r.notice?.text ?? null,
+    noticeModel: r.notice?.model ?? null,
+    tx: r.tx ? { hash: r.tx.hash ?? null, explorer: r.tx.explorer ?? null, ok: typeof r.tx.ok === 'boolean' ? r.tx.ok : r.tx.status ? r.tx.status === 'success' : null, error: r.tx.error ? redact(r.tx.error) : null } : null,
     evidenceCount: Array.isArray(r.evidence) ? r.evidence.length : 0,
   };
 }
@@ -56,6 +59,15 @@ export async function listDecisions(limit = 200): Promise<{ decisions: DecisionS
   return { decisions: out.slice(0, limit), dir: 'decisions', error: null };
 }
 
+/** Redact error strings inside a full record before it leaves the server. */
+function scrub(r: Rec): Rec {
+  const out: Rec = { ...r };
+  if (out.decision?.modelError) out.decision = { ...out.decision, modelError: redact(out.decision.modelError) };
+  if (out.tx?.error) out.tx = { ...out.tx, error: redact(out.tx.error) };
+  if (out.modelError) out.modelError = redact(out.modelError);
+  return out;
+}
+
 export async function getDecision(hash: string): Promise<unknown | null> {
   const dir = path.join(DATA_DIR, 'decisions');
   let names: string[] = [];
@@ -63,7 +75,7 @@ export async function getDecision(hash: string): Promise<unknown | null> {
   for (const n of names) {
     try {
       const j = await readJson(path.join(dir, n));
-      for (const r of Array.isArray(j) ? j : [j]) if ((r as Rec)?.hash === hash) return r;
+      for (const r of Array.isArray(j) ? j : [j]) if ((r as Rec)?.hash === hash) return scrub(r);
     } catch {}
   }
   return null;
@@ -95,5 +107,10 @@ export async function readReplay(): Promise<ReplayPayload> {
   }
   const dFile = process.env.REPLAY_DECISIONS_FILE ? path.resolve(process.env.REPLAY_DECISIONS_FILE) : path.join(dir, 'decisions.json');
   const raw = await cachedJson(dFile);
-  return { incidents, decisions: raw ? buildDecisions(raw) : null, decisionsFile: path.basename(dFile), errors };
+  const decisions = raw ? buildDecisions(raw) : null;
+  if (decisions) {
+    for (const p of decisions.positions) for (const d of p.decisions) if (d.modelError) d.modelError = redact(d.modelError);
+    for (const w of decisions.sweeps) if (w.error) w.error = redact(w.error);
+  }
+  return { incidents, decisions, decisionsFile: path.basename(dFile), errors };
 }

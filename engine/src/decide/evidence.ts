@@ -49,6 +49,8 @@ export interface PackInput {
   posts: Post[];
   candidates: CandidateVault[];
   readSource: string;
+  /** the curator history could not be read */
+  curatorUnknown?: boolean;
   /** live breaks in other markets and what the sweep linked to this one */
   related?: { ts: number; text: string; source: string }[];
 }
@@ -66,7 +68,8 @@ export function buildPack(p: PackInput): { items: EvidenceItem[]; ids: Set<strin
   for (const r of p.reads) {
     add('market_read', r.ts, `${iso(r.ts)} oracle ${r.oraclePrice?.toFixed(4) ?? 'unknown'} vs market ${r.marketPrice?.toFixed(4) ?? 'unknown'} (gap ${pct(gap(r.oraclePrice, r.marketPrice))}), utilization ${pct(r.utilization)}, vault exposure $${r.exposureUsd.toFixed(0)}`, p.readSource);
   }
-  if (p.curatorActions.length === 0) add('curator_action', null, `No curator or allocator action on this market since the clock opened (${iso(p.clockOpenedAt)}).`, 'onchain logs');
+  if (p.curatorUnknown) add('curator_action', null, 'Curator history unreadable this cycle (RPC error): curator silence is unknown, not confirmed.', 'onchain logs');
+  else if (p.curatorActions.length === 0) add('curator_action', null, `No curator or allocator action on this market since the clock opened (${iso(p.clockOpenedAt)}).`, 'onchain logs');
   for (const a of p.curatorActions) add('curator_action', a.ts, `${iso(a.ts)} curator action ${a.type} on ${a.marketId}${a.detail ? `: ${a.detail}` : ''} (tx ${a.tx})`, 'onchain logs');
   for (const s of p.supplyChanges) add('collateral_supply', s.ts, `${iso(s.ts)} ${s.token} supply changed ${(s.deltaPct * 100).toFixed(1)}%: ${s.detail}`, s.source);
   for (const post of p.posts) add('post', post.ts, `${iso(post.ts)} ${post.author} on ${post.where}: "${post.text.slice(0, 600)}"`, post.url);

@@ -11,7 +11,8 @@ export const DOLPHIN_PRICE = { input: 0.01, output: 0.07 };
 export interface LlmResult {
   text: string;
   model: string;
-  provider: 'dolphin' | 'serv';
+  /** 'dolphin' only when the call really went to Dolphin's endpoint; anything else is a stand-in */
+  provider: 'dolphin' | 'serv' | 'stand-in';
   inputTokens: number;
   outputTokens: number;
   ms: number;
@@ -42,6 +43,15 @@ async function chat(url: string, key: string | undefined, body: object, extraHea
   }
 }
 
+/** Was this call actually served by Dolphin? Decided by the endpoint host, never by configuration labels. */
+export const isDolphinHost = (url: string) => {
+  try {
+    return new URL(url).hostname.endsWith('dphn.ai');
+  } catch {
+    return false;
+  }
+};
+
 export async function dolphin(messages: Msg[], opts: { json?: boolean; maxTokens?: number; timeoutMs?: number } = {}): Promise<LlmResult> {
   const t0 = Date.now();
   const body: Record<string, unknown> = { model: DOLPHIN_MODEL, messages, [process.env.DOLPHIN_MAXTOK_PARAM ?? 'max_tokens']: opts.maxTokens ?? 1500 };
@@ -62,11 +72,12 @@ export async function dolphin(messages: Msg[], opts: { json?: boolean; maxTokens
   return {
     text: j.choices?.[0]?.message?.content ?? '',
     model: j.model ?? DOLPHIN_MODEL,
-    provider: 'dolphin',
+    provider: isDolphinHost(DOLPHIN_URL) ? 'dolphin' : 'stand-in',
     inputTokens: inTok,
     outputTokens: outTok,
     ms: Date.now() - t0,
-    costUsd: (inTok * DOLPHIN_PRICE.input + outTok * DOLPHIN_PRICE.output) / 1e6,
+    // Price only what Dolphin actually served; a stand-in's cost is not Dolphin's.
+    costUsd: isDolphinHost(DOLPHIN_URL) ? (inTok * DOLPHIN_PRICE.input + outTok * DOLPHIN_PRICE.output) / 1e6 : null,
   };
 }
 

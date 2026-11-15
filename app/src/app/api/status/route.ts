@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { DATA_DIR } from '@/lib/server/config';
+import { redact } from '@/lib/server/redact';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -9,6 +10,8 @@ export const dynamic = 'force-dynamic';
 async function readJson(f: string): Promise<any | null> {
   try { return JSON.parse(await fs.readFile(f, 'utf8')); } catch { return null; }
 }
+
+const clean = (w: any) => (w && w.error ? { ...w, error: redact(w.error) } : w);
 
 /** Live watcher status: DATA_DIR/state.json (heartbeat + totals) and the newest DATA_DIR/sweeps/*.json. */
 export async function GET(req: Request) {
@@ -24,10 +27,10 @@ export async function GET(req: Request) {
   } catch {}
   return NextResponse.json({
     configured: state !== null,
-    heartbeat: state?.heartbeat ?? null,
+    heartbeat: state?.heartbeat ? { ...state.heartbeat, errors: Array.isArray(state.heartbeat.errors) ? state.heartbeat.errors.map(redact) : state.heartbeat.errors ? [redact(state.heartbeat.errors)] : [] } : null,
     totals: state?.totals ?? null,
-    latestSweep: sweeps[0] ?? null,
-    sweeps,
+    latestSweep: clean(sweeps[0]) ?? null,
+    sweeps: sweeps.map(clean),
     now: Math.floor(Date.now() / 1000),
   });
 }
