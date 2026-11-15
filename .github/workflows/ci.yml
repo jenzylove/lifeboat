@@ -1,0 +1,32 @@
+name: ci
+on:
+  push:
+    branches: [master]
+  pull_request:
+jobs:
+  engine:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx tsc -p . --noEmit
+      - run: npx vitest run
+  contracts:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts
+      - run: forge build
+      - run: forge test
+        env:
+          FOUNDRY_ETH_RPC_URL: https://mainnet.base.org
